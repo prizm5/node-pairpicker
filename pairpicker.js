@@ -29,8 +29,6 @@ var splitarray = function(input, spacing) {
 picker.generatePairs = function(names) {
 	var shuffledPairs = shuffle(names);
 	var splitArray = splitarray(shuffledPairs, 2);
-	for(i=0; i< splitArray.length; i++){
-			console.log(splitArray[i]);
-	}
+  return splitArray;
 };
 module.exports = picker;

@@ -24,14 +24,30 @@ app.get('/', function(request, response) {
 var router = express.Router();              // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+var reformattedArray = (function(kvArray) {
+  return kvArray.map(function(obj){
+    return obj.name;
+  });
+});
+
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
+
+    console.log(devs.devs);
+    var pairs  = p.generatePairs(reformattedArray(devs.devs));
+    var names = pairs.map(function(pair) {
+        return pair.join(",")
+    }).join(" | ")
+
+    res.type('text/plain');
+    res.send(names);
+    // res.json(names);
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function(req, res) {
     var g = p.generatePairs(["Nilhouse","Max"]);
-    res.json({ message: 'hooray! welcome to our api!' });
+    //res.json({ message: 'hooray! welcome to our api!' });
+    res.json(g);
 });
 
 // REGISTER OUR ROUTES -------------------------------
