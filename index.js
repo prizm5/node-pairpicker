@@ -3,6 +3,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var devs = require('./developers.json');
+var Slack = require('node-slack');
+
+var slack = new Slack(process.env.heroku_hook,options);
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -38,8 +41,11 @@ router.get('/', function(req, res) {
         return pair.join(",")
     }).join(" | ")
 
-    res.type('text/plain');
-    res.send(names);
+    // res.type('text/plain');
+    // res.send(names);
+
+    slack.send({ text: names});
+
     // res.json(names);
 });
 
