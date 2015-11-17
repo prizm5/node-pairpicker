@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
+var devs = require('./developers.json');
+var Slack = require('node-slack');
+
+var slack = new Slack(process.env.heroku_hook);
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -15,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
-  response.render('pages/index');
+  response.render('pages/index', { devs: devs});
 });
 
 // ROUTES FOR OUR API
@@ -23,19 +27,34 @@ app.get('/', function(request, response) {
 var router = express.Router();              // get an instance of the express Router
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+var reformattedArray = (function(kvArray) {
+  return kvArray.map(function(obj){
+    return obj.name;
+  });
+});
+
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });
+
+    console.log(devs.devs);
+    var pairs  = p.generatePairs(reformattedArray(devs.devs));
+    var names = pairs.map(function(pair) {
+        return pair.join(",")
+    }).join(" | ")
+
+    // res.type('text/plain');
+    // res.send(names);
+
+    slack.send({ text: names});
+
+    // res.json(names);
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function(req, res) {
-    console.log(req.body.test);
-    var g = p.picker.generatePairs(["Nilhouse","Max"]);
-    console.log(g);
-    res.json({ message: 'hooray! welcome to our api!' });
+    var g = p.generatePairs(["Nilhouse","Max"]);
+    //res.json({ message: 'hooray! welcome to our api!' });
+    res.json(g);
 });
-
-// more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

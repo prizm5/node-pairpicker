@@ -2,13 +2,16 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
-  <script src="js/pairpicker.js"> </script>
 </head>
 
 <body>
 
   <% include ../partials/nav.ejs %>
 
+<script type="text/javascript">
+    var people = <%- JSON.stringify(devs) %>;
+</script>
+  <script src="/client-gen.js"></script>
 <div class="jumbotron text-center">
   <div class="container">
     <div class="row">
