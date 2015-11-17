@@ -5,7 +5,7 @@ var p = require('./pairpicker.js');
 var devs = require('./developers.json');
 var Slack = require('node-slack');
 
-var slack = new Slack(process.env.heroku_hook,options);
+var slack = new Slack(process.env.heroku_hook);
 
 app.set('port', (process.env.PORT || 5000));
 
