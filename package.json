@@ -23,5 +23,8 @@
     "node",
     "pair",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "browserify": "^12.0.1"
+  }
 }

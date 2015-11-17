@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
+var devs = require('./developers.json');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/', function(request, response) {
-  response.render('pages/index');
+  response.render('pages/index', { devs: devs});
 });
 
 // ROUTES FOR OUR API
@@ -29,13 +30,9 @@ router.get('/', function(req, res) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function(req, res) {
-    console.log(req.body.test);
-    var g = p.picker.generatePairs(["Nilhouse","Max"]);
-    console.log(g);
+    var g = p.generatePairs(["Nilhouse","Max"]);
     res.json({ message: 'hooray! welcome to our api!' });
 });
-
-// more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
