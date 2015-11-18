@@ -26,14 +26,13 @@ app.get('/', function(request, response) {
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();              // get an instance of the express Router
+var mapnames = function(pairs) {
+  return pairs.map(function(pair) {
+    return pair.join(" , ")
+  }).join(" | ")
+};
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-var reformattedArray = (function(kvArray) {
-  return kvArray.map(function(obj){
-    return obj.name;
-  });
-});
-
 router.get('/', function(req, res) {
     if(req.query.token !== slack_token) {
       console.log('Invalid token');
@@ -41,11 +40,8 @@ router.get('/', function(req, res) {
     }
     else {
       console.log('Valid Token');
-      var pairs  = p.generatePairs(reformattedArray(devs.devs));
-      var names = pairs.map(function(pair) {
-        return pair.join(" , ")
-      }).join(" | ")
-
+      var pairs  = p.generatePairs(p.getNames(devs.devs));
+      var names = mapnames(pairs);
       slack.send({ text: names });
       res.status(200).end()
     }
@@ -53,9 +49,13 @@ router.get('/', function(req, res) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function(req, res) {
-    var g = p.generatePairs(["Nilhouse","Max"]);
+    var names = mapnames(req.body.pairs);
+    console.log(names);
+    slack.send({ text: names });
+    res.status(200).end()
     //res.json({ message: 'hooray! welcome to our api!' });
-    res.json(g);
+    //slack.send({ text: names });
+    //res.json();
 });
 
 // REGISTER OUR ROUTES -------------------------------

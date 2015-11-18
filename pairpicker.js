@@ -31,4 +31,11 @@ picker.generatePairs = function(names) {
 	var splitArray = splitarray(shuffledPairs, 2);
   return splitArray;
 };
+
+picker.getNames = (function(kvArray) {
+  return kvArray.map(function(obj){
+    return obj.name;
+  });
+});
+
 module.exports = picker;

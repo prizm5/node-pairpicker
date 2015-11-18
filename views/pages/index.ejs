@@ -9,89 +9,29 @@
   <% include ../partials/nav.ejs %>
 
 <script type="text/javascript">
+
+
     var people = <%- JSON.stringify(devs) %>;
 </script>
   <script src="/client-gen.js"></script>
 <div class="jumbotron text-center">
   <div class="container">
     <div class="row">
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Steve" id="Steve" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Steve</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Keith" id="Keith" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Keith</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Becky" id="Becky" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Becky</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Nilhouse" id="Nilhouse" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Nilhouse</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Justin" id="Justin" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Justin</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Boguste" id="Boguste" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Boguste</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Dave" id="Dave" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Dave</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Max" id="Max" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Max</div>
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-sm-3">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="names" value="Patrick" id="Patrick" checked="checked" aria-label="..."/>
-          </span>
-          <div type="text" class="form-control" aria-label="...">Patrick</div>
-        </div><!-- /input-group -->
-      </div>
+      <% devs.devs.forEach(function(r) { %>
+          <div class="col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" class="names" value="<%= r.name %>" id="<%= r.name %>" checked="checked" aria-label="..."/>
+              </span>
+              <div type="text" class="form-control" aria-label="..."><%= r.name %></div>
+            </div><!-- /input-group -->
+          </div>
+      <% }); %>
     </div>
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-sm-2">
         <div class="input-group">
-          <a class="btn btn-primary btn-lg" href="#" role="button">Generate</a>
+          <a id="generate" class="btn btn-primary btn-lg" href="#" role="button">Generate</a>
         </div><!-- /input-group -->
       </div>
     </div>
