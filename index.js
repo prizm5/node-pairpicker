@@ -6,6 +6,7 @@ var devs = require('./developers.json');
 var Slack = require('node-slack');
 
 var slack = new Slack(process.env.heroku_hook);
+var slack_token = process.env.slack_token;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -34,19 +35,20 @@ var reformattedArray = (function(kvArray) {
 });
 
 router.get('/', function(req, res) {
+    if(req.query.token !== slack_token) {
+      console.log('Invalid token');
+      res.status(401).end('Invalid token');
+    }
+    else {
+      console.log('Valid Token');
+      var pairs  = p.generatePairs(reformattedArray(devs.devs));
+      var names = pairs.map(function(pair) {
+        return pair.join(" , ")
+      }).join(" | ")
 
-    console.log(devs.devs);
-    var pairs  = p.generatePairs(reformattedArray(devs.devs));
-    var names = pairs.map(function(pair) {
-        return pair.join(",")
-    }).join(" | ")
-
-    // res.type('text/plain');
-    // res.send(names);
-
-    slack.send({ text: names});
-
-    // res.json(names);
+      slack.send({ text: names });
+      res.status(200).end()
+    }
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
