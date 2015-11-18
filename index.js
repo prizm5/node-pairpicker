@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var devs = require('./developers.json');
 var Slack = require('node-slack');
+var db = require('./db.js');
 
 var slack = new Slack(process.env.heroku_hook);
 var slack_token = process.env.slack_token;
