@@ -41,10 +41,8 @@ var sendSlackText = function (parings) {
   var odders = parings.odders;
   var txt = "[Pairs: " + names + "]"
   var txtodd = "[Odd: " + odders + "]"
-  slack.send({ text: txt });
   slack.send({ text: txtodd });
-  console.log(txt);
-  console.log(txtodd);
+  slack.send({ text: txt });
   return txt;
 }
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
