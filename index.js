@@ -32,11 +32,19 @@ var mapnames = function (pairs) {
   }).join(" | ")
 };
 
-var getSlackText = function (parings) {
+var mapodd = function (pairs) {
+  return pairs.join(" | ")
+};
+
+var sendSlackText = function (parings) {
   var names = mapnames(parings.pairs);
   var odders = parings.odders;
-  var txt = "[Pairs: " + names + "] [Odd: " + odders + "]"
+  var txt = "[Pairs: " + names + "]"
+  var txtodd = "[Odd: " + odders + "]"
+  slack.send({ text: txt });
+  slack.send({ text: txtodd });
   console.log(txt);
+  console.log(txtodd);
   return txt;
 }
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
@@ -48,18 +56,15 @@ router.get('/', function (req, res) {
   else {
     console.log('Valid Token');
     var pairings = p.generatePairs(p.getNames(devs.devs), []);
-    slack.send({ text: getSlackText(pairings) });
+    sendSlackText(pairings) 
     res.status(200).end()
   }
 });
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function (req, res) {
-  slack.send({ text: getSlackText(req.body) });
+  sendSlackText(req.body) 
   res.status(200).end()
-  //res.json({ message: 'hooray! welcome to our api!' });
-  //slack.send({ text: names });
-  //res.json();
 });
 
 // REGISTER OUR ROUTES -------------------------------
