@@ -38,16 +38,37 @@ var mapodd = function (pairs) {
 
 var sendSlackText = function (parings) {
   var names = mapnames(parings.pairs);
-  var odders = parings.odders;
+  var odders = mapodd(parings.odders);
   var txt = "[Pairs: " + names + "]"
   var txtodd = "[Odd: " + odders + "]"
-  slack.send({ text: txtodd });
-  slack.send({ text: txt });
-  return txt;
+  
+  var msg = {"text": "Pair Assignement",
+   "attachments": [
+      {
+         "fallback":"Pair Assignement",
+         "color":"#D00000",
+         "fields":[
+            {
+               "title":"Pairs",
+               "value":names,
+               "short":false
+            },
+            {
+               "title":"Odd",
+               "value":odders,
+               "short":false
+            }
+         ]
+      }
+    ]
+  };	
+  console.log(msg);
+  var ret = slack.send(msg);
 }
+
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function (req, res) {
-  if (req.query.token !== slack_token) {
+  if (req.query.token === undefined || req.query.token !== slack_token) {
     console.log('Invalid token');
     res.status(401).end('Invalid token');
   }
