@@ -1,7 +1,7 @@
 var picker = require('../pairpicker.js');
 
 var post = function(data){
-  var request = $.ajax({
+  $.ajax({
     url: "api",
     type: "POST",
     data: data,
