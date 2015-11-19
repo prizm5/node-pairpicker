@@ -26,10 +26,16 @@ var splitarray = function(input, spacing) {
     return output;
 };
 
-picker.generatePairs = function(names) {
+picker.generatePairs = function(names, odders) {
 	var shuffledPairs = shuffle(names);
 	var splitArray = splitarray(shuffledPairs, 2);
-  return splitArray;
+  for (var i = 0; i < splitArray.length; i++) {
+    if(splitArray[i].length === 1){
+      odders.push(splitArray[i][0]);
+      splitArray.splice(i,1);
+    }
+  }
+  return { pairs: splitArray, odders: odders };
 };
 
 picker.getNames = (function(kvArray) {

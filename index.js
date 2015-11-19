@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var devs = require('./developers.json');
 var Slack = require('node-slack');
-var db = require('./db.js');
 
 var slack = new Slack(process.env.heroku_hook);
 var slack_token = process.env.slack_token;
@@ -26,10 +25,10 @@ app.get('/', function(request, response) {
 
 // ROUTES FOR OUR API
 // =============================================================================
-var router = express.Router();              // get an instance of the express Router
+var router = express.Router();          // get an instance of the express Router
 var mapnames = function(pairs) {
   return pairs.map(function(pair) {
-    return pair.join(" , ")
+    return pair.join(",")
   }).join(" | ")
 };
 
@@ -51,8 +50,10 @@ router.get('/', function(req, res) {
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function(req, res) {
     var names = mapnames(req.body.pairs);
-    console.log(names);
-    slack.send({ text: names });
+    var odders = req.body.odders;
+    var txt = "[Pairs: " + names + "] [Odd: " + odders +"]"
+    console.log(txt);
+    slack.send({ text: txt });
     res.status(200).end()
     //res.json({ message: 'hooray! welcome to our api!' });
     //slack.send({ text: names });

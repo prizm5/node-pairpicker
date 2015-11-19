@@ -9,11 +9,9 @@
   <% include ../partials/nav.ejs %>
 
 <script type="text/javascript">
-
-
-    var people = <%- JSON.stringify(devs) %>;
+  var people = <%- JSON.stringify(devs) %>;
 </script>
-  <script src="/client-gen.js"></script>
+<script src="/client-gen.js"></script>
 <div class="jumbotron text-center">
   <div class="container">
     <div class="row">
@@ -21,7 +19,7 @@
           <div class="col-sm-2">
             <div class="input-group">
               <span class="input-group-addon">
-                <input type="checkbox" class="names" value="<%= r.name %>" id="<%= r.name %>" checked="checked" aria-label="..."/>
+                <input type="checkbox" class="names" value="1" id="<%= r.name %>" checked="checked" aria-label="..."/>
               </span>
               <div type="text" class="form-control" aria-label="..."><%= r.name %></div>
             </div><!-- /input-group -->
@@ -38,9 +36,17 @@
   </div>
 </div>
 <div class="container">
-  <div >
-<ul id="shuffledPairs"></ul>
-</div>
+    <div class="row">
+
+      <div class="col-sm-2">
+        Pairs:
+        <ul id="shuffledPairs"></ul>
+      </div>
+      <div class="col-sm-2">
+        Odd:
+        <ul id="odds"></ul>
+      </div>
+  </div>
 </div>
 
 

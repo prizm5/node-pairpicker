@@ -1,0 +1,5 @@
+{
+  "events": {
+    "restart": "browserify public/client.js -o public/client-gen.js"
+  }
+}

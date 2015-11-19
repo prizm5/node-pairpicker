@@ -27,10 +27,16 @@ var splitarray = function(input, spacing) {
     return output;
 };
 
-picker.generatePairs = function(names) {
+picker.generatePairs = function(names, odders) {
 	var shuffledPairs = shuffle(names);
 	var splitArray = splitarray(shuffledPairs, 2);
-  return splitArray;
+  for (var i = 0; i < splitArray.length; i++) {
+    if(splitArray[i].length === 1){
+      odders.push(splitArray[i][0]);
+      splitArray.splice(i,1);
+    }
+  }
+  return { pairs: splitArray, odders: odders };
 };
 
 picker.getNames = (function(kvArray) {
@@ -43,7 +49,6 @@ module.exports = picker;
 
 },{}],2:[function(require,module,exports){
 var picker = require('../pairpicker.js');
-console.log(picker.generatePairs(picker.getNames(people.devs)));
 
 var post = function(data){
   var request = $.ajax({
@@ -55,25 +60,46 @@ var post = function(data){
 };
 
 $(document).ready(function() {
-        $("#generate").click(function(e) {
-          var peeps = document.getElementsByClassName("names");
-          var names = [];
 
-        	for(i = 0; i < peeps.length; i++){
-        		if(peeps[i].checked)
-        			names.push(peeps[i].value);
-        	}
-          var pairs = picker.generatePairs(names);
+  // initialize with defaults
+   $(".names").checkboxX();
 
-        	var element = document.getElementById("shuffledPairs");
-        	element.innerHTML = "";
-        	for(i=0; i< pairs.length; i++){
-        		var listItem = document.createElement("li");
-        		listItem.innerHTML = pairs[i];
-        		element.appendChild(listItem);
-        	}
-          $.post( "api", { pairs: pairs } );
-        });
-    });
+   // with plugin options
+   $(".names").checkboxX({threeState: true, inline: true });
+
+  $("#generate").click(function(e) {
+    var peeps = document.getElementsByClassName("names");
+    var names = [];
+    var oddnames = [];
+
+  	for(i = 0; i < peeps.length; i++){
+  		if(peeps[i].value === "1") {
+  			names.push(peeps[i].id);
+      }
+      else if (peeps[i].value === "") {
+  			oddnames.push(peeps[i].id);
+      }
+  	}
+    var paring = picker.generatePairs(names, oddnames);
+
+  	var element = document.getElementById("shuffledPairs");
+  	element.innerHTML = "";
+  	for(i=0; i< paring.pairs.length; i++){
+  		var listItem = document.createElement("li");
+  		listItem.innerHTML = paring.pairs[i];
+  		element.appendChild(listItem);
+  	}
+
+  	var odd = document.getElementById("odds");
+  	odd.innerHTML = "";
+  	for(i=0; i< paring.odders.length; i++) {
+  		var listItem = document.createElement("li");
+  		listItem.innerHTML = paring.odders[i];
+  		odd.appendChild(listItem);
+  	}
+
+    $.post( "api", paring); 
+  });
+});
 
 },{"../pairpicker.js":1}]},{},[2]);
