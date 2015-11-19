@@ -40,7 +40,7 @@ router.get('/', function(req, res) {
     }
     else {
       console.log('Valid Token');
-      var pairs  = p.generatePairs(p.getNames(devs.devs));
+      var pairs  = p.generatePairs(p.getNames(devs.devs), []);
       var names = mapnames(pairs);
       slack.send({ text: names });
       res.status(200).end()
