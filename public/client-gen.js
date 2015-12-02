@@ -51,7 +51,7 @@ module.exports = picker;
 var picker = require('../pairpicker.js');
 
 var post = function(data){
-  var request = $.ajax({
+  $.ajax({
     url: "api",
     type: "POST",
     data: data,
@@ -62,10 +62,10 @@ var post = function(data){
 $(document).ready(function() {
 
   // initialize with defaults
-   $(".names").checkboxX();
+  $(".names").checkboxX();
 
    // with plugin options
-   $(".names").checkboxX({threeState: true, inline: true });
+  $(".names").checkboxX({threeState: true, inline: true });
 
   $("#generate").click(function(e) {
     var peeps = document.getElementsByClassName("names");

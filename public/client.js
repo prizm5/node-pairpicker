@@ -12,10 +12,10 @@ var post = function(data){
 $(document).ready(function() {
 
   // initialize with defaults
-   $(".names").checkboxX();
+  $(".names").checkboxX();
 
    // with plugin options
-   $(".names").checkboxX({threeState: true, inline: true });
+  $(".names").checkboxX({threeState: true, inline: true });
 
   $("#generate").click(function(e) {
     var peeps = document.getElementsByClassName("names");

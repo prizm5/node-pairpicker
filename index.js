@@ -2,91 +2,55 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
+var utils = require('./utils.js');
 var devs = require('./developers.json');
-var Slack = require('node-slack');
+var cookieParser = require('cookie-parser')
 
-var slack = new Slack(process.env.heroku_hook);
-var slack_token = process.env.slack_token;
+var isProd = process.env.isProd || true;
 
 app.set('port', (process.env.PORT || 5000));
-
-app.use(express.static(__dirname + '/public'));
-
-// views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.get('/', function (request, response) {
-  response.render('pages/index', { devs: devs });
+  
+  var schema = request.headers['x-forwarded-proto'];
+  if (isProd && schema === 'http') {
+    response.redirect('https://' + request.headers.host + request.url);
+  }
+  var token = request.query.token;
+  utils.checktoken(token, request, (function() {
+    response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
+    response.render('pages/index', { devs: devs });
+  }));
 });
 
 // ROUTES FOR OUR API
 // =============================================================================
 var router = express.Router();          // get an instance of the express Router
-var mapnames = function (pairs) {
-  return pairs.map(function (pair) {
-    return pair.join(",")
-  }).join(" | ")
-};
-
-var mapodd = function (pairs) {
-  return pairs.join(" | ")
-};
-
-var sendSlackText = function (parings) {
-  var names = mapnames(parings.pairs);
-  var odders = mapodd(parings.odders);
-  var txt = "[Pairs: " + names + "]"
-  var txtodd = "[Odd: " + odders + "]"
-  
-  var msg = {"text": "Pair Assignement",
-   "attachments": [
-      {
-         "fallback":"Pair Assignement",
-         "color":"#D00000",
-         "fields":[
-            {
-               "title":"Pairs",
-               "value":names,
-               "short":false
-            },
-            {
-               "title":"Odd",
-               "value":odders,
-               "short":false
-            }
-         ]
-      }
-    ]
-  };	
-  console.log(msg);
-  var ret = slack.send(msg);
-}
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function (req, res) {
-  if (req.query.token === undefined || req.query.token !== slack_token) {
-    console.log('Invalid token');
-    res.status(401).end('Invalid token');
-  }
-  else {
+  utils.checktoken(req.query.token, req, (function() {
     console.log('Valid Token');
     var pairings = p.generatePairs(p.getNames(devs.devs), []);
-    sendSlackText(pairings) 
+    utils.sendSlackText(pairings) 
     res.status(200).end()
-  }
+  }));
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.post('/', function (req, res) {
-  sendSlackText(req.body) 
-  res.status(200).end()
+  utils.checktoken(req.cookies.token, req, (function() {
+    console.log('Valid Token');
+    utils.sendSlackText(req.body) 
+    res.status(200).end()
+  }));
+  
 });
 
-// REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
