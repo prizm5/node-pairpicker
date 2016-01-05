@@ -6,8 +6,14 @@
     {"name" : "Dave"},
     {"name" : "Boguste"},
     {"name" : "Patrick"},
-    {"name" : "Max"},
-    {"name" : "Keith"},
-    {"name" : "Justin"}
+    {"name" : "Max"}
+  ], 
+  "cloud":[
+    {"name" : "Keith"}
+  ],
+  "qa": [
+      {"name": "Mark"},
+      {"name": "Lindsey"},
+      {"name": "Aman"}
   ]
 }
