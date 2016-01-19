@@ -18,7 +18,18 @@ $(document).ready(function () {
     $(".names").checkboxX({ threeState: true, inline: true });
 
     $(".dev-btn-switch").click(function (e) {
-        alert(e.target.id);
+        var move = { name: e.target.id };
+        $.post("api/moveToCloud", move).done(function( data ) {
+            location.reload();
+        });
+    });
+     
+     
+    $(".cloud-btn-switch").click(function (e) {
+        var move = { name: e.target.id };
+        $.post("api/moveToDev", move).done(function( data ) {
+            location.reload();
+        });
     });
      
     $("#generate").click(function (e) {

@@ -51,6 +51,24 @@ router.post('/', function (req, res) {
   
 });
 
+router.post('/moveToCloud', function (req, res) {
+  utils.checktoken(req.cookies.token, res, (function() {
+    console.log('Valid Token');
+    utils.moveToCloud(req.body) 
+    res.status(200).end()
+  }));
+  
+});
+
+router.post('/moveToDev', function (req, res) {
+  utils.checktoken(req.cookies.token, res, (function() {
+    console.log('Valid Token');
+    utils.moveToDev(req.body) 
+    res.status(200).end()
+  }));
+  
+});
+
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 

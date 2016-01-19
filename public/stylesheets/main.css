@@ -51,7 +51,7 @@ jumbotron p {
     padding: 2px;
 }
 
-.dev-btn-switch {
+.cloud-btn-switch, .dev-btn-switch {
     padding: 2px 4px;
 }
 

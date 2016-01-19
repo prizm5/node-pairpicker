@@ -28,15 +28,15 @@ var splitarray = function(input, spacing) {
 };
 
 picker.generatePairs = function(names, odders) {
-	var shuffledPairs = shuffle(names);
-	var splitArray = splitarray(shuffledPairs, 2);
-  for (var i = 0; i < splitArray.length; i++) {
-    if(splitArray[i].length === 1){
-      odders.push(splitArray[i][0]);
-      splitArray.splice(i,1);
+    var shuffledPairs = shuffle(names);
+    var splitArray = splitarray(shuffledPairs, 2);
+    for (var i = 0; i < splitArray.length; i++) {
+        if(splitArray[i].length === 1){
+            odders.push(splitArray[i][0]);
+            splitArray.splice(i,1);
+        }
     }
-  }
-  return { pairs: splitArray, odders: odders };
+    return { pairs: splitArray, odders: odders };
 };
 
 picker.getNames = (function(kvArray) {
@@ -68,7 +68,18 @@ $(document).ready(function () {
     $(".names").checkboxX({ threeState: true, inline: true });
 
     $(".dev-btn-switch").click(function (e) {
-        alert(e.target.id);
+        var move = { name: e.target.id };
+        $.post("api/moveToCloud", move).done(function( data ) {
+            location.reload();
+        });
+    });
+     
+     
+    $(".cloud-btn-switch").click(function (e) {
+        var move = { name: e.target.id };
+        $.post("api/moveToDev", move).done(function( data ) {
+            location.reload();
+        });
     });
      
     $("#generate").click(function (e) {
