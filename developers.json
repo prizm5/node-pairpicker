@@ -3,13 +3,15 @@
     {"name" : "Nilhouse"},
     {"name" : "Steve"},
     {"name" : "Becky"},
-    {"name" : "Dave"},
     {"name" : "Boguste"},
     {"name" : "Patrick"},
-    {"name" : "Max"}
+    {"name" : "Maximus"},
+    {"name" : "Maximus"},
+	{"name" : "Danny"}
   ], 
   "cloud":[
-    {"name" : "Keith"}
+    {"name" : "Keith"},
+	{"name" : "Dave"}
   ],
   "qa": [
       {"name": "Mark"},
