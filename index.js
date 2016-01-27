@@ -5,6 +5,7 @@ var p = require('./pairpicker.js');
 var utils = require('./utils.js');
 var devs = require('./developers.json');
 var cookieParser = require('cookie-parser')
+var db = require('./db.js');
 
 var isProd = process.env.isProd || true;
 
@@ -19,6 +20,8 @@ app.use(cookieParser());
 
 app.get('/', function (request, response) {
   
+  var all =  {devs: db.getDevs(), cloud: db.getCloud()};
+  
   var schema = request.headers['x-forwarded-proto'];
   if (isProd && schema === 'http') {
     response.redirect('https://' + request.headers.host + request.url);
@@ -26,7 +29,7 @@ app.get('/', function (request, response) {
   var token = request.query.token;
   utils.checktoken(token, response, (function() {
     response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
-    response.render('pages/index', { devs: devs });
+    response.render('pages/index', { devs: all });
   }));
 });
 

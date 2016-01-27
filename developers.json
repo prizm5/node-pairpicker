@@ -13,9 +13,6 @@
             "name": "Boguste"
         },
         {
-            "name": "Patrick"
-        },
-        {
             "name": "Danny"
         },
         {
@@ -23,6 +20,9 @@
         },
         {
             "name": "Lou"
+        },
+        {
+            "name": "Dave"
         }
     ],
     "cloud": [
@@ -30,7 +30,7 @@
             "name": "Keith"
         },
         {
-            "name": "Dave"
+            "name": "Patrick"
         }
     ],
     "qa": [
