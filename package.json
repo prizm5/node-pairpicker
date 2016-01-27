@@ -12,6 +12,7 @@
     "ejs": "2.3.3",
     "express": "4.13.3",
     "jquery": "1.7.2",
+    "nano": "^6.2.0",
     "node-slack": "0.0.7"
   },
   "engines": {
