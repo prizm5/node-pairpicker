@@ -1,54 +1,84 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <% include ../partials/header.ejs %>
+    <% include ../partials/header.ejs %>
 </head>
 
 <body>
 
-  <% include ../partials/nav.ejs %>
+    <% include ../partials/nav.ejs %>
 
-<script type="text/javascript">
-  var people = <%- JSON.stringify(devs) %>;
-</script>
-<script src="/client-gen.js"></script>
-<div class="jumbotron text-center">
-  <div class="container">
-    <div class="row">
-      <% devs.devs.forEach(function(r) { %>
-          <div class="col-sm-2">
-            <div class="input-group">
-              <span class="input-group-addon">
-                <input type="checkbox" class="names" value="1" id="<%= r.name %>" checked="checked" aria-label="..."/>
-              </span>
-              <div type="text" class="form-control" aria-label="..."><%= r.name %></div>
-            </div><!-- /input-group -->
-          </div>
-      <% }); %>
-    </div>
-    <div class="row">
-      <div class="col-sm-2">
-        <div class="input-group">
-          <a id="generate" class="btn btn-primary btn-lg" href="#" role="button">Generate</a>
-        </div><!-- /input-group -->
-      </div>
-    </div>
-  </div>
-</div>
-<div class="container">
-    <div class="row">
+        <script type="text/javascript">
+            var people = <%- JSON.stringify(devs) %>;
+        </script>
+        <script src="/client-gen.js"></script>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6">
 
-      <div class="col-sm-2">
-        Pairs:
-        <ul id="shuffledPairs"></ul>
-      </div>
-      <div class="col-sm-2">
-        Odd:
-        <ul id="odds"></ul>
-      </div>
-  </div>
-</div>
+
+                        <div class="dev-header">
+                            <p class="bg-success">V5 Developers</p>
+                        </div>
+                        <% devs.devs.forEach(function(r) { %>
+                            <div class="input-group dev">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" class="names" value="1" id="<%= r.name %>" checked="checked" aria-label="..." />
+                                </span>
+                                <div type="text" class="form-control" aria-label="...">
+                                    <%= r.name %>
+                                </div>
+                                <span class="input-group-addon">
+                                    <a href="#" class="btn btn-default btn-sm dev-btn-switch" id="<%= r.name %>" role="button">--></a>
+                                </span>
+                            </div>
+                            <% }); %>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <div class="dev-header">
+                            <p class="bg-success">Cloud Developers</p>
+                        </div>
+                        <% devs.cloud.forEach(function(r) { %>
+                            <div class="input-group dev">
+                                <span class="input-group-addon">
+                                    <a href="#" class="btn btn-default btn-sm cloud-btn-switch" id="<%= r.name %>" role="button"><--</a>
+                                </span>
+                                <div type="text" class="form-control" aria-label="...">
+                                    <%= r.name %>
+                                </div>
+                            </div>
+
+                            <% }); %>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="input-group">
+                            <a id="generate" class="btn btn-primary btn-lg" href="#" role="button">Generate</a>
+                        </div>
+                        <!-- /input-group -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-2">
+                    Pairs:
+                    <ul id="shuffledPairs"></ul>
+                </div>
+                <div class="col-sm-2">
+                    Odd:
+                    <ul id="odds"></ul>
+                </div>
+            </div>
+        </div>
 
 
 </body>
+
 </html>

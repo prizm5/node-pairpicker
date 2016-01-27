@@ -24,7 +24,7 @@ app.get('/', function (request, response) {
     response.redirect('https://' + request.headers.host + request.url);
   }
   var token = request.query.token;
-  utils.checktoken(token, request, (function() {
+  utils.checktoken(token, response, (function() {
     response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
     response.render('pages/index', { devs: devs });
   }));
@@ -34,7 +34,7 @@ app.get('/', function (request, response) {
 // =============================================================================
 var router = express.Router();          // get an instance of the express Router
 router.get('/', function (req, res) {
-  utils.checktoken(req.query.token, req, (function() {
+  utils.checktoken(req.query.token, res, (function() {
     console.log('Valid Token');
     var pairings = p.generatePairs(p.getNames(devs.devs), []);
     utils.sendSlackText(pairings) 
@@ -43,9 +43,27 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-  utils.checktoken(req.cookies.token, req, (function() {
+  utils.checktoken(req.cookies.token, res, (function() {
     console.log('Valid Token');
     utils.sendSlackText(req.body) 
+    res.status(200).end()
+  }));
+  
+});
+
+router.post('/moveToCloud', function (req, res) {
+  utils.checktoken(req.cookies.token, res, (function() {
+    console.log('Valid Token');
+    utils.moveToCloud(req.body) 
+    res.status(200).end()
+  }));
+  
+});
+
+router.post('/moveToDev', function (req, res) {
+  utils.checktoken(req.cookies.token, res, (function() {
+    console.log('Valid Token');
+    utils.moveToDev(req.body) 
     res.status(200).end()
   }));
   

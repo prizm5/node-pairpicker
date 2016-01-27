@@ -1,13 +1,47 @@
 {
- "devs": [
-    {"name" : "Nilhouse"},
-    {"name" : "Steve"},
-    {"name" : "Becky"},
-    {"name" : "Dave"},
-    {"name" : "Boguste"},
-    {"name" : "Patrick"},
-    {"name" : "Max"},
-    {"name" : "Keith"},
-    {"name" : "Justin"}
-  ]
+    "devs": [
+        {
+            "name": "Nilhouse"
+        },
+        {
+            "name": "Steve"
+        },
+        {
+            "name": "Maximus"
+        },
+        {
+            "name": "Boguste"
+        },
+        {
+            "name": "Patrick"
+        },
+        {
+            "name": "Danny"
+        },
+        {
+            "name": "Becky"
+        },
+        {
+            "name": "Lou"
+        }
+    ],
+    "cloud": [
+        {
+            "name": "Keith"
+        },
+        {
+            "name": "Dave"
+        }
+    ],
+    "qa": [
+        {
+            "name": "Mark"
+        },
+        {
+            "name": "Lindsey"
+        },
+        {
+            "name": "Aman"
+        }
+    ]
 }
