@@ -7,8 +7,9 @@ var db = {};
 
 // load the Cloudant library
 var dbname = 'dev_data';
-var nano = require('nano')('http://localhost:5985');
-var dbb = nano.db.use(dbname);
+
+  var cradle = require('cradle');
+  var dbb = new(cradle.Connection)('http://phisql12db01',5984).database(dbname);
 
 db.insert = function(doc) {
     dbb.insert(doc,
@@ -19,27 +20,30 @@ db.insert = function(doc) {
 };
 
 db.savePairs = function(pairs){
-    return db.insert(pairs);
+    return dbb.insert(pairs);
 }
 
-db.getDevs = function(doc) {
-    dbb.get('devs', { revs_info: true }, function(err, body) {
-     if(err) { return console.log(err); }
-        else { return body; }
+db.getDevs2 = function(cb) {
+    return dbb.get('devs', cb);
+}
+db.getDevs = function() {
+     dbb.get('devs', function (err, doc) {
+        return doc.names; 
     });
 };
 
-db.getCloud = function(doc) {
-    dbb.get('cloud', { revs_info: true }, function(err, body) {
-     if(err) { return console.log(err); }
-        else { return body; }
+db.getCloud2 = function(cb) {
+    return dbb.get('cloud', cb);
+}
+db.getCloud = function() {
+    dbb.get('cloud', function (err, doc) {
+        return doc.names;
     });
 };
 
-db.getQa = function(doc) {
-    dbb.get('qa', { revs_info: true }, function(err, body) {
-     if(err) { return console.log(err); }
-        else { return body; }
+db.getQa = function() {
+    dbb.get('qa', function (err, doc) {
+        return doc.names;
     });
 };
 
