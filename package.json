@@ -4,7 +4,9 @@
   "description": "Pair Picker endjoings in Node",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "start": "concurrent \"npm run tsc:w\" \"node index.js\" "
   },
   "dependencies": {
     "async": "^1.5.2",
@@ -30,6 +32,8 @@
     "express"
   ],
   "devDependencies": {
-    "browserify": "^12.0.1"
+    "browserify": "^12.0.1",
+    "concurrently": "^1.0.0",
+    "typescript": "^1.7.3"
   }
 }
