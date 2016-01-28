@@ -6,6 +6,7 @@ var utils = require('./utils.js');
 var devs = require('./developers.json');
 var cookieParser = require('cookie-parser')
 var db = require('./db.js');
+var async = require('async');
 
 var isProd = process.env.isProd || true;
 
@@ -19,18 +20,20 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.get('/', function (request, response) {
-  
-  var all =  {devs: db.getDevs(), cloud: db.getCloud()};
-  
-  var schema = request.headers['x-forwarded-proto'];
-  if (isProd && schema === 'http') {
-    response.redirect('https://' + request.headers.host + request.url);
-  }
-  var token = request.query.token;
-  utils.checktoken(token, response, (function() {
-    response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
-    response.render('pages/index', { devs: all });
-  }));
+  var calls = []
+  calls.push(function(cb) { return db.getDevs2(cb); } );
+  calls.push(function(cb) { return db.getCloud2(cb); } );
+  async.parallel(calls, function(err, res){ 
+    var schema = request.headers['x-forwarded-proto'];
+    if (isProd && schema === 'http') {
+        response.redirect('https://' + request.headers.host + request.url);
+    }
+    var token = request.query.token;
+    utils.checktoken(token, response, (function() {
+        response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
+        response.render('pages/index', { devs: {devs: res[0].names, cloud: res[1].names }});
+    }));  
+  });
 });
 
 // ROUTES FOR OUR API
