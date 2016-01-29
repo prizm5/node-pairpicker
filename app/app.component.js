@@ -1,4 +1,4 @@
-System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component'], function(exports_1) {
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component', './services/names.service', 'angular2/http', 'rxjs/Rx'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,7 +8,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, nav_component_1, teams_component_1, pairs_component_1, footer_component_1;
+    var core_1, nav_component_1, teams_component_1, pairs_component_1, footer_component_1, names_service_1, http_1;
     var AppComponent;
     return {
         setters:[
@@ -26,21 +26,42 @@ System.register(['angular2/core', './components/nav.component', './components/te
             },
             function (footer_component_1_1) {
                 footer_component_1 = footer_component_1_1;
-            }],
+            },
+            function (names_service_1_1) {
+                names_service_1 = names_service_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
+            function (_1) {}],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(_nameService) {
+                    this._nameService = _nameService;
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
+                    this.allteams = [];
                 }
+                AppComponent.prototype.getNames = function (t, p) {
+                    var _this = this;
+                    this._nameService.getTeam(t).subscribe(function (n) {
+                        n.forEach(function (a) { return a.shouldPair = p; });
+                        _this.allteams.push({ "name": t, "members": n });
+                    }, function (error) { return console.log(error); });
+                };
+                AppComponent.prototype.ngOnInit = function () {
+                    this.getNames('V5', true);
+                    this.getNames('Cloud', false);
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section><h1>I nav loaded...</h1></teams-section>\n  <pairs-section><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
-                        directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer]
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
+                        providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [names_service_1.NameService])
                 ], AppComponent);
                 return AppComponent;
             })();
