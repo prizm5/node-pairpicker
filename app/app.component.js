@@ -1,4 +1,4 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component', './services/names.service', 'angular2/http', 'rxjs/Rx'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,29 +8,60 @@ System.register(['angular2/core'], function(exports_1) {
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1;
+    var core_1, nav_component_1, teams_component_1, pairs_component_1, footer_component_1, names_service_1, http_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            }],
+            },
+            function (nav_component_1_1) {
+                nav_component_1 = nav_component_1_1;
+            },
+            function (teams_component_1_1) {
+                teams_component_1 = teams_component_1_1;
+            },
+            function (pairs_component_1_1) {
+                pairs_component_1 = pairs_component_1_1;
+            },
+            function (footer_component_1_1) {
+                footer_component_1 = footer_component_1_1;
+            },
+            function (names_service_1_1) {
+                names_service_1 = names_service_1_1;
+            },
+            function (http_1_1) {
+                http_1 = http_1_1;
+            },
+            function (_1) {}],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(_nameService) {
+                    this._nameService = _nameService;
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
+                    this.allteams = [];
                 }
-                AppComponent.prototype.toggleCollapse = function () {
-                    this.isNavCollapsed = !this.isNavCollapsed;
+                AppComponent.prototype.getNames = function (t, p) {
+                    var _this = this;
+                    this._nameService.getTeam(t).subscribe(function (n) {
+                        n.forEach(function (a) { return a.shouldPair = p; });
+                        _this.allteams.push({ "name": t, "members": n });
+                    }, function (error) { return console.log(error); });
+                };
+                AppComponent.prototype.ngOnInit = function () {
+                    this.getNames('V5', true);
+                    this.getNames('Cloud', false);
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <!--\n  <nav class=\"navbar navbar-dark bg-inverse dnd-noborder-radius\">\n    <button class=\"navbar-toggler hidden-md-up\" type=\"button\" (click)=\"toggleCollapse()\">\n      \u2630\n    </button>\n    <span class=\"navbar-brand dnd-nofloat hidden-md-up\">{{title}}</span>\n    <div class=\"navbar-toggleable-sm\" [class.collapse]=\"isNavCollapsed\">\n      <span class=\"navbar-brand hidden-sm-down\">{{title}}</span>\n      <ul class=\"nav navbar-nav\">\n        <li class=\"nav-item\" [class.active]=\"getLinkStyle('')\">\n          <a class=\"nav-link\" [routerLink]=\"['Spells']\"><span class=\"octicon octicon-flame\"></span> Spells</a>\n        </li>\n        <li class=\"nav-item\" [class.active]=\"getLinkStyle('/character')\">\n          <a class=\"nav-link\" [routerLink]=\"['Character']\"><span class=\"octicon octicon-person\"></span> Character</a>\n        </li>\n        <li class=\"nav-item\" [class.active]=\"getLinkStyle('/monsters')\">\n          <a class=\"nav-link\" [routerLink]=\"['Monsters']\"><i class=\"fa fa-optin-monster\"></i> Monsters</a>\n        </li>\n      </ul>\n    </div>\n  </nav>\n  -->\n  <div><h1>I loaded...</h1></div>\n  "
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
+                        providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [names_service_1.NameService])
                 ], AppComponent);
                 return AppComponent;
             })();

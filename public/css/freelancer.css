@@ -16,6 +16,11 @@ p.small {
     font-size: 16px;
 }
 
+.list-inline {
+    font-size: 22px;
+}
+
+
 a,
 a:hover,
 a:focus,
@@ -172,7 +177,7 @@ header .intro-text .skills {
 }
 
 section {
-    padding: 100px 0;
+    padding: 100px 0; 
 }
 
 section h2 {
