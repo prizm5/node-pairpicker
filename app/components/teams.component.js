@@ -30,22 +30,27 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
         execute: function() {
             Teams = (function () {
                 function Teams() {
+                    this.onPairingGenerated = new core_1.EventEmitter();
                 }
                 Teams.prototype.onMakePairs = function () {
                     this.pairing = new pair_1.Pairing();
                     var teamToShuffle = new team_1.Team();
                     teamToShuffle.name = "V5";
-                    teamToShuffle.members = this.teams.filter(function (f) { return f.name == "V5"; })[0].members
-                        .filter(function (t) { return t.state === person_1.State.Paring; })
+                    var v5 = this.teams.filter(function (f) { return f.name == "V5"; })[0];
+                    teamToShuffle.members = v5.members.filter(function (t) { return t.state === person_1.State.Paring; })
                         .splice(0);
-                    this.pairing.getPairs(teamToShuffle);
+                    var odd = v5.members.filter(function (t) { return t.state === person_1.State.Odd; }).splice(0);
+                    this.pairing.getPairs(teamToShuffle, odd);
+                    this.onPairingGenerated.emit(this.pairing);
+                    //console.log('Gen Pairs ' + this.pairing.pairs);
                 };
                 Teams = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'teams-section',
-                        template: " \n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n            </div>\n            <div class=\"col-sm-4 portfolio-item\" *ngFor=\"#team of teams\">\n                <h3>{{team.name}}</h3>\n                <hr />\n                <developer [peeps]=\"team.members\">i am developer</developer>\n            </div>\n         </div>\n         <div class=\"row\" >\n           \n            <div class=\"col-sm-2 portfolio-item\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"onMakePairs()\">Generate</button>\n                </a>\n            </div>\n                \n            <div class=\"col-sm-2 portfolio-item\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\">Save</button>\n                </a>\n            </div>\n           \n         </div> \n       </div>\n    </section>\n  ",
-                        inputs: ['teams', 'pairing'],
+                        template: " \n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n            </div>\n            <div class=\"col-sm-4 portfolio-item\" *ngFor=\"#team of teams\">\n                <h3>{{team.name}}</h3>\n                <hr />\n                <developer [peeps]=\"team.members\">i am developer</developer>\n            </div>\n         </div>\n         <div class=\"row\" >\n           \n            <div class=\"col-sm-2 portfolio-item\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"onMakePairs()\">Generate</button>\n                </a>\n            </div>\n                \n           \n           \n         </div> \n       </div>\n    </section>\n  ",
+                        inputs: ['teams'],
+                        outputs: ['onPairingGenerated'],
                         directives: [dev_component_1.Dev]
                     }), 
                     __metadata('design:paramtypes', [])

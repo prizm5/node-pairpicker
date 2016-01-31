@@ -47,6 +47,9 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
                 }
+                AppComponent.prototype.updatePairing = function (p) {
+                    this.pairing = p;
+                };
                 AppComponent.prototype.getNames = function (t, p) {
                     var _this = this;
                     this._nameService.getTeam(t).subscribe(function (n) {
@@ -67,7 +70,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" [pairing]=\"pairing\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
                         providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 

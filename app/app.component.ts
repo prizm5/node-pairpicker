@@ -18,7 +18,7 @@ import 'rxjs/Rx';
   selector: 'pairpicker',
   template: `
   <nav-section><h1>I nav loaded...</h1></nav-section>
-  <teams-section [teams]="allteams" [pairing]="pairing"><h1>I nav loaded...</h1></teams-section>
+  <teams-section [teams]="allteams" (onPairingGenerated)="updatePairing($event)"><h1>I nav loaded...</h1></teams-section>
   <pairs-section [pairing]="pairing"><h1>I nav loaded...</h1></pairs-section>
   <footer-section><h1>I footer loaded...</h1></footer-section>
   `,
@@ -32,8 +32,10 @@ export class AppComponent implements OnInit {
   public allteams: Team[];
   public pairing: Pairing;
   
-  constructor(private _nameService: NameService) { 
-
+  constructor(private _nameService: NameService) {  }
+  
+  updatePairing(p: Pairing){
+      this.pairing = p;
   }
   
   getNames(t, p) {

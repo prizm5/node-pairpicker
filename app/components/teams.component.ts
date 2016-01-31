@@ -1,4 +1,4 @@
-import {Component}              from 'angular2/core';
+import {Component,EventEmitter}              from 'angular2/core';
 import {Team} from '../models/team'
 import {Dev} from './dev.component'
 import {Pairing} from '../models/pair'  
@@ -31,18 +31,15 @@ import {State} from '../models/person'
                 </a>
             </div>
                 
-            <div class="col-sm-2 portfolio-item">
-                <a href="#pairs">
-                <button type="submit" class="btn btn-success btn-lg">Save</button>
-                </a>
-            </div>
+           
            
          </div> 
        </div>
     </section>
   `
   , 
-  inputs: ['teams','pairing'],
+  inputs: ['teams'],
+  outputs:['onPairingGenerated'],
   directives: [Dev]
 })
 export class Teams {
@@ -50,16 +47,21 @@ export class Teams {
   
   public pairing: Pairing;
   
+  public onPairingGenerated = new EventEmitter();
+  
   onMakePairs(){
     this.pairing = new Pairing();
     var teamToShuffle: Team = new Team(); 
     teamToShuffle.name = "V5";
-    teamToShuffle.members = this.teams.filter(f => f.name == "V5")[0].members
-                                .filter(t => t.state === State.Paring)
+    var v5 = this.teams.filter(f => f.name == "V5")[0];
+    teamToShuffle.members = v5.members.filter(t => t.state === State.Paring)
                                 .splice(0);
     
-    this.pairing.getPairs(teamToShuffle);
+    var odd = v5.members.filter(t =>  t.state === State.Odd).splice(0);
+    this.pairing.getPairs(teamToShuffle, odd);
+    this.onPairingGenerated.emit(this.pairing);
     
+    //console.log('Gen Pairs ' + this.pairing.pairs);
   }
   constructor() {
       

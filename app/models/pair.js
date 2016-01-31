@@ -5,6 +5,8 @@ System.register([], function(exports_1) {
         execute: function() {
             Pairing = (function () {
                 function Pairing() {
+                    this.pairs = [];
+                    this.odd = [];
                 }
                 Pairing.prototype.shuffle = function (o) {
                     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x)
@@ -18,15 +20,15 @@ System.register([], function(exports_1) {
                     }
                     return output;
                 };
-                Pairing.prototype.getPairs = function (team) {
+                Pairing.prototype.getPairs = function (team, odd) {
                     var _this = this;
                     this.shuffle(team.members);
                     var split = this.splitarray(team.members, 2);
                     this.pairs = [];
-                    this.odd = [];
+                    this.odd = odd.map(function (a) { return a.name; });
                     split.forEach(function (element, index, array) {
                         if (element.length === 2) {
-                            _this.pairs.push(element[0].name + " : " + element[1].name);
+                            _this.pairs.push(element[0].name + " :: " + element[1].name);
                         }
                         else {
                             _this.odd.push(element[0].name);

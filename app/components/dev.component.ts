@@ -11,9 +11,9 @@ import {Team} from '../models/team'
            <div class="cbx cbx-md cbx-active" tabindex="1000">
            <span class="cbx-icon">
             <div [ngSwitch]="peep.state">
-                    <template [ngSwitchWhen]="0"><i class="glyphicon glyphicon-ok"></i></template>
-                    <template [ngSwitchWhen]="1">Ready</template>
-                    <template ngSwitchDefault>{{peep.state}}</template>
+                    <template [ngSwitchWhen]="0"><i class="glyphicon glyphicon-ok" (click)="onToggleCheckbox(peep,1)"></i></template>
+                    <template [ngSwitchWhen]="2"><i class="glyphicon glyphicon-remove" (click)="onToggleCheckbox(peep,0)"></i></template>
+                    <template ngSwitchDefault><i class="glyphicon glyphicon-stop" (click)="onToggleCheckbox(peep,2)"></i></template>
                 </div>
             </span>
             </div>
@@ -31,4 +31,7 @@ export class Dev {
     public peeps: Person[];
     constructor() { }
     onSelect(person: Person) { console.log(person); }
+    onToggleCheckbox(person: Person, change) {  
+        person.state = change;
+    }
 }

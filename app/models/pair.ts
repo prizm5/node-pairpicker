@@ -1,3 +1,5 @@
+import {EventEmitter} from 'angular2/core';
+
 import {Team} from '../models/team'
 import {Person} from '../models/person'
 
@@ -6,9 +8,11 @@ export class Pairing {
     pairs: string[];
     odd: string[]
 
+    
 
     constructor() {
-       
+       this.pairs = [];
+       this.odd = [];
      } 
 
     public shuffle(o: Person[]) {
@@ -24,14 +28,14 @@ export class Pairing {
         return output;
     } 
 
-    public getPairs(team: Team) {
-         this.shuffle(team.members);
-         var split = this.splitarray(team.members, 2);
-         this.pairs = [];
-         this.odd = [];
-            split.forEach((element: Person[], index, array) => {
+    public getPairs(team: Team, odd:Person[]) {
+        this.shuffle(team.members);
+        var split = this.splitarray(team.members, 2);
+        this.pairs = [];
+        this.odd = odd.map(a => a.name);
+        split.forEach((element: Person[], index, array) => {
             if (element.length === 2) {
-                this.pairs.push(element[0].name + " : " + element[1].name);
+                this.pairs.push(element[0].name + " :: " + element[1].name);
             }
             else {
                 this.odd.push(element[0].name)
