@@ -2,5 +2,5 @@
   "events": {
     "restart": "browserify public/client.js -o public/client-gen.js"
   },
-  "ignore": ["public\\client-gen.js"] 
+  "ignore": ["public\\client-gen.js","*.ts"] 
 }

@@ -1,4 +1,5 @@
 import {Component}              from 'angular2/core';
+import {Pairing} from '../models/pair'
 
 @Component({
   styles:[],
@@ -13,14 +14,14 @@ import {Component}              from 'angular2/core';
                     <h3>Pairs</h3>
                     <hr class="star-light">
                     <ul class="list-inline">
-                        <li>Steve : Nils</li>
+                        <li *ngFor="#peep of pairing.pairs">{{peep}}</li>
                     </ul>
                 </div>
                 <div class="col-sm-6 text-center">
                     <h3>Odd</h3>
                     <hr class="star-light">
                     <ul class="list-inline">
-                        <li>Steve : Nisssls</li>
+                        <li *ngFor="#peep of pairing.odd">{{peep}}</li>
                     </ul>
                 </div>
             </div>
@@ -28,11 +29,11 @@ import {Component}              from 'angular2/core';
         </div>
     </section>
     
-  `
+  `,
+  inputs: ['pairing']
 })
 export class Pairs {
-  
-  
+  public pairing: Pairing;
   constructor() { }
   
 }

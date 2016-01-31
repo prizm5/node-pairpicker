@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Person} from '../models/person'
 import {Team} from '../models/team'
-import {Http, URLSearchParams} from 'angular2/http';
+import {Http} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()

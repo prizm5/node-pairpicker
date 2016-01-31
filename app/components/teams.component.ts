@@ -1,6 +1,8 @@
 import {Component}              from 'angular2/core';
 import {Team} from '../models/team'
 import {Dev} from './dev.component'
+import {Pairing} from '../models/pair'  
+import {State} from '../models/person'
 
 
 @Component({
@@ -23,24 +25,44 @@ import {Dev} from './dev.component'
          </div>
          <div class="row" >
            
-            <div class="col-sm-4 portfolio-item">
-              <a href="#pairs">
-                    <button type="submit" class="btn btn-success btn-lg">Generate</button>
-                    </a>
-                </div>
+            <div class="col-sm-2 portfolio-item">
+                <a href="#pairs">
+                <button type="submit" class="btn btn-success btn-lg" (click)="onMakePairs()">Generate</button>
+                </a>
+            </div>
+                
+            <div class="col-sm-2 portfolio-item">
+                <a href="#pairs">
+                <button type="submit" class="btn btn-success btn-lg">Save</button>
+                </a>
+            </div>
            
          </div> 
        </div>
     </section>
   `
-  ,
-  inputs: ['teams'],
-  directives: [Dev],
-  
+  , 
+  inputs: ['teams','pairing'],
+  directives: [Dev]
 })
 export class Teams {
   public teams: Team[];
   
-  constructor() { }
+  public pairing: Pairing;
+  
+  onMakePairs(){
+    this.pairing = new Pairing();
+    var teamToShuffle: Team = new Team(); 
+    teamToShuffle.name = "V5";
+    teamToShuffle.members = this.teams.filter(f => f.name == "V5")[0].members
+                                .filter(t => t.state === State.Paring)
+                                .splice(0);
+    
+    this.pairing.getPairs(teamToShuffle);
+    
+  }
+  constructor() {
+      
+   }
   
 }

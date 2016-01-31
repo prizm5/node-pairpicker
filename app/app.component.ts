@@ -9,6 +9,8 @@ import {JSONP_PROVIDERS}  from 'angular2/http';
  
 import {Team} from './models/team'
 import {Person} from './models/person'
+import {State} from './models/person'
+import {Pairing} from './models/pair'   
 import 'rxjs/Rx';
 
 @Component({
@@ -16,35 +18,41 @@ import 'rxjs/Rx';
   selector: 'pairpicker',
   template: `
   <nav-section><h1>I nav loaded...</h1></nav-section>
-  <teams-section [teams]="allteams"><h1>I nav loaded...</h1></teams-section>
-  <pairs-section><h1>I nav loaded...</h1></pairs-section>
+  <teams-section [teams]="allteams" [pairing]="pairing"><h1>I nav loaded...</h1></teams-section>
+  <pairs-section [pairing]="pairing"><h1>I nav loaded...</h1></pairs-section>
   <footer-section><h1>I footer loaded...</h1></footer-section>
   `,
   directives: [Nav,Teams, Pairs, Footer],
   providers: [NameService, JSONP_PROVIDERS]
 })
-
+ 
 export class AppComponent implements OnInit {
   public title = 'Pair Picker';
   public isNavCollapsed = true;
   public allteams: Team[];
+  public pairing: Pairing;
   
   constructor(private _nameService: NameService) { 
-      this.allteams = [];
+
   }
-  v5: Team
+  
   getNames(t, p) {
     this._nameService.getTeam(t).subscribe(
         n => {
-          n.forEach(a => a.shouldPair = p);
+          n.forEach(a => {
+              a.shouldPair = p;
+              a.state = State.Paring;
+              });
           this.allteams.push({"name":t, "members":n});
         },
         error => console.log(error));
   }
   
   ngOnInit() {
+    this.allteams = [];
+    this.pairing = new Pairing();
     this.getNames('V5', true);
-    this.getNames('Cloud', false);
+    this.getNames('cloud', false);
   }
 } 
 
