@@ -15,7 +15,7 @@ export class NameService {
                 .catch(this.logAndPassOn);
     }
     
-    sendToSlack(p:Pairing){
+    sendToSlack(p:Pairing) {
         console.log('sending to slack');
         return this.http.post('api', p)
             .catch(this.logAndPassOn);

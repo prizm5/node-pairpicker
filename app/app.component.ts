@@ -36,7 +36,9 @@ export class AppComponent implements OnInit {
   
   updatePairing(p: Pairing){
       this.pairing = p;
-      this._nameService.sendToSlack(p);
+      this._nameService.sendToSlack(p)
+        .subscribe( a => {console.log("sent to slack : " + a)}, 
+        error => console.log("error sending to slack" + error));
       console.log(p);
   }
   
