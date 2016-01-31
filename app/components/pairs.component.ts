@@ -29,7 +29,7 @@ import {Pairing} from '../models/pair'
                 <hr>
                 <div class="col-sm-2 portfolio-item">
                     <a href="#pairs">
-                        <button type="submit" class="btn btn-success btn-lg">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
                     </a>
                 </div>
             </div>
