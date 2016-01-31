@@ -31,6 +31,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.sendToSlack = function (p) {
+                    console.log('sending to slack');
+                    return this.http.post('api', p)
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.logAndPassOn = function (error) {
                     // in a real world app, we may send the server to some remote logging infrastructure
                     // instead of just logging it to the console

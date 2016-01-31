@@ -113,6 +113,12 @@ header .intro-text .skills {
     font-weight: 300;
 }
 
+#logo {
+    height: 60px;
+    float: left;
+    margin: 0px 20px 0px -15px;
+}
+
 @media(min-width:768px) {
     header .container {
         padding-top: 200px;
@@ -216,6 +222,11 @@ section.success a.active {
 
     section.first {
         padding-top: 75px;
+    }
+    
+    #logo{
+        margin: 0px 15px 0px 0px;
+        height: 50px;
     }
 }
 

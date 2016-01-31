@@ -22,7 +22,7 @@ var mapodd = function (pairs) {
 
 utils.sendSlackText = function (parings) {
   var names = mapnames(parings.pairs);
-  var odders = mapodd(parings.odders);
+  var odders = mapodd(parings.odd);
   
   var msg = {"text": "Pair Assignement",
    "attachments": [

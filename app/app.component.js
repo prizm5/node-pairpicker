@@ -49,6 +49,8 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 }
                 AppComponent.prototype.updatePairing = function (p) {
                     this.pairing = p;
+                    this._nameService.sendToSlack(p);
+                    console.log(p);
                 };
                 AppComponent.prototype.getNames = function (t, p) {
                     var _this = this;

@@ -36,6 +36,8 @@ export class AppComponent implements OnInit {
   
   updatePairing(p: Pairing){
       this.pairing = p;
+      this._nameService.sendToSlack(p);
+      console.log(p);
   }
   
   getNames(t, p) {

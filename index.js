@@ -51,11 +51,12 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    //utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
+        console.log('api send to slack');
         utils.sendSlackText(req.body)
         res.status(200).end()
-    }));
+    //}));
 });
 
 router.post('/moveToCloud', function (req, res) {

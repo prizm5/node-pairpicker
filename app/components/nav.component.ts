@@ -15,6 +15,7 @@ import {Component}              from 'angular2/core';
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                <img src="img/icon-pairing-trans.png" id="logo" >
                 <a class="navbar-brand" href="#page-top">Pair Picker</a>
             </div>
             <!-- /.navbar-collapse -->
