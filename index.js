@@ -3,7 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var utils = require('./utils.js');
-var devs = require('./developers.json');
 var cookieParser = require('cookie-parser')
 
 var dbname = 'dev_data';
