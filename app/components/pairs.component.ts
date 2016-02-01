@@ -10,14 +10,14 @@ import {Pairing} from '../models/pair'
     <section class="success" id="pairs">
         <div class="container">
             <div class="row">
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-4 text-center">
                     <h3>Pairs</h3>
                     <hr class="star-light">
                     <ul class="list-block">
                         <li *ngFor="#peep of pairing.pairs">{{peep}}</li>
                     </ul>
                 </div>
-                <div class="col-sm-3 text-center">
+                <div class="col-sm-4 text-center">
                     <h3>Odd</h3>
                     <hr class="star-light">
                     <ul class="list-block">
@@ -27,7 +27,7 @@ import {Pairing} from '../models/pair'
             </div>
             <div class="row">
                 <hr>
-                <div class="col-sm-2 portfolio-item">
+                <div class="col-sm-3 portfolio-item">
                     <a href="#pairs">
                         <button type="submit" class="btn btn-primary btn-lg">Save</button>
                     </a>

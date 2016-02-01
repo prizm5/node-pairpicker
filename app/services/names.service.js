@@ -32,8 +32,12 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.sendToSlack = function (p) {
-                    console.log('sending to slack');
-                    return this.http.post('api', p)
+                    console.log('sending to slack: ' + JSON.stringify(p));
+                    var headers = new http_1.Headers();
+                    headers.append('Content-Type', 'application/json');
+                    return this.http.post('api', JSON.stringify(p), {
+                        headers: headers
+                    })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.logAndPassOn = function (error) {

@@ -39,7 +39,6 @@ export class AppComponent implements OnInit {
       this._nameService.sendToSlack(p)
         .subscribe( a => {console.log("sent to slack : " + a)}, 
         error => console.log("error sending to slack" + error));
-      console.log(p);
   }
   
   getNames(t, p) {

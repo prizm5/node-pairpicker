@@ -9,7 +9,7 @@ var devs = require('./developers.json');
 
 var mapnames = function (pairs) {
   return pairs.map(function (pair) {
-    return pair.join(",")
+    return pair.replace(" :: ",",")
   }).join(" | ")
 };
 
@@ -21,6 +21,7 @@ var mapodd = function (pairs) {
 };
 
 utils.sendSlackText = function (parings) {
+  console.log("utils send to slack " + parings);
   var names = mapnames(parings.pairs);
   var odders = mapodd(parings.odd);
   

@@ -34,7 +34,7 @@ app.get('/', function (request, response) {
     var token = request.query.token;
     utils.checktoken(token, response, (function () {
         response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
-        response.sendfile('index.html', { root: __dirname + "public/index.html" });
+        response.sendfile('\some.html', { root: __dirname + "\\public" });
     }));
 });
 
@@ -51,24 +51,24 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    //utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
-        console.log('api send to slack');
+        console.log('post api send to slack: ' + req.body);
         utils.sendSlackText(req.body)
         res.status(200).end()
-    //}));
+    })); 
 });
 
 router.post('/moveToCloud', function (req, res) {
-   // utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
         utils.moveToCloud(req.body)
         res.status(200).end()
-    //}));
+    }));
 });
 
 router.get('/data/v5', function (req, res) {
-    //utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
         dbb.get('devs', function (err, doc) {
             if (err) {
@@ -78,12 +78,12 @@ router.get('/data/v5', function (req, res) {
                 res.send(doc.names);
             }
         });
-    //}));
+    }));
 
 });
 
 router.get('/data/cloud', function (req, res) {
-    //utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
         dbb.get('cloud', function (err, doc) {
             if (err) {
@@ -93,7 +93,7 @@ router.get('/data/cloud', function (req, res) {
                 res.send(doc.names);
             }
         });
-    //}));
+    }));
 });
 
 
