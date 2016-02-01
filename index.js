@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser')
 var dbname = 'dev_data';
 var cradle = require('cradle');
 var db_url = process.env.dburl || 'http://localhost'
-var db_port = process.env.dbport || 5985
+var db_port = process.env.dbport || 5984
 var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
 var async = require('async');
