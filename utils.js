@@ -5,7 +5,6 @@ var slack = new Slack(process.env.heroku_hook);
 var slack_token = process.env.slack_token;
 
 var fs = require('fs');
-var devs = require('./developers.json');
 
 var mapnames = function (pairs) {
   return pairs.map(function (pair) {
@@ -62,13 +61,13 @@ utils.checktoken = function(token, res, action) {
 var outputFilename = 'developers.json';
 
 var writeDevs = function(){
-    fs.writeFile(outputFilename, JSON.stringify(devs, null, 4), function(err) {
+    /*fs.writeFile(outputFilename, JSON.stringify(devs, null, 4), function(err) {
         if(err) {
         console.log(err);
         } else {
         console.log("JSON saved to " + outputFilename);
         }
-    }); 
+    }); */
 };
 
 
@@ -85,19 +84,19 @@ var remove = function(name, array) {
 };
 
 utils.moveToCloud = function(name) {
-    var n = name.name;
+    /*var n = name.name;
     console.log('moving to cloud: ' + n);
     var add = remove(n, devs.devs)
     if(add) devs.cloud.push(add);
-    writeDevs();
+    writeDevs();*/
 };
 
 utils.moveToDev = function(name) {
-    var n = name.name;
+   /* var n = name.name;
     console.log('moving to dev: ' + n);
     var add = remove(n, devs.cloud)
     if(add) devs.devs.push(add);
-    writeDevs();
+    writeDevs();*/
 };
 
 module.exports = utils;
