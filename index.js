@@ -33,7 +33,7 @@ app.get('/', function (request, response) {
     var token = request.query.token;
     utils.checktoken(token, response, (function () {
         response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
-        response.sendfile('\some.html', { root: __dirname + "\\public" });
+        response.sendfile('/some.html', { root: __dirname + "/public" });
     }));
 });
 
