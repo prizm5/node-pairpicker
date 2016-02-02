@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var moment = require('Moment');
+var moment = require('moment');
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var utils = require('./utils.js');
@@ -10,8 +10,8 @@ var dbname = 'dev_data';
 var cradle = require('cradle');
 var db_url = process.env.dburl || 'http://phisql12db01'
 var db_port = process.env.dbport || 5984
-var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
+var port = process.env.port || app.get('port');
 var async = require('async');
 
 var isProd = process.env.isProd || true;
@@ -59,8 +59,10 @@ router.post('/', function (req, res) {
 
 router.get('/data/v5', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
+        var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.get('devs', function (err, doc) {
             if (err) {
+                console.log(err);
                 res.send({});
             }
             else {
@@ -73,9 +75,10 @@ router.get('/data/v5', function (req, res) {
 
 router.get('/data/cloud', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
+        var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.get('cloud', function (err, doc) {
             if (err) {
-                console.error(err);
+                console.log(err);
                 res.send({});
             }
             else {
@@ -98,9 +101,10 @@ router.post('/savePair', function (req, res) {
         var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
         var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
         //var doc = {timestamp: new Date().to, pair: req.body, doc_type: 'pairing'}
+        var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.save(doc, function (err, doc) {
             if (err) {
-                console.error(err);
+                console.log(err);
                 res.send({});
             }
             else {
@@ -122,6 +126,6 @@ router.post('/moveToDev', function (req, res) {
 // all of our routes will be prefixed with /api
 app.use('/api', router);
 
-app.listen(app.get('port'), function () {
-    console.log('Node app is running on port', app.get('port'));
+app.listen(port,'0.0.0.0', function () {
+    console.log('Node app is running on port', port);
 });

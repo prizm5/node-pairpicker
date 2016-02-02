@@ -9,7 +9,6 @@ var dbname = 'dev_data';
 var cradle = require('cradle');
 var db_url = process.env.dburl || 'http://phisql12db01'
 var db_port = process.env.dbport || 5984
-var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
 var fs = require('fs');
 
@@ -81,6 +80,7 @@ var remove = function(name, array) {
 var getDocs = function(calls) {
      ['cloud','devs'].forEach(function(name){
         calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
             dbb.get(name, function(err, doc) { // remember error first ;)
                 if (err) {
                     return callback(err);
@@ -94,6 +94,7 @@ var getDocs = function(calls) {
 var saveDocs = function(calls, docs) {
      docs.forEach(function(name){
         calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
             dbb.save(name, function(err, doc) { // remember error first ;)
                 if (err) {
                     return callback(err);
@@ -112,7 +113,7 @@ utils.moveToCloud = function(name) {
     
     async.parallel(calls, function(err, result) {
         if (err)
-            return console.error(err);
+            return console.log(err);
             
         clouddoc = result[0];
         devsdoc = result[1]; 
@@ -132,7 +133,7 @@ utils.moveToCloud = function(name) {
         
         async.parallel(saves, function(err, result) {
            if (err)
-                return console.error(err);
+                return console.log(err);
            console.log('All Saved');
         });
     
