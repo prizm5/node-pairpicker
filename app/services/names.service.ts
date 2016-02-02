@@ -18,22 +18,19 @@ export class NameService {
             .map(res => <Person[]>res.json())
             .catch(this.logAndPassOn);
     }
-
+ 
     sendToSlack(p: Pairing) {       
         return this.http.post('api',
             JSON.stringify(p),
             { headers: this.headers })
             .catch(this.logAndPassOn);
-
     }
-    
     
     savePair(p: Pairing) {       
         return this.http.post('api/savePair',
             JSON.stringify(p),
             { headers: this.headers })
             .catch(this.logAndPassOn);
-
     }
     
     moveTeam(p:string, teamname:string){

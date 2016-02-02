@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var moment = require('Moment');
+//var moment = require('Moment');
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var utils = require('./utils.js');
@@ -93,9 +93,10 @@ router.post('/moveToCloud', function (req, res) {
 
 router.post('/savePair', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        var now = moment()
-        var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
-        var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
+        //var now = moment()
+        //var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
+        //var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
+        var doc = {timestamp: new Date().getDate().toLocaleString(), pair: req.body, doc_type: 'pairing'}
         dbb.save(doc, function (err, doc) {
             if (err) {
                 res.send({});
