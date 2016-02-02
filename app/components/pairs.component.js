@@ -18,13 +18,18 @@ System.register(['angular2/core'], function(exports_1) {
         execute: function() {
             Pairs = (function () {
                 function Pairs() {
+                    this.onSavePairing = new core_1.EventEmitter();
                 }
+                Pairs.prototype.savePair = function () {
+                    this.onSavePairing.emit(this.pairing);
+                };
                 Pairs = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairs-section',
-                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.pairs\">{{peep}}</li>\n                    </ul>\n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}}</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-3 portfolio-item\">\n                    <a href=\"#pairs\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\">Save</button>\n                    </a>\n                </div>\n            </div>\n        </div>\n    </section>\n    \n  ",
-                        inputs: ['pairing']
+                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.pairs\">{{peep}}</li>\n                    </ul>\n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}}</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-3 portfolio-item\">\n                    <a href=\"#pairs\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\" (click)=\"savePair()\">Save</button>\n                    </a>\n                </div>\n            </div>\n        </div>\n    </section>\n    \n  ",
+                        inputs: ['pairing'],
+                        outputs: ['onSavePairing'],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Pairs);

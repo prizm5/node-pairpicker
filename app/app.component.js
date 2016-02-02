@@ -57,10 +57,14 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this._nameService.moveTeam(t.name, t.team)
                         .subscribe(function (a) { console.log('Moved ' + t.name + ' from ' + t.team); }, function (error) { return console.log("error sending to slack" + error); });
                 };
-                AppComponent.prototype.updatePairing = function (p) {
-                    this.pairing = p;
+                AppComponent.prototype.savePairing = function (p) {
+                    this._nameService.savePair(p)
+                        .subscribe(function (a) { console.log("pairing saved : " + a); }, function (error) { return console.log("error saving pairing" + error); });
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { console.log("sent to slack : " + a); }, function (error) { return console.log("error sending to slack" + error); });
+                };
+                AppComponent.prototype.updatePairing = function (p) {
+                    this.pairing = p;
                 };
                 AppComponent.prototype.getNames = function (t, p) {
                     var _this = this;
@@ -82,7 +86,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\" (onSavePairing)=\"savePairing($event)\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
                         providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 

@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var moment = require('Moment');
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var utils = require('./utils.js');
@@ -42,7 +43,6 @@ app.get('/', function (request, response) {
 var router = express.Router();          // get an instance of the express Router
 router.get('/', function (req, res) {
     utils.checktoken(req.query.token, res, (function () {
-        console.log('Valid Token');
         var pairings = p.generatePairs(p.getNames(devs.devs), []);
         utils.sendSlackText(pairings)
         res.status(200).end()
@@ -51,7 +51,6 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
         console.log('post api send to slack: ' + req.body);
         utils.sendSlackText(req.body)
         res.status(200).end()
@@ -60,7 +59,6 @@ router.post('/', function (req, res) {
 
 router.get('/data/v5', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
         dbb.get('devs', function (err, doc) {
             if (err) {
                 res.send({});
@@ -75,7 +73,6 @@ router.get('/data/v5', function (req, res) {
 
 router.get('/data/cloud', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
         dbb.get('cloud', function (err, doc) {
             if (err) {
                 res.send({});
@@ -89,15 +86,30 @@ router.get('/data/cloud', function (req, res) {
 
 router.post('/moveToCloud', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
         utils.moveToCloud(req.body.name)
         res.status(200).end()
     }));
 });
 
+router.post('/savePair', function (req, res) {
+    utils.checktoken(req.cookies.token, res, (function () {
+        var now = moment()
+        var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
+        var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
+        dbb.save(doc, function (err, doc) {
+            if (err) {
+                res.send({});
+            }
+            else {
+                res.send(req.body);
+            }
+        });
+        
+    }));
+});
+
 router.post('/moveToDev', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
         utils.moveToDev(req.body.name)
         res.status(200).end()
     }));

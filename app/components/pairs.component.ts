@@ -1,4 +1,4 @@
-import {Component}              from 'angular2/core';
+import {Component, EventEmitter}              from 'angular2/core';
 import {Pairing} from '../models/pair'
 
 @Component({
@@ -29,7 +29,7 @@ import {Pairing} from '../models/pair'
                 <hr>
                 <div class="col-sm-3 portfolio-item">
                     <a href="#pairs">
-                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                        <button type="submit" class="btn btn-primary btn-lg" (click)="savePair()">Save</button>
                     </a>
                 </div>
             </div>
@@ -37,10 +37,14 @@ import {Pairing} from '../models/pair'
     </section>
     
   `,
-  inputs: ['pairing']
+  inputs: ['pairing'],
+  outputs:['onSavePairing'],
 })
 export class Pairs {
   public pairing: Pairing;
+  public onSavePairing = new EventEmitter();
   constructor() { }
-  
+  savePair(){
+      this.onSavePairing.emit(this.pairing);
+  }
 }

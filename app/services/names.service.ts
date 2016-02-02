@@ -27,6 +27,15 @@ export class NameService {
 
     }
     
+    
+    savePair(p: Pairing) {       
+        return this.http.post('api/savePair',
+            JSON.stringify(p),
+            { headers: this.headers })
+            .catch(this.logAndPassOn);
+
+    }
+    
     moveTeam(p:string, teamname:string){
         var url = '';
         switch(teamname){

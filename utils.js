@@ -61,6 +61,7 @@ utils.checktoken = function(token, res, action) {
     res.status(401).end('Invalid token');
   }
   else {
+    console.log('Valid token');
     action();
   }
 };

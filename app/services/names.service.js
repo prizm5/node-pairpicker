@@ -37,6 +37,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     return this.http.post('api', JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.savePair = function (p) {
+                    return this.http.post('api/savePair', JSON.stringify(p), { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.moveTeam = function (p, teamname) {
                     var url = '';
                     switch (teamname) {
