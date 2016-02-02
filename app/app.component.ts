@@ -50,12 +50,12 @@ export class AppComponent implements OnInit {
     }
 
     savePairing(p: Pairing) {
-        
+         
         this._nameService.savePair(p)
             .subscribe(a => { console.log("pairing saved : " + a) },
             error => console.log("error saving pairing" + error));
             
-            this._nameService.sendToSlack(p)
+        this._nameService.sendToSlack(p)
             .subscribe(a => { console.log("sent to slack : " + a) },
             error => console.log("error sending to slack" + error));
     }
