@@ -48,7 +48,6 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
                     var odd = v5.members.filter(function (t) { return t.state === person_1.State.Odd; }).splice(0);
                     this.pairing.getPairs(teamToShuffle, odd);
                     this.onPairingGenerated.emit(this.pairing);
-                    //console.log('Gen Pairs ' + this.pairing.pairs);
                 };
                 Teams = __decorate([
                     core_1.Component({

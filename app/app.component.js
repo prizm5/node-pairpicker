@@ -55,13 +55,13 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     move.shouldPair = t.team == "V5" ? false : true;
                     toteam.members.push(move);
                     this._nameService.moveTeam(t.name, t.team)
-                        .subscribe(function (a) { console.log('Moved ' + t.name + ' from ' + t.team); }, function (error) { return console.log("error sending to slack" + error); });
+                        .subscribe(function (a) { console.debug('Moved ' + t.name + ' from ' + t.team); }, function (error) { return console.error("error sending to slack" + error); });
                 };
                 AppComponent.prototype.savePairing = function (p) {
                     this._nameService.savePair(p)
-                        .subscribe(function (a) { console.log("pairing saved : " + a); }, function (error) { return console.log("error saving pairing" + error); });
+                        .subscribe(function (a) { console.debug("pairing saved : " + a); }, function (error) { return console.error("error saving pairing" + error); });
                     this._nameService.sendToSlack(p)
-                        .subscribe(function (a) { console.log("sent to slack : " + a); }, function (error) { return console.log("error sending to slack" + error); });
+                        .subscribe(function (a) { console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack" + error); });
                 };
                 AppComponent.prototype.updatePairing = function (p) {
                     this.pairing = p;
@@ -74,7 +74,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                             a.state = person_1.State.Paring;
                         });
                         _this.allteams.push({ "name": t, "members": n });
-                    }, function (error) { return console.log(error); });
+                    }, function (error) { return console.error(error); });
                 };
                 AppComponent.prototype.ngOnInit = function () {
                     this.allteams = [];

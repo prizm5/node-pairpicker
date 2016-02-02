@@ -67,7 +67,6 @@ export class Teams {
     this.pairing.getPairs(teamToShuffle, odd);
     this.onPairingGenerated.emit(this.pairing);
     
-    //console.log('Gen Pairs ' + this.pairing.pairs);
   }
   constructor() {
       

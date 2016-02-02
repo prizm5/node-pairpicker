@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-//var moment = require('Moment');
+var moment = require('Moment');
 var bodyParser = require('body-parser');
 var p = require('./pairpicker.js');
 var utils = require('./utils.js');
@@ -8,8 +8,8 @@ var cookieParser = require('cookie-parser')
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://localhost'
-var db_port = process.env.dbport || 5985
+var db_url = process.env.dburl || 'http://phisql12db01'
+var db_port = process.env.dbport || 5984
 var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
 var async = require('async');
@@ -75,6 +75,7 @@ router.get('/data/cloud', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
         dbb.get('cloud', function (err, doc) {
             if (err) {
+                console.error(err);
                 res.send({});
             }
             else {
@@ -93,12 +94,13 @@ router.post('/moveToCloud', function (req, res) {
 
 router.post('/savePair', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
-        //var now = moment()
-        //var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
-        //var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
-        var doc = {timestamp: new Date().getDate().toLocaleString(), pair: req.body, doc_type: 'pairing'}
+        var now = moment()
+        var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
+        var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
+        //var doc = {timestamp: new Date().to, pair: req.body, doc_type: 'pairing'}
         dbb.save(doc, function (err, doc) {
             if (err) {
+                console.error(err);
                 res.send({});
             }
             else {

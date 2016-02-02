@@ -7,8 +7,8 @@ var async = require('async');
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://localhost'
-var db_port = process.env.dbport || 5985
+var db_url = process.env.dburl || 'http://phisql12db01'
+var db_port = process.env.dbport || 5984
 var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
 var fs = require('fs');
@@ -61,23 +61,10 @@ utils.checktoken = function(token, res, action) {
     res.status(401).end('Invalid token');
   }
   else {
-    console.log('Valid token');
+    //console.log('Valid token');
     action();
   }
 };
-
-var outputFilename = 'developers.json';
-
-var writeDevs = function(){
-    /*fs.writeFile(outputFilename, JSON.stringify(devs, null, 4), function(err) {
-        if(err) {
-        console.log(err);
-        } else {
-        console.log("JSON saved to " + outputFilename);
-        }
-    }); */
-};
-
 
 var remove = function(name, array) {
     var move = {};
@@ -125,7 +112,7 @@ utils.moveToCloud = function(name) {
     
     async.parallel(calls, function(err, result) {
         if (err)
-            return console.log(err);
+            return console.error(err);
             
         clouddoc = result[0];
         devsdoc = result[1]; 
@@ -145,7 +132,7 @@ utils.moveToCloud = function(name) {
         
         async.parallel(saves, function(err, result) {
            if (err)
-                return console.log(err);
+                return console.error(err);
            console.log('All Saved');
         });
     
