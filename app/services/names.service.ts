@@ -7,27 +7,42 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class NameService {
-    constructor(private http: Http) {    }
-      
-    getTeam(t:string) {
-                return this.http.get('api/data/' + t)
-                .map(res =>  <Person[]> res.json())
-                .catch(this.logAndPassOn);
+    private headers: Headers;
+    constructor(private http: Http) { 
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
     }
     
-    sendToSlack(p:Pairing) {
-        console.log('sending to slack: ' + JSON.stringify(p));
-        var headers = new Headers();
-  headers.append('Content-Type', 'application/json');
-        return this.http.post('api', 
-            JSON.stringify(p),{
-                headers: headers
-                })
+    getTeam(t: string) {
+        return this.http.get('api/data/' + t)
+            .map(res => <Person[]>res.json())
             .catch(this.logAndPassOn);
-         
+    }
+
+    sendToSlack(p: Pairing) {       
+        return this.http.post('api',
+            JSON.stringify(p),
+            { headers: this.headers })
+            .catch(this.logAndPassOn);
+
     }
     
-    private logAndPassOn (error: Error) {
+    moveTeam(p:string, teamname:string){
+        var url = '';
+        switch(teamname){
+            case "cloud":
+                url = 'api/moveToDev';
+                break;
+            case "V5":
+                url = 'api/moveToCloud';
+                break;
+        }
+        return this.http.post(url,JSON.stringify({name: p}),
+            { headers: this.headers })
+            .catch(this.logAndPassOn);
+    }
+
+    private logAndPassOn(error: Error) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);

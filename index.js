@@ -8,7 +8,7 @@ var cookieParser = require('cookie-parser')
 var dbname = 'dev_data';
 var cradle = require('cradle');
 var db_url = process.env.dburl || 'http://localhost'
-var db_port = process.env.dbport || 5984
+var db_port = process.env.dbport || 5985
 var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
 
 var async = require('async');
@@ -58,14 +58,6 @@ router.post('/', function (req, res) {
     })); 
 });
 
-router.post('/moveToCloud', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
-        console.log('Valid Token');
-        utils.moveToCloud(req.body)
-        res.status(200).end()
-    }));
-});
-
 router.get('/data/v5', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
@@ -95,11 +87,18 @@ router.get('/data/cloud', function (req, res) {
     }));
 });
 
+router.post('/moveToCloud', function (req, res) {
+    utils.checktoken(req.cookies.token, res, (function () {
+        console.log('Valid Token');
+        utils.moveToCloud(req.body.name)
+        res.status(200).end()
+    }));
+});
 
 router.post('/moveToDev', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
         console.log('Valid Token');
-        utils.moveToDev(req.body)
+        utils.moveToDev(req.body.name)
         res.status(200).end()
     }));
 

@@ -25,6 +25,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             NameService = (function () {
                 function NameService(http) {
                     this.http = http;
+                    this.headers = new http_1.Headers();
+                    this.headers.append('Content-Type', 'application/json');
                 }
                 NameService.prototype.getTeam = function (t) {
                     return this.http.get('api/data/' + t)
@@ -32,12 +34,20 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.sendToSlack = function (p) {
-                    console.log('sending to slack: ' + JSON.stringify(p));
-                    var headers = new http_1.Headers();
-                    headers.append('Content-Type', 'application/json');
-                    return this.http.post('api', JSON.stringify(p), {
-                        headers: headers
-                    })
+                    return this.http.post('api', JSON.stringify(p), { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
+                NameService.prototype.moveTeam = function (p, teamname) {
+                    var url = '';
+                    switch (teamname) {
+                        case "cloud":
+                            url = 'api/moveToDev';
+                            break;
+                        case "V5":
+                            url = 'api/moveToCloud';
+                            break;
+                    }
+                    return this.http.post(url, JSON.stringify({ name: p }), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.logAndPassOn = function (error) {

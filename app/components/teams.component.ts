@@ -3,7 +3,7 @@ import {Team} from '../models/team'
 import {Dev} from './dev.component'
 import {Pairing} from '../models/pair'  
 import {State} from '../models/person'
-
+import {Person} from '../models/person'
 
 @Component({
   styles:[],
@@ -20,7 +20,7 @@ import {State} from '../models/person'
             <div class="col-sm-4 portfolio-item" *ngFor="#team of teams">
                 <h3>{{team.name}}</h3>
                 <hr />
-                <developer [peeps]="team.members">i am developer</developer>
+                <developer [peeps]="team.members" [teamname]="team.name" (click)="onSelect2($event, team.name)">i am developer</developer>
             </div>
          </div>
          <div class="row" >
@@ -39,7 +39,7 @@ import {State} from '../models/person'
   `
   , 
   inputs: ['teams'],
-  outputs:['onPairingGenerated'],
+  outputs:['onPairingGenerated','onSwitchPair'],
   directives: [Dev]
 })
 export class Teams {
@@ -48,7 +48,13 @@ export class Teams {
   public pairing: Pairing;
   
   public onPairingGenerated = new EventEmitter();
-  
+  public onSwitchPair = new EventEmitter();
+   onSelect2(person, teamname) {
+        //this.el.nativeElement.dispatchEvent(new CustomEvent('myCustomEvent', { bubbles: true }));
+        this.onSwitchPair.emit({ name: person.target.id, team: teamname });
+        console.debug(person.target.id);
+    }
+    
   onMakePairs(){
     this.pairing = new Pairing();
     var teamToShuffle: Team = new Team(); 

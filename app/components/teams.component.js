@@ -31,7 +31,13 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
             Teams = (function () {
                 function Teams() {
                     this.onPairingGenerated = new core_1.EventEmitter();
+                    this.onSwitchPair = new core_1.EventEmitter();
                 }
+                Teams.prototype.onSelect2 = function (person, teamname) {
+                    //this.el.nativeElement.dispatchEvent(new CustomEvent('myCustomEvent', { bubbles: true }));
+                    this.onSwitchPair.emit({ name: person.target.id, team: teamname });
+                    console.debug(person.target.id);
+                };
                 Teams.prototype.onMakePairs = function () {
                     this.pairing = new pair_1.Pairing();
                     var teamToShuffle = new team_1.Team();
@@ -48,9 +54,9 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
                     core_1.Component({
                         styles: [],
                         selector: 'teams-section',
-                        template: " \n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n            </div>\n            <div class=\"col-sm-4 portfolio-item\" *ngFor=\"#team of teams\">\n                <h3>{{team.name}}</h3>\n                <hr />\n                <developer [peeps]=\"team.members\">i am developer</developer>\n            </div>\n         </div>\n         <div class=\"row\" >\n           \n            <div class=\"col-sm-2 portfolio-item\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"onMakePairs()\">Generate</button>\n                </a>\n            </div>\n                \n           \n           \n         </div> \n       </div>\n    </section>\n  ",
+                        template: " \n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n            </div>\n            <div class=\"col-sm-4 portfolio-item\" *ngFor=\"#team of teams\">\n                <h3>{{team.name}}</h3>\n                <hr />\n                <developer [peeps]=\"team.members\" [teamname]=\"team.name\" (click)=\"onSelect2($event, team.name)\">i am developer</developer>\n            </div>\n         </div>\n         <div class=\"row\" >\n           \n            <div class=\"col-sm-2 portfolio-item\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"onMakePairs()\">Generate</button>\n                </a>\n            </div>\n                \n           \n           \n         </div> \n       </div>\n    </section>\n  ",
                         inputs: ['teams'],
-                        outputs: ['onPairingGenerated'],
+                        outputs: ['onPairingGenerated', 'onSwitchPair'],
                         directives: [dev_component_1.Dev]
                     }), 
                     __metadata('design:paramtypes', [])

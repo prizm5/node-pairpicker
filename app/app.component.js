@@ -47,6 +47,16 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
                 }
+                AppComponent.prototype.switchTeamMember = function (t) {
+                    var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
+                    var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0];
+                    var move = fromteam.members.filter(function (m) { return m.name == t.name; }).splice(0)[0];
+                    fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; }).splice(0);
+                    move.shouldPair = t.team == "V5" ? false : true;
+                    toteam.members.push(move);
+                    this._nameService.moveTeam(t.name, t.team)
+                        .subscribe(function (a) { console.log('Moved ' + t.name + ' from ' + t.team); }, function (error) { return console.log("error sending to slack" + error); });
+                };
                 AppComponent.prototype.updatePairing = function (p) {
                     this.pairing = p;
                     this._nameService.sendToSlack(p)
@@ -72,7 +82,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
                         providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 

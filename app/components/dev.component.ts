@@ -1,4 +1,4 @@
-import {Component}              from 'angular2/core';
+import {Component, EventEmitter,  Output, ElementRef}              from 'angular2/core';
 import {Person} from '../models/person'
 import {Team} from '../models/team'
 
@@ -20,18 +20,22 @@ import {Team} from '../models/team'
         </span>
         <div type="text" class="form-control" aria-label="...">{{peep.name}}</div>
         <span class="input-group-addon">
-            <a href="#" class="btn btn-default btn-sm dev-btn-switch" id="{{peep.name}}" (click)="onSelect(peep)" role="button">&lt;-&gt;</a>
+            <a href="#" class="btn btn-default btn-sm dev-btn-switch" id="{{peep.name}}" (^click)="onSelect(peep)" role="button">&lt;-&gt;</a>
         </span>
-    </div>
+    </div> 
   `
     ,
-    inputs: ['peeps']
+    inputs: ['peeps', 'teamname']
 })
 export class Dev {
+    public onSwitchPair = new EventEmitter();
+    
     public peeps: Person[];
-    constructor() { }
-    onSelect(person: Person) { console.log(person); }
-    onToggleCheckbox(person: Person, change) {  
+    public teamname: string;
+    constructor( private el: ElementRef) { }
+    
+    
+    onToggleCheckbox(person: Person, change) {
         person.state = change;
     }
 }
