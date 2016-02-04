@@ -73,6 +73,66 @@ router.get('/data/v5', function (req, res) {
 
 });
 
+router.get('/data/paircounts', function (req, res) {
+    utils.checktoken(req.cookies.token, res, (function () {
+        var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+        dbb.view('stats/pairs', function (err, data) {
+            if (err) {
+                console.log(err);
+                res.send({});
+            }
+            else {
+                var pairs = [];
+                var paircounts = {}; // ['Steve:Becky']{count=1}
+                
+                data.map(r => 
+                    r.map(a => 
+                        pairs.push(a.split(' :: '))
+                        ));
+
+                pairs.forEach(f => {
+                    var key1 = f[0] + ":" + f[1];
+                    var key2 = f[1] + ":" + f[0];
+                    if(paircounts[key1]){
+                        paircounts[key1] = paircounts[key1] + 1;
+                    }
+                    else if(paircounts[key2]){
+                        paircounts[key2] = paircounts[key2] + 1 ;
+                    }
+                    else {
+                            paircounts[key1] =  1;
+                    }
+                    console.log(f)
+                 });
+                 res.send(paircounts);
+            };
+        });
+    }));
+
+});
+
+router.get('/data/oddcounts', function (req, res) {
+    utils.checktoken(req.cookies.token, res, (function () {
+        var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+        dbb.view('stats/odd', function (err, data) {
+            if (err) {
+                console.log(err);
+                res.send({});
+            }
+            else {
+                var oddcount = {};
+                data.map(o => {
+                    o.map( p =>
+                    oddcount[p] = oddcount[p] ? oddcount[p] + 1 : 1
+                    )
+                });
+                res.send(oddcount);
+            };
+        });
+    }));
+
+});
+
 router.get('/data/cloud', function (req, res) {
     utils.checktoken(req.cookies.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);

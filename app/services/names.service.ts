@@ -18,6 +18,18 @@ export class NameService {
             .map(res => <Person[]>res.json())
             .catch(this.logAndPassOn);
     }
+    
+    getPairCounts() {
+        return this.http.get('api/data/paircounts')
+            .map(res => res.json())
+            .catch(this.logAndPassOn);
+    }
+    
+    getOddCounts() {
+        return this.http.get('api/data/oddcounts')
+            .map(res => res.json())
+            .catch(this.logAndPassOn);
+    }
  
     sendToSlack(p: Pairing) {       
         return this.http.post('api',

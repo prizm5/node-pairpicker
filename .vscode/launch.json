@@ -16,7 +16,9 @@
 			"env": {
 				"NODE_ENV": "development",
                 "slack_token":"test",
-                "port":"5000"
+                "port":"5000",
+                "dbport":"5985",
+                "dburl":"http://localhost"
 			},
 			"externalConsole": false,
 			"sourceMaps": false,
