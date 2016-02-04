@@ -7,9 +7,8 @@ var async = require('async');
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://localhost'
-var db_port = process.env.dbport || 5985
-var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+var db_url = process.env.dburl || 'http://phisql12db01'
+var db_port = process.env.dbport || 5984
 
 var fs = require('fs');
 
@@ -61,23 +60,10 @@ utils.checktoken = function(token, res, action) {
     res.status(401).end('Invalid token');
   }
   else {
-    console.log('Valid token');
+    //console.log('Valid token');
     action();
   }
 };
-
-var outputFilename = 'developers.json';
-
-var writeDevs = function(){
-    /*fs.writeFile(outputFilename, JSON.stringify(devs, null, 4), function(err) {
-        if(err) {
-        console.log(err);
-        } else {
-        console.log("JSON saved to " + outputFilename);
-        }
-    }); */
-};
-
 
 var remove = function(name, array) {
     var move = {};
@@ -94,6 +80,7 @@ var remove = function(name, array) {
 var getDocs = function(calls) {
      ['cloud','devs'].forEach(function(name){
         calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
             dbb.get(name, function(err, doc) { // remember error first ;)
                 if (err) {
                     return callback(err);
@@ -107,6 +94,7 @@ var getDocs = function(calls) {
 var saveDocs = function(calls, docs) {
      docs.forEach(function(name){
         calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
             dbb.save(name, function(err, doc) { // remember error first ;)
                 if (err) {
                     return callback(err);

@@ -45,19 +45,19 @@ export class AppComponent implements OnInit {
         toteam.members.push(move);
 
         this._nameService.moveTeam(t.name, t.team)
-            .subscribe(a => { console.log('Moved ' + t.name + ' from ' + t.team) },
-            error => console.log("error sending to slack" + error));
+            .subscribe(a => { console.debug('Moved ' + t.name + ' from ' + t.team) },
+            error => console.error("error sending to slack" + error));
     }
 
     savePairing(p: Pairing) {
          
         this._nameService.savePair(p)
-            .subscribe(a => { console.log("pairing saved : " + a) },
-            error => console.log("error saving pairing" + error));
+            .subscribe(a => { console.debug("pairing saved : " + a) },
+            error => console.error("error saving pairing" + error));
             
         this._nameService.sendToSlack(p)
-            .subscribe(a => { console.log("sent to slack : " + a) },
-            error => console.log("error sending to slack" + error));
+            .subscribe(a => { console.debug("sent to slack : " + a) },
+            error => console.error("error sending to slack" + error));
     }
     
     updatePairing(p: Pairing) {
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
                 });
                 this.allteams.push({ "name": t, "members": n });
             },
-            error => console.log(error));
+            error => console.error(error));
     }
 
     ngOnInit() {
