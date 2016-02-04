@@ -46,6 +46,8 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this._nameService = _nameService;
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
+                    this.paircounts = {};
+                    this.oddcounts = {};
                 }
                 AppComponent.prototype.switchTeamMember = function (t) {
                     var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
@@ -76,17 +78,31 @@ System.register(['angular2/core', './components/nav.component', './components/te
                         _this.allteams.push({ "name": t, "members": n });
                     }, function (error) { return console.error(error); });
                 };
+                AppComponent.prototype.getPairCounts = function () {
+                    var _this = this;
+                    this._nameService.getPairCounts().subscribe(function (n) {
+                        _this.paircounts = n;
+                    }, function (error) { return console.error(error); });
+                };
+                AppComponent.prototype.getOddCounts = function () {
+                    var _this = this;
+                    this._nameService.getOddCounts().subscribe(function (n) {
+                        _this.oddcounts = n;
+                    }, function (error) { return console.error(error); });
+                };
                 AppComponent.prototype.ngOnInit = function () {
                     this.allteams = [];
                     this.pairing = new pair_1.Pairing();
                     this.getNames('V5', true);
                     this.getNames('cloud', false);
+                    this.getPairCounts();
+                    this.getOddCounts();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\" (onSavePairing)=\"savePairing($event)\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\" [paircounts]=\"paircounts\" [oddcounts]=\"oddcounts\" (onSavePairing)=\"savePairing($event)\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
                         providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 

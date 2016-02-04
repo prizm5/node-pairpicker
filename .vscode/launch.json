@@ -17,8 +17,8 @@
 				"NODE_ENV": "development",
                 "slack_token":"test",
                 "port":"5000",
-                "dbport":"5985",
-                "dburl":"http://localhost"
+                "dbport":"5984",
+                "dburl":"http://phisql12db01"
 			},
 			"externalConsole": false,
 			"sourceMaps": false,

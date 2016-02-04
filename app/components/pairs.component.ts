@@ -14,14 +14,14 @@ import {Pairing} from '../models/pair'
                     <h3>Pairs</h3>
                     <hr class="star-light">
                     <ul class="list-block">
-                        <li *ngFor="#peep of pairing.pairs">{{peep}}</li>
+                        <li *ngFor="#peep of pairing.pairs">{{peep}} ({{getCount(paircounts, peep)}})</li>
                     </ul>
                 </div>
                 <div class="col-sm-4 text-center">
                     <h3>Odd</h3>
                     <hr class="star-light">
                     <ul class="list-block">
-                        <li *ngFor="#peep of pairing.odd">{{peep}}</li>
+                        <li *ngFor="#peep of pairing.odd">{{peep}} ({{oddcounts[peep.name] ? oddcounts[peep] : 0}})</li>
                     </ul>
                 </div>
             </div>
@@ -37,14 +37,24 @@ import {Pairing} from '../models/pair'
     </section>
     
   `,
-  inputs: ['pairing'],
+  inputs: ['pairing', 'paircounts','oddcounts'],
   outputs:['onSavePairing'],
 })
 export class Pairs {
   public pairing: Pairing;
   public onSavePairing = new EventEmitter();
+  public paircounts = {};
+  public oddcounts = {};
   constructor() { }
+  
+  getCount(data, name){
+      console.log("Getting " + name + " from  " + data);
+      var p = name.replace(" :: ",":");
+      data[p] ? data[p] : 0
+  }
+  
   savePair(){
       this.onSavePairing.emit(this.pairing);
   }
 }
+
