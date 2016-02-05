@@ -23,9 +23,16 @@ System.register(['angular2/core'], function(exports_1) {
                     this.oddcounts = {};
                 }
                 Pairs.prototype.getCount = function (data, name) {
-                    console.log("Getting " + name + " from  " + data);
-                    var p = name.replace(" :: ", ":");
-                    data[p] ? data[p] : 0;
+                    var f = name.split(" :: ");
+                    var key1 = f[0] + ":" + f[1];
+                    var key2 = f[1] + ":" + f[0];
+                    if (data[key1]) {
+                        return data[key1];
+                    }
+                    if (data[key2]) {
+                        return data[key2];
+                    }
+                    return 0;
                 };
                 Pairs.prototype.savePair = function () {
                     this.onSavePairing.emit(this.pairing);
@@ -34,7 +41,7 @@ System.register(['angular2/core'], function(exports_1) {
                     core_1.Component({
                         styles: [],
                         selector: 'pairs-section',
-                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.pairs\">{{peep}} ({{getCount(paircounts, peep)}})</li>\n                    </ul>\n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}} ({{oddcounts[peep.name] ? oddcounts[peep] : 0}})</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-3 portfolio-item\">\n                    <a href=\"#pairs\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\" (click)=\"savePair()\">Save</button>\n                    </a>\n                </div>\n            </div>\n        </div>\n    </section>\n    \n  ",
+                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                     <table class=\"table\">\n                        <tbody>\n                            <tr *ngFor=\"#peep of pairing.pairs\">\n                                <td>{{peep.split(' :: ')[0]}}</td>\n                                <td>{{peep.split(' :: ')[1]}}</td>\n                                <td>({{getCount(paircounts, peep)}})</td>\n                            </tr>\n                        </tbody>\n                     </table>\n                    \n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}} ({{oddcounts[peep] ? oddcounts[peep] : 0}})</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-3 portfolio-item\">\n                    <a href=\"#pairs\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\" (click)=\"savePair()\">Save</button>\n                    </a>\n                </div>\n            </div>\n        </div>\n    </section>\n    \n  ",
                         inputs: ['pairing', 'paircounts', 'oddcounts'],
                         outputs: ['onSavePairing'],
                     }), 

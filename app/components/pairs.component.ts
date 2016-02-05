@@ -13,15 +13,22 @@ import {Pairing} from '../models/pair'
                 <div class="col-sm-4 text-center">
                     <h3>Pairs</h3>
                     <hr class="star-light">
-                    <ul class="list-block">
-                        <li *ngFor="#peep of pairing.pairs">{{peep}} ({{getCount(paircounts, peep)}})</li>
-                    </ul>
+                     <table class="table">
+                        <tbody>
+                            <tr *ngFor="#peep of pairing.pairs">
+                                <td>{{peep.split(' :: ')[0]}}</td>
+                                <td>{{peep.split(' :: ')[1]}}</td>
+                                <td>({{getCount(paircounts, peep)}})</td>
+                            </tr>
+                        </tbody>
+                     </table>
+                    
                 </div>
                 <div class="col-sm-4 text-center">
                     <h3>Odd</h3>
                     <hr class="star-light">
                     <ul class="list-block">
-                        <li *ngFor="#peep of pairing.odd">{{peep}} ({{oddcounts[peep.name] ? oddcounts[peep] : 0}})</li>
+                        <li *ngFor="#peep of pairing.odd">{{peep}} ({{oddcounts[peep] ? oddcounts[peep] : 0}})</li>
                     </ul>
                 </div>
             </div>
@@ -48,9 +55,16 @@ export class Pairs {
   constructor() { }
   
   getCount(data, name){
-      console.log("Getting " + name + " from  " + data);
-      var p = name.replace(" :: ",":");
-      data[p] ? data[p] : 0
+      var f = name.split(" :: ");
+      var key1 = f[0] + ":" + f[1];
+      var key2 = f[1] + ":" + f[0];
+      if(data[key1]){
+          return data[key1];
+      }
+      if(data[key2]){
+          return data[key2];
+      }
+      return 0;
   }
   
   savePair(){

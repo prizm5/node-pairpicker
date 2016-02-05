@@ -102,7 +102,6 @@ router.get('/data/paircounts', function (req, res) {
                     else {
                             paircounts[key1] =  1;
                     }
-                    console.log(f)
                  });
                  res.send(paircounts);
             };
