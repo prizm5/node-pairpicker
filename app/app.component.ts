@@ -19,7 +19,7 @@ import 'rxjs/Rx';
     template: `
   <nav-section><h1>I nav loaded...</h1></nav-section>
   <teams-section [teams]="allteams" (onPairingGenerated)="updatePairing($event)" (onSwitchPair)="switchTeamMember($event)"><h1>I nav loaded...</h1></teams-section>
-  <pairs-section [pairing]="pairing" (onSavePairing)="savePairing($event)"><h1>I nav loaded...</h1></pairs-section>
+  <pairs-section [pairing]="pairing" [paircounts]="paircounts" [oddcounts]="oddcounts" (onSavePairing)="savePairing($event)"><h1>I nav loaded...</h1></pairs-section>
   <footer-section><h1>I footer loaded...</h1></footer-section>
   `,
     directives: [Nav, Teams, Pairs, Footer],
@@ -31,7 +31,8 @@ export class AppComponent implements OnInit {
     public isNavCollapsed = true;
     public allteams: Team[];
     public pairing: Pairing;
-
+    public paircounts = {};
+    public oddcounts = {};
     constructor(private _nameService: NameService) { }
 
     switchTeamMember(t) {
@@ -75,12 +76,30 @@ export class AppComponent implements OnInit {
             },
             error => console.error(error));
     }
+    
+    getPairCounts() {
+        this._nameService.getPairCounts().subscribe(
+            n => {
+                this.paircounts = n;
+            },
+            error => console.error(error));
+    }
+    
+    getOddCounts() {
+        this._nameService.getOddCounts().subscribe(
+            n => {
+                this.oddcounts = n;
+            },
+            error => console.error(error));
+    }
 
     ngOnInit() {
         this.allteams = [];
         this.pairing = new Pairing();
         this.getNames('V5', true);
         this.getNames('cloud', false);
+        this.getPairCounts();
+        this.getOddCounts();
     }
 } 
 
