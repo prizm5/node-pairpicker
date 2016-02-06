@@ -24,15 +24,11 @@ import {Person} from '../models/person'
             </div>
          </div>
          <div class="row" >
-           
-            <div class="col-sm-2 portfolio-item">
+            <div class="col-sm-2 portfolio-item page-scroll">
                 <a href="#pairs">
                 <button type="submit" class="btn btn-success btn-lg" (click)="onMakePairs()">Generate</button>
                 </a>
             </div>
-                
-           
-           
          </div> 
        </div>
     </section>
