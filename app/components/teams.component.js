@@ -34,9 +34,10 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
                     this.onSwitchPair = new core_1.EventEmitter();
                 }
                 Teams.prototype.onSelect2 = function (person, teamname) {
-                    //this.el.nativeElement.dispatchEvent(new CustomEvent('myCustomEvent', { bubbles: true }));
-                    this.onSwitchPair.emit({ name: person.target.id, team: teamname });
-                    console.debug(person.target.id);
+                    if (person.target.id !== "") {
+                        this.onSwitchPair.emit({ name: person.target.id, team: teamname });
+                        console.debug(person.target.id);
+                    }
                 };
                 Teams.prototype.onMakePairs = function () {
                     this.pairing = new pair_1.Pairing();

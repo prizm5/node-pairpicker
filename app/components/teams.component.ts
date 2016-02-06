@@ -50,9 +50,10 @@ export class Teams {
   public onPairingGenerated = new EventEmitter();
   public onSwitchPair = new EventEmitter();
    onSelect2(person, teamname) {
-        //this.el.nativeElement.dispatchEvent(new CustomEvent('myCustomEvent', { bubbles: true }));
-        this.onSwitchPair.emit({ name: person.target.id, team: teamname });
-        console.debug(person.target.id);
+       if(person.target.id !== ""){
+            this.onSwitchPair.emit({ name: person.target.id, team: teamname });
+            console.debug(person.target.id);
+        }
     }
     
   onMakePairs(){
