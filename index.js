@@ -61,7 +61,7 @@ router.get('/data/v5', function (req, res) {
         dbb.get('devs', function (err, doc) {
             if (err) {
                 console.log(err);
-                res.send({});
+                res.status(500).end();
             }
             else {
                 res.send(doc.names);
@@ -74,34 +74,14 @@ router.get('/data/v5', function (req, res) {
 router.get('/data/paircounts', function (req, res) {
     utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
-        dbb.view('stats/pairs', function (err, data) {
+        dbb.view('stats/paircounts', {group: true, reduce: true}, function (err, data) {
             if (err) {
                 console.log(err);
-                res.send({});
+                res.status(500).end();
             }
             else {
-                var pairs = [];
-                var paircounts = {}; // ['Steve:Becky']{count=1}
                 
-                data.map(r => 
-                    r.map(a => 
-                        pairs.push(a.split(' :: '))
-                        ));
-
-                pairs.forEach(f => {
-                    var key1 = f[0] + ":" + f[1];
-                    var key2 = f[1] + ":" + f[0];
-                    if(paircounts[key1]){
-                        paircounts[key1] = paircounts[key1] + 1;
-                    }
-                    else if(paircounts[key2]){
-                        paircounts[key2] = paircounts[key2] + 1 ;
-                    }
-                    else {
-                            paircounts[key1] =  1;
-                    }
-                 });
-                 res.send(paircounts);
+                 res.send(data);
             };
         });
     }));
@@ -111,19 +91,13 @@ router.get('/data/paircounts', function (req, res) {
 router.get('/data/oddcounts', function (req, res) {
     utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
-        dbb.view('stats/odd', function (err, data) {
+        dbb.view('stats/oddcounts',  {group: true, reduce: true}, function (err, data, keys) {
             if (err) {
                 console.log(err);
-                res.send({});
+                res.status(500).end();
             }
             else {
-                var oddcount = {};
-                data.map(o => {
-                    o.map( p =>
-                    oddcount[p] = oddcount[p] ? oddcount[p] + 1 : 1
-                    )
-                });
-                res.send(oddcount);
+                res.send(data);
             };
         });
     }));
@@ -136,7 +110,7 @@ router.get('/data/cloud', function (req, res) {
         dbb.get('cloud', function (err, doc) {
             if (err) {
                 console.log(err);
-                res.send({});
+                res.status(500).end();
             }
             else {
                 res.send(doc.names);
@@ -152,16 +126,50 @@ router.post('/moveToCloud', function (req, res) {
     }));
 });
 
+router.get('/cleandb', function (req, res) {
+     /*
+     var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+     dbb.view('paring/all',function (err, doc) {
+            if (err) {
+                console.log(err);
+                res.send(500);
+            }
+            else {
+                doc.forEach(d =>{
+                    dbb.remove(d._id,d._rev, function (err, doc) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        else {
+                            return;
+                        }
+                    });
+                })
+                res.status(200).end();
+            }
+        });
+    */
+    res.status(200).end();
+});
 router.post('/savePair', function (req, res) {
     utils.checktoken(req.query.token, res, (function () {
         var now = moment()
         var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
-        var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
+        var docs = [];
+        
+        req.body.pairs.forEach(p => {
+            docs.push({timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'pairing'});
+        });
+        
+        req.body.odd.forEach(p => {
+            docs.push({timestamp: formatted, data: p, doc_type: 'odd'});
+        });
+        
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
-        dbb.save(doc, function (err, doc) {
+        dbb.save(docs, function (err, doc) {
             if (err) {
                 console.log(err);
-                res.send({});
+                res.send(500);
             }
             else {
                 res.send(req.body);

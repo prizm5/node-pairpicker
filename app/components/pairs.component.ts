@@ -27,14 +27,14 @@ import {Pairing} from '../models/pair'
                     <h3>Odd</h3>
                     <hr class="star-light">
                     <ul class="list-block">
-                        <li *ngFor="#peep of pairing.odd">{{peep}} ({{oddcounts[peep] ? oddcounts[peep] : 0}})</li>
+                        <li *ngFor="#peep of pairing.odd">{{peep}} ({{getCount(oddcounts,peep)}})</li>
                     </ul>
                 </div>
             </div>
             <div class="row">
                 <hr>
                 <div class="col-sm-1 portfolio-item">
-                    <a href="#myModal" class="portfolio-link" data-toggle="modal" >
+                    <a href="#myModal" class="portfolio-link" data-toggle="modal">
                         <button type="submit" class="btn btn-primary btn-lg" (click)="savePair()">Save</button>
                     </a>
                 </div>
@@ -76,20 +76,15 @@ export class Pairs {
   constructor() { }
   
   getCount(data, name){
-      var f = name.split(" :: ");
-      var key1 = f[0] + ":" + f[1];
-      var key2 = f[1] + ":" + f[0];
-      if(data[key1]){
-          return data[key1];
-      }
-      if(data[key2]){
-          return data[key2];
+      if(data){
+          var c = data.filter(a => a.key == name);
+          return c[0] ? c[0].value : 0;
       }
       return 0;
   }
   
   savePair(){
-      if(this.pairing.pairs.length>0 && this.pairing.odd.length >0){
+      if(this.pairing.pairs.length > 0 || this.pairing.odd.length > 0){
         this.canSavePairs=false;
         this.onSavePairing.emit(this.pairing);
       }

@@ -89,6 +89,8 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.savePairingToDb(p);
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack" + error); });
+                    this.getPairCounts();
+                    this.getOddCounts();
                 };
                 AppComponent.prototype.updatePairing = function (p) {
                     this.canSave = true;

@@ -80,6 +80,10 @@ export class AppComponent implements OnInit {
         this._nameService.sendToSlack(p)
             .subscribe(a => { console.debug("sent to slack : " + a) },
             error => console.error("error sending to slack" + error));
+       
+       this.getPairCounts();
+       this.getOddCounts();
+       
     }
     
     updatePairing(p: Pairing) {
