@@ -1,6 +1,6 @@
 import {Person} from './person'
 
-export interface Team {
+export class Team {
     name: string;
     members: Person[]
 }

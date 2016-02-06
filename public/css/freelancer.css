@@ -16,6 +16,10 @@ p.small {
     font-size: 16px;
 }
 
+table tbody tr td {
+    font-size: 19px;
+}
+
 .list-inline {
     font-size: 22px;
 }
@@ -113,6 +117,12 @@ header .intro-text .skills {
     font-weight: 300;
 }
 
+#logo {
+    height: 60px;
+    float: left;
+    margin: 0px 20px 0px -15px;
+}
+
 @media(min-width:768px) {
     header .container {
         padding-top: 200px;
@@ -166,6 +176,16 @@ header .intro-text .skills {
 .navbar .navbar-nav {
     letter-spacing: 1px;
 }
+.list-block {
+  padding-left: 0;
+  list-style: none;
+  font-size: large;
+}
+.list-block > li {
+  display: block;
+  padding-left: 5px;
+  padding-right: 5px;
+}
 
 .navbar .navbar-nav li a:focus {
     outline: 0;
@@ -206,6 +226,11 @@ section.success a.active {
 
     section.first {
         padding-top: 75px;
+    }
+    
+    #logo{
+        margin: 0px 15px 0px 0px;
+        height: 50px;
     }
 }
 

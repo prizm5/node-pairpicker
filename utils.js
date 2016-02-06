@@ -3,13 +3,18 @@ var utils = {};
 var Slack = require('node-slack');
 var slack = new Slack(process.env.heroku_hook);
 var slack_token = process.env.slack_token;
+var async = require('async');
+
+var dbname = 'dev_data';
+var cradle = require('cradle');
+var db_url = process.env.dburl || 'http://phisql12db01'
+var db_port = process.env.dbport || 5984
 
 var fs = require('fs');
-var devs = require('./developers.json');
 
 var mapnames = function (pairs) {
   return pairs.map(function (pair) {
-    return pair.join(",")
+    return pair.replace(" :: ",",")
   }).join(" | ")
 };
 
@@ -21,8 +26,9 @@ var mapodd = function (pairs) {
 };
 
 utils.sendSlackText = function (parings) {
+  console.log("utils send to slack " + parings);
   var names = mapnames(parings.pairs);
-  var odders = mapodd(parings.odders);
+  var odders = mapodd(parings.odd);
   
   var msg = {"text": "Pair Assignement",
    "attachments": [
@@ -54,22 +60,10 @@ utils.checktoken = function(token, res, action) {
     res.status(401).end('Invalid token');
   }
   else {
+    //console.log('Valid token');
     action();
   }
 };
-
-var outputFilename = 'developers.json';
-
-var writeDevs = function(){
-    fs.writeFile(outputFilename, JSON.stringify(devs, null, 4), function(err) {
-        if(err) {
-        console.log(err);
-        } else {
-        console.log("JSON saved to " + outputFilename);
-        }
-    }); 
-};
-
 
 var remove = function(name, array) {
     var move = {};
@@ -83,20 +77,103 @@ var remove = function(name, array) {
     console.log('removed ' + move);
 };
 
+var getDocs = function(calls) {
+     ['cloud','devs'].forEach(function(name){
+        calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+            dbb.get(name, function(err, doc) { // remember error first ;)
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, doc);
+            });        
+        })
+    });
+}
+
+var saveDocs = function(calls, docs) {
+     docs.forEach(function(name){
+        calls.push(function(callback) {
+            var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+            dbb.save(name, function(err, doc) { // remember error first ;)
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, doc);
+            });        
+        })
+    });
+}
+
 utils.moveToCloud = function(name) {
-    var n = name.name;
-    console.log('moving to cloud: ' + n);
-    var add = remove(n, devs.devs)
-    if(add) devs.cloud.push(add);
-    writeDevs();
+    
+    var clouddoc,devsdoc = {};
+    var calls = [];
+    getDocs(calls);
+    
+    async.parallel(calls, function(err, result) {
+        if (err)
+            return console.log(err);
+            
+        clouddoc = result[0];
+        devsdoc = result[1]; 
+        
+        var newdevs = devsdoc.names.filter(n=> n.name === name).splice(0)[0];
+        devsdoc.names = devsdoc.names.filter(n=> n.name !== name).splice(0);;
+        
+        clouddoc.names.push(newdevs);
+        
+        console.log(clouddoc);
+        
+        var saves = [];
+        var docs = [];
+        docs.push(devsdoc);
+        docs.push(clouddoc);
+        saveDocs(saves,docs); 
+        
+        async.parallel(saves, function(err, result) {
+           if (err)
+                return console.log(err);
+           console.log('All Saved');
+        });
+    
+    });
+    
+
 };
 
 utils.moveToDev = function(name) {
-    var n = name.name;
-    console.log('moving to dev: ' + n);
-    var add = remove(n, devs.cloud)
-    if(add) devs.devs.push(add);
-    writeDevs();
+  var clouddoc,devsdoc = {};
+    var calls = [];
+    getDocs(calls);
+    
+    async.parallel(calls, function(err, result) {
+        if (err)
+            return console.log(err);
+            
+        clouddoc = result[0];
+        devsdoc = result[1]; 
+        
+        var newdevs = clouddoc.names.filter(n=> n.name === name).splice(0)[0];
+        clouddoc.names = clouddoc.names.filter(n=> n.name !== name).splice(0);
+        
+        devsdoc.names.push(newdevs);
+        
+        console.log(clouddoc);
+        
+        var saves = [];
+        var docs = [];
+        docs.push(devsdoc);
+        docs.push(clouddoc);
+        saveDocs(saves,docs); 
+        
+        async.parallel(saves, function(err, result) {
+           if (err)
+                return console.log(err);
+           console.log('All Saved');
+        });
+    
+    });
 };
 
 module.exports = utils;
