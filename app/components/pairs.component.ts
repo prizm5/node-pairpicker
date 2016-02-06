@@ -15,7 +15,7 @@ import {Pairing} from '../models/pair'
                     <hr class="star-light">
                      <table class="table">
                         <tbody>
-                            <tr *ngFor="#peep of pairing.pairs">
+                            <tr *ngFor="#peep of pairing.pairs" class="modal-body">
                                 <td>{{peep.split(' :: ')[0]}}</td>
                                 <td>{{peep.split(' :: ')[1]}}</td>
                                 <td>({{getCount(paircounts, peep)}})</td>
@@ -34,38 +34,37 @@ import {Pairing} from '../models/pair'
             <div class="row">
                 <hr>
                 <div class="col-sm-1 portfolio-item">
-                    
-                    <a href="#myModal" class="portfolio-link" data-toggle="modal">
+                    <a href="#myModal" class="portfolio-link" data-toggle="modal" >
                         <button type="submit" class="btn btn-primary btn-lg" (click)="savePair()">Save</button>
                     </a>
                 </div>
-                 <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
-                                    <!-- /.modal-content -->
-                                </div>
-                                <!-- /.modal-dialog -->
-                            </div>
-                            <!-- /.modal -->
+
             </div>
         </div>
     </section>
+    <!-- Modal -->
     
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Pairing</h4>
+                </div>
+                <div class="modal-body">
+                   <p class="medium">Saved</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+<!-- /.modal -->    
   `,
-  inputs: ['pairing', 'paircounts','oddcounts'],
+  inputs: ['pairing', 'paircounts','oddcounts','canSavePairs'],
   outputs:['onSavePairing'],
 })
 export class Pairs {
@@ -73,6 +72,7 @@ export class Pairs {
   public onSavePairing = new EventEmitter();
   public paircounts = {};
   public oddcounts = {};
+  public canSavePairs = false;
   constructor() { }
   
   getCount(data, name){
@@ -89,7 +89,10 @@ export class Pairs {
   }
   
   savePair(){
-      this.onSavePairing.emit(this.pairing);
+      if(this.pairing.pairs.length>0 && this.pairing.odd.length >0){
+        this.canSavePairs=false;
+        this.onSavePairing.emit(this.pairing);
+      }
   }
 }
 

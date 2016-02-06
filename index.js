@@ -31,9 +31,7 @@ app.get('/', function (request, response) {
     if (isProd && schema === 'http') {
         response.redirect('https://' + request.headers.host + request.url);
     }
-    var token = request.query.token;
-    utils.checktoken(token, response, (function () {
-        response.cookie('token', token, { maxAge: 900000, httpsOnly: true });
+    utils.checktoken(request.query.token, response, (function () {
         response.sendfile('/some.html', { root: __dirname + "/public" });
     }));
 });
@@ -50,7 +48,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         console.log('post api send to slack: ' + req.body);
         utils.sendSlackText(req.body)
         res.status(200).end()
@@ -58,7 +56,7 @@ router.post('/', function (req, res) {
 });
 
 router.get('/data/v5', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.get('devs', function (err, doc) {
             if (err) {
@@ -74,7 +72,7 @@ router.get('/data/v5', function (req, res) {
 });
 
 router.get('/data/paircounts', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.view('stats/pairs', function (err, data) {
             if (err) {
@@ -111,7 +109,7 @@ router.get('/data/paircounts', function (req, res) {
 });
 
 router.get('/data/oddcounts', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.view('stats/odd', function (err, data) {
             if (err) {
@@ -133,7 +131,7 @@ router.get('/data/oddcounts', function (req, res) {
 });
 
 router.get('/data/cloud', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.get('cloud', function (err, doc) {
             if (err) {
@@ -148,18 +146,17 @@ router.get('/data/cloud', function (req, res) {
 });
 
 router.post('/moveToCloud', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         utils.moveToCloud(req.body.name)
         res.status(200).end()
     }));
 });
 
 router.post('/savePair', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         var now = moment()
         var formatted = now.format('YYYY-MM-DD HH:mm:ss Z')
         var doc = {timestamp: formatted, pair: req.body, doc_type: 'pairing'}
-        //var doc = {timestamp: new Date().to, pair: req.body, doc_type: 'pairing'}
         var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
         dbb.save(doc, function (err, doc) {
             if (err) {
@@ -175,7 +172,7 @@ router.post('/savePair', function (req, res) {
 });
 
 router.post('/moveToDev', function (req, res) {
-    utils.checktoken(req.cookies.token, res, (function () {
+    utils.checktoken(req.query.token, res, (function () {
         utils.moveToDev(req.body.name)
         res.status(200).end()
     }));
