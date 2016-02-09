@@ -28,6 +28,14 @@ System.register([], function(exports_1) {
                     this.odd = odd.map(function (a) { return a.name; });
                     split.forEach(function (element, index, array) {
                         if (element.length === 2) {
+                            element.sort(function (a, b) {
+                                var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
+                                if (nameA < nameB)
+                                    return -1;
+                                if (nameA > nameB)
+                                    return 1;
+                                return 0; //default return value (no sorting)
+                            });
                             _this.pairs.push(element[0].name + " :: " + element[1].name);
                         }
                         else {

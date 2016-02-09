@@ -46,47 +46,109 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this._nameService = _nameService;
                     this.title = 'Pair Picker';
                     this.isNavCollapsed = true;
+                    this.paircounts = {};
+                    this.oddcounts = {};
+                    this.canSave = false;
                 }
                 AppComponent.prototype.switchTeamMember = function (t) {
-                    var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
-                    var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0];
-                    var move = fromteam.members.filter(function (m) { return m.name == t.name; }).splice(0)[0];
-                    fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; }).splice(0);
-                    move.shouldPair = t.team == "V5" ? false : true;
-                    toteam.members.push(move);
-                    this._nameService.moveTeam(t.name, t.team)
-                        .subscribe(function (a) { console.debug('Moved ' + t.name + ' from ' + t.team); }, function (error) { return console.error("error sending to slack" + error); });
+                    if (t.name) {
+                        var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
+                        var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0];
+                        var move = fromteam.members.filter(function (m) { return m.name == t.name; }).splice(0)[0];
+                        fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; }).splice(0);
+                        move.shouldPair = t.team == "V5" ? false : true;
+                        toteam.members.push(move);
+                        this.moveTeam(t.name, t.team);
+                    }
+                };
+                AppComponent.prototype.moveTeam = function (name, team, retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.moveTeam(name, team)
+                        .subscribe(function (a) {
+                        console.debug('Moved ' + name + ' from ' + team);
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.moveTeam(name, team, retry);
+                        console.error("error sending to slack" + error);
+                    });
+                };
+                AppComponent.prototype.savePairingToDb = function (p, retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.savePair(p)
+                        .subscribe(function (a) { console.debug("pairing saved : " + a); }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.savePairingToDb(p, retry);
+                        console.error("error saving pairing" + error);
+                    });
                 };
                 AppComponent.prototype.savePairing = function (p) {
-                    this._nameService.savePair(p)
-                        .subscribe(function (a) { console.debug("pairing saved : " + a); }, function (error) { return console.error("error saving pairing" + error); });
+                    this.savePairingToDb(p);
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack" + error); });
+                    this.getPairCounts();
+                    this.getOddCounts();
                 };
                 AppComponent.prototype.updatePairing = function (p) {
+                    this.canSave = true;
                     this.pairing = p;
                 };
-                AppComponent.prototype.getNames = function (t, p) {
+                AppComponent.prototype.getNames = function (t, p, retry) {
                     var _this = this;
+                    if (retry === void 0) { retry = 0; }
                     this._nameService.getTeam(t).subscribe(function (n) {
                         n.forEach(function (a) {
                             a.shouldPair = p;
                             a.state = person_1.State.Paring;
                         });
                         _this.allteams.push({ "name": t, "members": n });
-                    }, function (error) { return console.error(error); });
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.getNames(t, p, retry);
+                        console.error(error);
+                    });
+                };
+                AppComponent.prototype.getPairCounts = function (retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.getPairCounts().subscribe(function (n) {
+                        _this.paircounts = n;
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.getPairCounts(retry);
+                        console.error(error);
+                    });
+                };
+                AppComponent.prototype.getOddCounts = function (retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.getOddCounts().subscribe(function (n) {
+                        _this.oddcounts = n;
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.getOddCounts(retry);
+                        console.error(error);
+                    });
                 };
                 AppComponent.prototype.ngOnInit = function () {
                     this.allteams = [];
                     this.pairing = new pair_1.Pairing();
                     this.getNames('V5', true);
                     this.getNames('cloud', false);
+                    this.getPairCounts();
+                    this.getOddCounts();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n  <pairs-section [pairing]=\"pairing\" (onSavePairing)=\"savePairing($event)\"><h1>I nav loaded...</h1></pairs-section>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n        <nav-section><h1>I nav loaded...</h1></nav-section>\n        <teams-section [teams]=\"allteams\" (onPairingGenerated)=\"updatePairing($event)\" (onSwitchPair)=\"switchTeamMember($event)\"><h1>I nav loaded...</h1></teams-section>\n        <pairs-section [pairing]=\"pairing\" [paircounts]=\"paircounts\" [oddcounts]=\"oddcounts\" [canSavePairs]='canSave' (onSavePairing)=\"savePairing($event)\"><h1>I nav loaded...</h1></pairs-section>\n        <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
                         providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
                     }), 

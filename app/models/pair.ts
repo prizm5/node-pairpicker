@@ -35,6 +35,14 @@ export class Pairing {
         this.odd = odd.map(a => a.name);
         split.forEach((element: Person[], index, array) => {
             if (element.length === 2) {
+                element.sort(function(a, b){
+                    var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+                    if (nameA < nameB) //sort string ascending
+                    return -1 
+                    if (nameA > nameB)
+                    return 1
+                    return 0 //default return value (no sorting)
+                    });
                 this.pairs.push(element[0].name + " :: " + element[1].name);
             }
             else {

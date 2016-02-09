@@ -25,20 +25,31 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             NameService = (function () {
                 function NameService(http) {
                     this.http = http;
+                    this.searchtoken = window.location.search;
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
                 NameService.prototype.getTeam = function (t) {
-                    return this.http.get('api/data/' + t)
+                    return this.http.get('api/data/' + t + this.searchtoken)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.logAndPassOn);
+                };
+                NameService.prototype.getPairCounts = function () {
+                    return this.http.get('api/data/paircounts' + this.searchtoken)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.logAndPassOn);
+                };
+                NameService.prototype.getOddCounts = function () {
+                    return this.http.get('api/data/oddcounts' + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.sendToSlack = function (p) {
-                    return this.http.post('api', JSON.stringify(p), { headers: this.headers })
+                    return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.savePair = function (p) {
-                    return this.http.post('api/savePair', JSON.stringify(p), { headers: this.headers })
+                    return this.http.post('api/savePair' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.moveTeam = function (p, teamname) {
@@ -51,7 +62,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                             url = 'api/moveToCloud';
                             break;
                     }
-                    return this.http.post(url, JSON.stringify({ name: p }), { headers: this.headers })
+                    return this.http.post(url + this.searchtoken, JSON.stringify({ name: p }), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.logAndPassOn = function (error) {
