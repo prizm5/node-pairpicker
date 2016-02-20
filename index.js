@@ -8,8 +8,8 @@ var cookieParser = require('cookie-parser')
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://phisql12db01'
-var db_port = process.env.dbport || 5984
+var db_url = process.env.dburl || 'http://localhost'
+var db_port = process.env.dbport || 5985
 
 var port = process.env.port || app.get('port');
 var async = require('async');
