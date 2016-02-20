@@ -16,12 +16,14 @@ import {Person} from '../models/person'
                 <div class="col-lg-12 text-center">
                     <h2>Workflows</h2>
                     <hr class="star-primary">
+                </div>
             </div>
-            <div class="col-sm-4 portfolio-item" *ngFor="#team of teams">
-                <h3>{{team.name}}</h3>
-                <hr />
-                <developer [peeps]="team.members" [teamname]="team.name" (click)="onSelect2($event, team.name)">i am developer</developer>
-            </div>
+            <div class="row" >
+                <div class="col-sm-6 portfolio-item" *ngFor="#team of teams">
+                    <h3>{{team.name}}</h3>
+                    <hr />
+                    <developer [peeps]="team.members" [teamname]="team.name" (click)="onSelect2($event, team.name)">i am developer</developer>
+                </div>
          </div>
          <div class="row" >
             <div class="col-sm-2 portfolio-item page-scroll">
@@ -46,7 +48,7 @@ export class Teams {
   public onPairingGenerated = new EventEmitter();
   public onSwitchPair = new EventEmitter();
    onSelect2(person, teamname) {
-       if(person.target.id !== ""){
+       if(person.target && person.target.id !== ""){
             this.onSwitchPair.emit({ name: person.target.id, team: teamname });
             console.debug(person.target.id);
         }
