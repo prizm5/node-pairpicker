@@ -21,7 +21,7 @@ import {Team} from '../models/team'
         </span>
         <div type="text" class="form-control" aria-label="...">{{peep.name}}</div>
         <span class="input-group-addon">
-            <a href="#" class="btn btn-default btn-sm dev-btn-switch" id="{{peep.name}}" (^click)="onSelect(peep)" role="button">&lt;-&gt;</a>
+            <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal" id="{{peep.name}}" (^click)="onSelect(peep)" role="button"></button>
         </span>
     </div>
   `
