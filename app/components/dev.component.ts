@@ -23,19 +23,19 @@ import {Team} from '../models/team'
         <span class="input-group-addon">
             <a href="#" class="btn btn-default btn-sm dev-btn-switch" id="{{peep.name}}" (^click)="onSelect(peep)" role="button">&lt;-&gt;</a>
         </span>
-    </div> 
+    </div>
   `
     ,
     inputs: ['peeps', 'teamname']
 })
 export class Dev {
     public onSwitchPair = new EventEmitter();
-    
+
     public peeps: Person[];
     public teamname: string;
     constructor( private el: ElementRef) { }
-    
-    
+
+
     onToggleCheckbox(person: Person, change) {
         person.state = change;
     }
