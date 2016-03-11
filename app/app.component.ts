@@ -49,15 +49,15 @@ export class AppComponent implements OnInit {
             this.moveTeam(t.name, t.team);
         }
     }
-    
+
     moveTeam(name,team, retry=0){
         this._nameService.moveTeam(name, team)
-            .subscribe(a => { 
-                console.debug('Moved ' + name + ' from ' + team) 
+            .subscribe(a => {
+                console.debug('Moved ' + name + ' from ' + team)
             },
             error => {
                 retry++;
-                if(retry<4) this.moveTeam(name, team, retry)    
+                if(retry<4) this.moveTeam(name, team, retry)
                 console.error("error sending to slack" + error)
             });
     }
@@ -70,25 +70,25 @@ export class AppComponent implements OnInit {
                 if(retry < 4) this.savePairingToDb(p, retry);
                 console.error("error saving pairing" + error)
             });
-       
+
     }
-    
+
     savePairing(p: Pairing) {
-         
+
         this.savePairingToDb(p);
-            
+
         this._nameService.sendToSlack(p)
             .subscribe(a => { console.debug("sent to slack : " + a) },
             error => console.error("error sending to slack" + error));
-       
+
        this.getPairCounts();
        this.getOddCounts();
-       
+
     }
-    
+
     updatePairing(p: Pairing) {
         this.canSave = true;
-        this.pairing = p; 
+        this.pairing = p;
     }
 
     getNames(t, p, retry=0) {
@@ -96,17 +96,17 @@ export class AppComponent implements OnInit {
             n => {
                 n.forEach(a => {
                     a.shouldPair = p;
-                    a.state = State.Paring;
+                    a.state = State.RandomPairing;
                 });
                 this.allteams.push({ "name": t, "members": n });
             },
-            error => { 
+            error => {
                 retry++;
                 if(retry < 4) this.getNames(t, p, retry);
                 console.error(error);
             });
     }
-    
+
     getPairCounts(retry=0) {
         this._nameService.getPairCounts().subscribe(
             n => {
@@ -118,7 +118,7 @@ export class AppComponent implements OnInit {
                 console.error(error);
             });
     }
-    
+
     getOddCounts(retry=0) {
         this._nameService.getOddCounts().subscribe(
             n => {
@@ -139,6 +139,6 @@ export class AppComponent implements OnInit {
         this.getPairCounts();
         this.getOddCounts();
     }
-} 
+}
 
 

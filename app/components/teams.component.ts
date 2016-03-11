@@ -59,7 +59,7 @@ export class Teams {
     var teamToShuffle: Team = new Team(); 
     teamToShuffle.name = "V5";
     var v5 = this.teams.filter(f => f.name == "V5")[0];
-    teamToShuffle.members = v5.members.filter(t => t.state === State.Paring)
+    teamToShuffle.members = v5.members.filter(t => t.state === State.RandomPairing)
                                 .splice(0);
     
     var odd = v5.members.filter(t =>  t.state === State.Odd).splice(0);
