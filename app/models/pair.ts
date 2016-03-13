@@ -13,9 +13,8 @@ export class Pairing {
         this.odd = [];
     }
 
-    public shuffle (o:Person[]) {
+    public shuffle <T> (o: T[]): void {
         for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-        return o.map(p => p.name);
     }
 
     private splitarray (input, spacing) {
