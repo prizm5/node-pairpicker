@@ -28,7 +28,7 @@ import {Person} from '../models/person'
          <div class="row" >
             <div class="col-sm-2 portfolio-item page-scroll">
                 <a href="#pairs">
-                <button type="submit" class="btn btn-success btn-lg" (click)="onMakePairs()">Generate</button>
+                <button type="submit" class="btn btn-success btn-lg" (click)="generatePairs()">Generate</button>
                 </a>
             </div>
          </div>
@@ -54,7 +54,7 @@ export class Teams {
         }
     }
 
-  onMakePairs(){
+  generatePairs () {
     this.pairing = new Pairing();
     var teamToShuffle: Team = new Team();
     teamToShuffle.name = "V5";
@@ -63,7 +63,7 @@ export class Teams {
                                 .splice(0);
 
     var odd = v5.members.filter(t =>  t.state === State.Odd).splice(0);
-    this.pairing.getPairs(teamToShuffle, odd);
+    this.pairing.generatePairs(teamToShuffle, odd);
     this.onPairingGenerated.emit(this.pairing);
 
   }

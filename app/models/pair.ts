@@ -28,7 +28,7 @@ export class Pairing {
         return output;
     } 
 
-    public getPairs(team: Team, odd:Person[]) {
+    public generatePairs (team: Team, odd:Person[]) {
         this.shuffle(team.members);
         var split = this.splitarray(team.members, 2);
         this.pairs = [];
