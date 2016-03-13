@@ -42,7 +42,6 @@ import {Person} from '../models/person'
 })
 export class Teams {
   public teams: Team[];
-
   public pairing: Pairing;
 
   public onPairingGenerated = new EventEmitter();
@@ -55,20 +54,29 @@ export class Teams {
     }
 
   generatePairs () {
-    this.pairing = new Pairing();
-    var teamToShuffle: Team = new Team();
-    teamToShuffle.name = "V5";
-    var v5 = this.teams.filter(f => f.name == "V5")[0];
-    teamToShuffle.members = v5.members.filter(t => t.state === State.RandomPairing)
-                                .splice(0);
+      this.pairing = new Pairing();
 
-    var odd = v5.members.filter(t =>  t.state === State.Odd).splice(0);
-    this.pairing.generatePairs(teamToShuffle, odd);
-    this.onPairingGenerated.emit(this.pairing);
+      let teamToShuffle: Team = new Team();
+      let v5 = this.teams.filter(f => f.name == "V5")[0];
 
+      let byState = groupBy(v5.members, (m) => m.state);
+      let randos = byState[State.RandomPairing] || [];
+      let odds = byState[State.Odd] || [];
+
+      teamToShuffle.name = "V5";
+      teamToShuffle.members = randos;
+
+      this.pairing.generatePairs(teamToShuffle, odds);
+      this.onPairingGenerated.emit(this.pairing);
   }
-  constructor() {
 
-   }
+  constructor () {}
+}
 
+function groupBy (coll, keyFn) {
+    return coll.reduce((groups, c) => {
+        let key = keyFn(c);
+        (key in groups) ? groups[key].push(c) : groups[key] = [];
+        return groups;
+    }, {});
 }
