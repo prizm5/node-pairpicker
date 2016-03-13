@@ -1,6 +1,10 @@
-import {Component, EventEmitter,  Output, ElementRef}              from 'angular2/core';
+import {Component, EventEmitter, Output, ElementRef} from 'angular2/core';
 import {Person} from '../models/person'
 import {Team} from '../models/team'
+import {State} from "../models/person";
+
+// So TypeScript will let me use jqLite / jquery
+declare var $: any;
 
 @Component({
     styles: [],
@@ -24,8 +28,7 @@ import {Team} from '../models/team'
             <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal" id="{{peep.name}}" (^click)="onSelect(peep)" role="button"></button>
         </span>
     </div>
-  `
-    ,
+    `,
     inputs: ['peeps', 'teamname']
 })
 export class Dev {
