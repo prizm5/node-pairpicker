@@ -8,8 +8,8 @@ var cookieParser = require('cookie-parser')
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://phisql12db01'
-var db_port = process.env.dbport || 5984
+var db_url = process.env.dburl || 'http://localhost'
+var db_port = process.env.dbport || 5985
 
 var port = process.env.port || app.get('port');
 var async = require('async');
@@ -17,8 +17,6 @@ var async = require('async');
 var isProd = process.env.isProd || true;
 
 app.set('port', (process.env.PORT || 5000));
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/'));

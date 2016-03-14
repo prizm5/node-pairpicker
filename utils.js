@@ -7,8 +7,8 @@ var async = require('async');
 
 var dbname = 'dev_data';
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://phisql12db01'
-var db_port = process.env.dbport || 5984
+var db_url = process.env.dburl || 'http://localhost'
+var db_port = process.env.dbport || 5985
 
 var fs = require('fs');
 
