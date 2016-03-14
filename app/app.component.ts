@@ -41,9 +41,9 @@ export class AppComponent implements OnInit {
             var fromteam = this.allteams.filter(n => n.name === t.team)[0];
             var toteam = this.allteams.filter(n => n.name !== t.team)[0];
 
-            var move = fromteam.members.filter(m => m.name == t.name).splice(0)[0];
-            fromteam.members = fromteam.members.filter(m => m.name !== t.name).splice(0);
-            move.shouldPair = t.team == "V5" ?  false : true;
+            var move = fromteam.members.filter(m => m.name == t.name)[0];
+            fromteam.members = fromteam.members.filter(m => m.name !== t.name);
+            move.shouldPair = t.team != "V5";
 
             toteam.members.push(move);
             this.moveTeam(t.name, t.team);
