@@ -72,14 +72,15 @@ interface PopoverComponent /* extends JqueryWrapperObject */ {
         </span>
         <div type="text" class="form-control" aria-label="...">{{displayPerson(peep)}}</div>
         <span class="input-group-addon">
-            <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal" id="{{peep.name}}" (^click)="onSelect(peep)" role="button"></button>
+            <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal" id="{{peep.name}}" (click)="emitTeamSwitch(peep)" role="button"></button>
         </span>
     </div>
     `,
-    inputs: ['peeps', 'teamname']
+    inputs: ['peeps', 'teamname'],
+    outputs: ['onSwitchTeam']
 })
 export class Dev {
-    public onSwitchPair = new EventEmitter();
+    public onSwitchTeam = new EventEmitter();
     public peeps: Person[];
     public teamname: string;
 
@@ -114,6 +115,15 @@ export class Dev {
         } else {
             return peep.name;
         }
+    }
+
+    /**
+     * Notify that the given peep is switching off of the current team
+     */
+    emitTeamSwitch (peep: Person): void {
+        this.removeIntentionalPairOf(peep);
+        peep.state = State.RandomPairing;
+        this.onSwitchTeam.emit({ name: peep.name, team: this.teamname });
     }
 
     /**

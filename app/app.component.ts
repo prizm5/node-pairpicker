@@ -18,7 +18,7 @@ import 'rxjs/Rx';
     selector: 'pairpicker',
     template: `
         <nav-section><h1>I nav loaded...</h1></nav-section>
-        <teams-section [teams]="allteams" (onPairingGenerated)="updatePairing($event)" (onSwitchPair)="switchTeamMember($event)"><h1>I nav loaded...</h1></teams-section>
+        <teams-section [teams]="allteams" (onPairingGenerated)="updatePairing($event)" (onSwitchTeam)="switchTeamMember($event)"><h1>I nav loaded...</h1></teams-section>
         <pairs-section [pairing]="pairing" [paircounts]="paircounts" [oddcounts]="oddcounts" [canSavePairs]='canSave' (onSavePairing)="savePairing($event)"><h1>I nav loaded...</h1></pairs-section>
         <footer-section><h1>I footer loaded...</h1></footer-section>
   `,

@@ -22,7 +22,7 @@ import {Person} from '../models/person'
                 <div class="col-sm-6 portfolio-item" *ngFor="#team of teams">
                     <h3>{{team.name}}</h3>
                     <hr />
-                    <developer [peeps]="team.members" [teamname]="team.name" (click)="onSelect2($event, team.name)">i am developer</developer>
+                    <developer (onSwitchTeam)="relayTeamSwitch($event)" [peeps]="team.members" [teamname]="team.name">i am developer</developer>
                 </div>
          </div>
          <div class="row" >
@@ -37,21 +37,19 @@ import {Person} from '../models/person'
   `
   ,
   inputs: ['teams'],
-  outputs:['onPairingGenerated','onSwitchPair'],
+  outputs:['onPairingGenerated','onSwitchTeam'],
   directives: [Dev]
 })
 export class Teams {
   public teams: Team[];
   public pairing: Pairing;
 
+  public onSwitchTeam = new EventEmitter();
   public onPairingGenerated = new EventEmitter();
-  public onSwitchPair = new EventEmitter();
-   onSelect2(person, teamname) {
-       if(person.target && person.target.id !== ""){
-            this.onSwitchPair.emit({ name: person.target.id, team: teamname });
-            console.debug(person.target.id);
-        }
-    }
+
+  relayTeamSwitch (event) {
+    this.onSwitchTeam.emit(event);
+  }
 
   generatePairs () {
       this.pairing = new Pairing();
