@@ -1,10 +1,10 @@
 {
    "_id": "_design/stats",
-   "_rev": "16-3335dd4b4d5ad90edca002663de32fbd",
+   "_rev": "13-deffc4a89e781bb81d1a53b5668f43ec",
    "language": "javascript",
    "views": {
        "pairs": {
-           "map": "function(doc) {\n\tif((doc.doc_type == 'pairing' || doc.doc_type == 'intentional') && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
+           "map": "function(doc) {\n\tif((doc.doc_type == 'pairing' || doc.doc_type == 'intentional') && doc.data && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
        },
        "odd": {
            "map": "function(doc) {\n\tif(doc.doc_type == 'odd' && doc.data.length > 0 ){\n\t\t\n  \t\temit(doc._id, doc);\n\t}\n}"
@@ -18,7 +18,7 @@
            "reduce": "function(keys, values, rereduce){\n\tvar ts = values.reduce(function(p,c,i) {\n\t\treturn c > p ? c: p;\n\t});\n\treturn {\"odd\":{\"count\": values.length,\"last_ts\": ts}};\n}"
        },
        "intentional": {
-           "map": "function(doc) {\n\tif((doc.doc_type == 'intentional') && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
+           "map": "function(doc) {\n\tif((doc.doc_type == 'intentional') && doc.data && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
        }
    }
 }

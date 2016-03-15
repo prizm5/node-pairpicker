@@ -1,6 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,12 +23,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         styles: [],
                         selector: 'nav-section',
-                        template: "\n   <!-- Navigation -->\n    <nav class=\"navbar navbar-default navbar-fixed-top\">\n        <div class=\"container\">\n            <!-- Brand and toggle get grouped for better mobile display -->\n            <div class=\"navbar-header page-scroll\">\n                <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\">\n                    <span class=\"sr-only\">Toggle navigation</span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                    <span class=\"icon-bar\"></span>\n                </button>\n                <img src=\"img/icon-pairing-trans.png\" id=\"logo\" >\n                <a class=\"navbar-brand\" href=\"#page-top\">Pair Picker</a>\n            </div>\n            <!-- /.navbar-collapse -->\n        </div>\n        <!-- /.container-fluid -->\n    </nav>\n  \n  "
+                        template: "\n    <!-- Navigation -->\n    <nav class=\"navbar navbar-default navbar-fixed-top\">\n      <div class=\"container\">\n        <!-- Brand and toggle get grouped for better mobile display -->\n        <div class=\"navbar-header page-scroll\">\n          <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\">\n            <span class=\"sr-only\">Toggle navigation</span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n            <span class=\"icon-bar\"></span>\n          </button>\n          <img src=\"img/icon-pairing-trans.png\" id=\"logo\">\n          <a class=\"navbar-brand\" href=\"#page-top\">Pair Picker</a>\n        </div>\n      <!-- /.navbar-collapse -->\n      </div>\n    <!-- /.container-fluid -->\n    </nav>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Nav);
                 return Nav;
-            }());
+            })();
             exports_1("Nav", Nav);
         }
     }
