@@ -1,1 +1,1 @@
-{"version":3,"file":"person.js","sourceRoot":"","sources":["person.ts"],"names":["State"],"mappings":";;;;;YAAA,WAAY,KAAK;gBACbA,qCAAMA,CAAAA;gBACNA,+BAAGA,CAAAA;gBACHA,qCAAMA,CAAAA;YACVA,CAACA,EAJW,KAAK,KAAL,KAAK,QAIhB;sCAAA"}
+{"version":3,"file":"person.js","sourceRoot":"","sources":["person.ts"],"names":[],"mappings":";;;;;;;YAAA,WAAY,KAAK;gBACb,mDAAa,CAAA;gBACb,6DAAkB,CAAA;gBAClB,+BAAG,CAAA;gBACH,qCAAM,CAAA;YACV,CAAC,EALW,KAAK,KAAL,KAAK,QAKhB;sCAAA"}

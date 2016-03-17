@@ -1,4 +1,6 @@
-System.register(['angular2/core'], function(exports_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -23,12 +25,37 @@ System.register(['angular2/core'], function(exports_1) {
                     this.oddcounts = {};
                     this.canSavePairs = false;
                 }
+                Pairs.prototype.getlocaldt = function (dt) { return dt ? new Date(dt).toLocaleDateString("en-US") : null; };
+                Pairs.prototype.getPairCount = function (data, name) {
+                    if (data) {
+                        var c = data.filter(function (a) { return a.key == name; });
+                        if (c[0]) {
+                            if (c[0].value.pairing) {
+                                var p = c[0].value.pairing.count;
+                                var pdt = new Date(c[0].value.pairing.last_ts);
+                            }
+                            if (c[0].value.intentional) {
+                                var i = c[0].value.intentional.count;
+                                var idt = new Date(c[0].value.intentional.last_ts);
+                            }
+                            var dt;
+                            if (pdt >>> idt)
+                                dt = pdt;
+                            else
+                                dt = idt;
+                            return p + " | " + (i || 0) + " | " + (dt.toLocaleDateString("en-US") || "N/A");
+                        }
+                        return "0";
+                    }
+                    return "0";
+                };
                 Pairs.prototype.getCount = function (data, name) {
                     if (data) {
                         var c = data.filter(function (a) { return a.key == name; });
-                        return c[0] ? c[0].value : 0;
+                        return c[0].value.odd ? c[0].value.odd.count + " | "
+                            + this.getlocaldt(c[0].value.odd.last_ts) : 0;
                     }
-                    return 0;
+                    return "0";
                 };
                 Pairs.prototype.savePair = function () {
                     if (this.pairing.pairs.length > 0 || this.pairing.odd.length > 0) {
@@ -40,14 +67,14 @@ System.register(['angular2/core'], function(exports_1) {
                     core_1.Component({
                         styles: [],
                         selector: 'pairs-section',
-                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                     <table class=\"table\">\n                        <tbody>\n                            <tr *ngFor=\"#peep of pairing.pairs\" class=\"modal-body\">\n                                <td>{{peep.split(' :: ')[0]}}</td>\n                                <td>{{peep.split(' :: ')[1]}}</td>\n                                <td>({{getCount(paircounts, peep)}})</td>\n                            </tr>\n                        </tbody>\n                     </table>\n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}} ({{getCount(oddcounts,peep)}})</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-1 portfolio-item\">\n                    <a href=\"#myModal\" class=\"portfolio-link\" data-toggle=\"modal\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\" (click)=\"savePair()\">Save</button>\n                    </a>\n                </div>\n\n            </div>\n        </div>\n    </section>\n    <!-- Modal -->\n    \n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" >\n        <div class=\"modal-dialog\">\n            <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" >&times;</button>\n                    <h4 class=\"modal-title\" id=\"myModalLabel\">Pairing</h4>\n                </div>\n                <div class=\"modal-body\">\n                   <p class=\"medium\">Saved</p>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n                </div>\n            </div>\n            <!-- /.modal-content -->\n        </div>\n        <!-- /.modal-dialog -->\n    </div>\n<!-- /.modal -->    \n  ",
+                        template: "\n    \n    <!-- Pairs Section -->\n    <section class=\"success\" id=\"pairs\">\n        <div class=\"container\">\n            <div class=\"row\">\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Pairs</h3>\n                    <hr class=\"star-light\">\n                     <table class=\"table\">\n                        <tbody>\n                            <tr *ngFor=\"#peep of pairing.pairs\" class=\"modal-body\">\n                                <td>{{peep.split(' :: ')[0]}}</td>\n                                <td>{{peep.split(' :: ')[1]}}</td>\n                                <td>({{getPairCount(paircounts, peep)}})</td>\n                            </tr>\n                        </tbody>\n                     </table>\n                </div>\n                <div class=\"col-sm-4 text-center\">\n                    <h3>Odd</h3>\n                    <hr class=\"star-light\">\n                    <ul class=\"list-block\">\n                        <li *ngFor=\"#peep of pairing.odd\">{{peep}} ({{getCount(oddcounts,peep)}})</li>\n                    </ul>\n                </div>\n            </div>\n            <div class=\"row\">\n                <hr>\n                <div class=\"col-sm-1 portfolio-item\">\n                    <a href=\"#myModal\" class=\"portfolio-link\" data-toggle=\"modal\">\n                        <button type=\"submit\" class=\"btn btn-primary btn-lg\" (click)=\"savePair()\">Save</button>\n                    </a>\n                </div>\n\n            </div>\n        </div>\n    </section>\n    <!-- Modal -->\n    \n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" >\n        <div class=\"modal-dialog\">\n            <div class=\"modal-content\">\n                <div class=\"modal-header\">\n                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" >&times;</button>\n                    <h4 class=\"modal-title\" id=\"myModalLabel\">Pairing</h4>\n                </div>\n                <div class=\"modal-body\">\n                   <p class=\"medium\">Saved</p>\n                </div>\n                <div class=\"modal-footer\">\n                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n                </div>\n            </div>\n            <!-- /.modal-content -->\n        </div>\n        <!-- /.modal-dialog -->\n    </div>\n<!-- /.modal -->    \n  ",
                         inputs: ['pairing', 'paircounts', 'oddcounts', 'canSavePairs'],
                         outputs: ['onSavePairing'],
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Pairs);
                 return Pairs;
-            })();
+            }());
             exports_1("Pairs", Pairs);
         }
     }
