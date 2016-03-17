@@ -1,4 +1,6 @@
-System.register(['angular2/core', '../models/team', './dev.component', '../models/pair', '../models/person'], function(exports_1) {
+System.register(['angular2/core', '../models/team', './dev.component', '../models/pair', '../models/person'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,6 +12,13 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
     };
     var core_1, team_1, dev_component_1, pair_1, person_1;
     var Teams;
+    function groupBy(coll, keyFn) {
+        return coll.reduce(function (groups, c) {
+            var key = keyFn(c);
+            (key in groups) ? groups[key].push(c) : groups[key] = [];
+            return groups;
+        }, {});
+    }
     return {
         setters:[
             function (core_1_1) {
@@ -39,22 +48,23 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
                         console.debug(person.target.id);
                     }
                 };
-                Teams.prototype.onMakePairs = function () {
+                Teams.prototype.generatePairs = function () {
                     this.pairing = new pair_1.Pairing();
                     var teamToShuffle = new team_1.Team();
-                    teamToShuffle.name = "V5";
                     var v5 = this.teams.filter(function (f) { return f.name == "V5"; })[0];
-                    teamToShuffle.members = v5.members.filter(function (t) { return t.state === person_1.State.Paring; })
-                        .splice(0);
-                    var odd = v5.members.filter(function (t) { return t.state === person_1.State.Odd; }).splice(0);
-                    this.pairing.getPairs(teamToShuffle, odd);
+                    var byState = groupBy(v5.members, function (m) { return m.state; });
+                    var randos = byState[person_1.State.RandomPairing] || [];
+                    var odds = byState[person_1.State.Odd] || [];
+                    teamToShuffle.name = "V5";
+                    teamToShuffle.members = randos;
+                    this.pairing.generatePairs(teamToShuffle, odds);
                     this.onPairingGenerated.emit(this.pairing);
                 };
                 Teams = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'teams-section',
-                        template: " \n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n                </div>\n            </div>\n            <div class=\"row\" >\n                <div class=\"col-sm-6 portfolio-item\" *ngFor=\"#team of teams\">\n                    <h3>{{team.name}}</h3>\n                    <hr />\n                    <developer [peeps]=\"team.members\" [teamname]=\"team.name\" (click)=\"onSelect2($event, team.name)\">i am developer</developer>\n                </div>\n         </div>\n         <div class=\"row\" >\n            <div class=\"col-sm-2 portfolio-item page-scroll\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"onMakePairs()\">Generate</button>\n                </a>\n            </div>\n         </div> \n       </div>\n    </section>\n  ",
+                        template: "\n   <!-- Portfolio Grid Section -->\n    <section id=\"portfolio\">\n        <div class=\"container\">\n            <div class=\"row\" >\n                <div class=\"col-lg-12 text-center\">\n                    <h2>Workflows</h2>\n                    <hr class=\"star-primary\">\n                </div>\n            </div>\n            <div class=\"row\" >\n                <div class=\"col-sm-6 portfolio-item\" *ngFor=\"#team of teams\">\n                    <h3>{{team.name}}</h3>\n                    <hr />\n                    <developer [peeps]=\"team.members\" [teamname]=\"team.name\" (click)=\"onSelect2($event, team.name)\">i am developer</developer>\n                </div>\n         </div>\n         <div class=\"row\" >\n            <div class=\"col-sm-2 portfolio-item page-scroll\">\n                <a href=\"#pairs\">\n                <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"generatePairs()\">Generate</button>\n                </a>\n            </div>\n         </div>\n       </div>\n    </section>\n  ",
                         inputs: ['teams'],
                         outputs: ['onPairingGenerated', 'onSwitchPair'],
                         directives: [dev_component_1.Dev]
@@ -62,7 +72,7 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
                     __metadata('design:paramtypes', [])
                 ], Teams);
                 return Teams;
-            })();
+            }());
             exports_1("Teams", Teams);
         }
     }

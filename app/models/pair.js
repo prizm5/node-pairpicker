@@ -1,4 +1,6 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var Pairing;
     return {
         setters:[],
@@ -11,7 +13,6 @@ System.register([], function(exports_1) {
                 Pairing.prototype.shuffle = function (o) {
                     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x)
                         ;
-                    return o.map(function (p) { return p.name; });
                 };
                 Pairing.prototype.splitarray = function (input, spacing) {
                     var output = [];
@@ -20,13 +21,13 @@ System.register([], function(exports_1) {
                     }
                     return output;
                 };
-                Pairing.prototype.getPairs = function (team, odd) {
+                Pairing.prototype.generatePairs = function (team, odd) {
                     var _this = this;
                     this.shuffle(team.members);
                     var split = this.splitarray(team.members, 2);
                     this.pairs = [];
                     this.odd = odd.map(function (a) { return a.name; });
-                    split.forEach(function (element, index, array) {
+                    split.forEach(function (element) {
                         if (element.length === 2) {
                             element.sort(function (a, b) {
                                 var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
@@ -44,7 +45,7 @@ System.register([], function(exports_1) {
                     });
                 };
                 return Pairing;
-            })();
+            }());
             exports_1("Pairing", Pairing);
         }
     }

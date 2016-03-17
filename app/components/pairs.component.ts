@@ -18,7 +18,7 @@ import {Pairing} from '../models/pair'
                             <tr *ngFor="#peep of pairing.pairs" class="modal-body">
                                 <td>{{peep.split(' :: ')[0]}}</td>
                                 <td>{{peep.split(' :: ')[1]}}</td>
-                                <td>({{getCount(paircounts, peep)}})</td>
+                                <td>({{getPairCount(paircounts, peep)}})</td>
                             </tr>
                         </tbody>
                      </table>
@@ -74,13 +74,39 @@ export class Pairs {
   public oddcounts = {};
   public canSavePairs = false;
   constructor() { }
+  getlocaldt(dt){ return dt ? new Date(dt).toLocaleDateString("en-US") : null;}
+  
+  getPairCount(data, name){
+      if(data){
+          var c = data.filter(a => a.key == name);
+          if(c[0]){
+              if(c[0].value.pairing) {
+                var p = c[0].value.pairing.count;
+                var pdt = new Date(c[0].value.pairing.last_ts);
+              }
+              if(c[0].value.intentional) { 
+                var i =  c[0].value.intentional.count;
+                var idt = new Date(c[0].value.intentional.last_ts);
+              }
+              var dt: Date;
+              if(pdt >>> idt) 
+                 dt = pdt;
+              else
+                 dt = idt;
+              return p + " | " + (i || 0)  + " | " + (dt.toLocaleDateString("en-US") || "N/A");
+          }
+          return "0";
+      }
+      return "0"; 
+  }
   
   getCount(data, name){
       if(data){
           var c = data.filter(a => a.key == name);
-          return c[0] ? c[0].value : 0;
+          return c[0].value.odd ? c[0].value.odd.count + " | " 
+            + this.getlocaldt(c[0].value.odd.last_ts)  : 0;
       }
-      return 0;
+      return "0";
   }
   
   savePair(){
