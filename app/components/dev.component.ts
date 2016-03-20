@@ -63,8 +63,8 @@ interface PopoverComponent /* extends JqueryWrapperObject */ {
                 <span class="cbx-icon">
                     <div [ngSwitch]="peep.state" id="popover-anchor-{{peep.name}}">
                         <template ngSwitchDefault><i class="glyphicon glyphicon-ok" (click)="onToggleCheckbox(peep,1)"></i></template>
-                        <template [ngSwitchWhen]="1"><i class="glyphicon glyphicon-user" (click)="onToggleCheckbox(peep,2)"></i></template>
-                        <template [ngSwitchWhen]="2"><i class="glyphicon glyphicon-stop" (click)="onToggleCheckbox(peep,3)"></i></template>
+                        <template [ngSwitchWhen]="1"><i class="glyphicon glyphicon-stop" (click)="onToggleCheckbox(peep,2)"></i></template>
+                        <template [ngSwitchWhen]="2"><i class="glyphicon glyphicon-user" (click)="onToggleCheckbox(peep,3)"></i></template>
                         <template [ngSwitchWhen]="3"><i class="glyphicon glyphicon-remove" (click)="onToggleCheckbox(peep,0)"></i></template>
                     </div>
                 </span>

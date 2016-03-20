@@ -1,7 +1,7 @@
 export enum State {
     RandomPairing,
-    IntentionalPairing,
     Odd,
+    IntentionalPairing,
     Absent
 }
 
