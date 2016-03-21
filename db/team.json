@@ -1,0 +1,57 @@
+{
+  "_id": "team",
+  "members": [
+    {
+      "name": "Lindsey",
+      "team": "QA"
+    },
+    {
+      "name": "Mark",
+      "team": "QA"
+    },
+    {
+      "name": "Aman",
+      "team": "QA"
+    },
+    {
+      "name": "Keith",
+      "team": "Cloud"
+    },
+    {
+      "name": "Boguste",
+      "team": "V5"
+    },
+    {
+      "name": "Dave",
+      "team": "V5"
+    },
+    {
+      "name": "Nilhouse",
+      "team": "V5"
+    },
+    {
+      "name": "Maximus",
+      "team": "V5"
+    },
+    {
+      "name": "Becky",
+      "team": "V5"
+    },
+    {
+      "name": "Arlington",
+      "team": "V5"
+    },
+    {
+      "name": "Steve",
+      "team": "V5"
+    },
+    {
+      "name": "Danny",
+      "team": "V5"
+    },
+    {
+      "name": "Patrick",
+      "team": "V5"
+    }
+  ]
+}

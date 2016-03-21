@@ -68,6 +68,21 @@ router.get('/data/v5', function (req, res) {
 
 });
 
+router.get('/data/team', function (req, res) {
+  utils.checktoken(req.query.token, res, (function () {
+    var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+    dbb.view('stats/teams', {group: true, reduce: true}, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).end();
+      } else {
+        res.send(data);
+      }
+    });
+  }));
+
+});
+
 router.get('/data/paircounts', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
