@@ -1,6 +1,4 @@
-System.register(['angular2/core'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,12 +23,12 @@ System.register(['angular2/core'], function(exports_1, context_1) {
                     core_1.Component({
                         styles: [],
                         selector: 'footer-section',
-                        template: " \n   <!-- Footer -->\n    <footer class=\"text-center\">\n\n        <div class=\"footer-below\">\n            <div class=\"container\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        Copyright &copy; Creque Corp 2016\n                    </div>\n                </div>\n            </div>\n        </div>\n    </footer>\n    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->\n    <div class=\"scroll-top page-scroll visible-xs visible-sm\">\n        <a class=\"btn btn-primary\" href=\"#page-top\">\n            <i class=\"fa fa-chevron-up\"></i>\n        </a> \n    </div>\n  "
+                        template: " \n    <!-- Footer -->\n    <footer class=\"text-center\">\n      <div class=\"footer-below\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"col-lg-12\">\n              Copyright &copy; Creque Corp 2016\n            </div>\n          </div>\n        </div>\n      </div>\n    </footer>\n    <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->\n    <div class=\"scroll-top page-scroll visible-xs visible-sm\">\n      <a class=\"btn btn-primary\" href=\"#page-top\">\n        <i class=\"fa fa-chevron-up\"></i>\n      </a> \n    </div>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Footer);
                 return Footer;
-            }());
+            })();
             exports_1("Footer", Footer);
         }
     }

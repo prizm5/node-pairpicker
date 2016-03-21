@@ -1,8 +1,8 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var picker =  {};
+var picker = {};
 
-var shuffle = function(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex ;
+var shuffle = function (array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
@@ -19,28 +19,28 @@ var shuffle = function(array) {
   return array;
 };
 
-var splitarray = function(input, spacing) {
-    var output = [];
-    for (var i = 0; i < input.length; i += spacing) {
-        output[output.length] = input.slice(i, i + spacing);
-    }
-    return output;
+var splitarray = function (input, spacing) {
+  var output = [];
+  for (var i = 0; i < input.length; i += spacing) {
+    output[output.length] = input.slice(i, i + spacing);
+  }
+  return output;
 };
 
-picker.generatePairs = function(names, odders) {
-    var shuffledPairs = shuffle(names);
-    var splitArray = splitarray(shuffledPairs, 2);
-    for (var i = 0; i < splitArray.length; i++) {
-        if(splitArray[i].length === 1){
-            odders.push(splitArray[i][0]);
-            splitArray.splice(i,1);
-        }
+picker.generatePairs = function (names, odders) {
+  var shuffledPairs = shuffle(names);
+  var splitArray = splitarray(shuffledPairs, 2);
+  for (var i = 0; i < splitArray.length; i++) {
+    if (splitArray[i].length === 1) {
+      odders.push(splitArray[i][0]);
+      splitArray.splice(i, 1);
     }
-    return { pairs: splitArray, odders: odders };
+  }
+  return {pairs: splitArray, odders: odders};
 };
 
-picker.getNames = (function(kvArray) {
-  return kvArray.map(function(obj){
+picker.getNames = (function (kvArray) {
+  return kvArray.map(function (obj) {
     return obj.name;
   });
 });
