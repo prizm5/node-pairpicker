@@ -1,6 +1,4 @@
-System.register(['angular2/core', "../models/person"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', '../models/person'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,7 +20,7 @@ System.register(['angular2/core', "../models/person"], function(exports_1, conte
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            f(g.apply(void 0, args));
+            return f(g.apply(void 0, args));
         };
     }
     /**
@@ -55,8 +53,7 @@ System.register(['angular2/core', "../models/person"], function(exports_1, conte
             Dev = (function () {
                 function Dev(el) {
                     this.el = el;
-                    this.onSwitchPair = new core_1.EventEmitter();
-                    this.intentionalPairs = {};
+                    this.onSwitchTeam = new core_1.EventEmitter();
                 }
                 /**
                  * Perform side effects when a given peep's state changes
@@ -68,20 +65,28 @@ System.register(['angular2/core', "../models/person"], function(exports_1, conte
                     }
                     else {
                         this.intentionalPairingPopover(peep).popover('hide');
-                        this.removeIntentionalPairOf(peep);
+                        this.intentionalPairs.removeIntentionalPairOf(peep);
                     }
                 };
                 /**
                  * Given a peep, return a string describing her and/or with whom she's intentionally pairing
                  */
                 Dev.prototype.displayPerson = function (peep) {
-                    var otherPeep = this.getIntentionalPairOf(peep);
+                    var otherPeep = this.intentionalPairs.getIntentionalPairOf(peep);
                     if (otherPeep) {
                         return peep.name + " & " + otherPeep.name;
                     }
                     else {
                         return peep.name;
                     }
+                };
+                /**
+                 * Notify that the given peep is switching off of the current team
+                 */
+                Dev.prototype.emitTeamSwitch = function (peep) {
+                    this.intentionalPairs.removeIntentionalPairOf(peep);
+                    peep.state = person_1.State.RandomPairing;
+                    this.onSwitchTeam.emit({ name: peep.name, team: this.teamname });
                 };
                 /**
                  * Given the first half of an intentional pair, return a function that takes the other half.
@@ -94,10 +99,31 @@ System.register(['angular2/core', "../models/person"], function(exports_1, conte
                 Dev.prototype.markupOnclickMapPair = function (peep) {
                     var _this = this;
                     return function (otherPeep) {
+                        var stateIconFor = function (peep) {
+                            var stateClass = '';
+                            switch (peep.state) {
+                                case person_1.State.RandomPairing:
+                                    stateClass = 'glyphicon-ok';
+                                    break;
+                                case person_1.State.Odd:
+                                    stateClass = 'glyphicon-stop';
+                                    break;
+                                case person_1.State.IntentionalPairing:
+                                    stateClass = 'glyphicon-user';
+                                    break;
+                                case person_1.State.Absent:
+                                    stateClass = 'glyphicon-remove';
+                                    break;
+                            }
+                            return "<i class=\"glyphicon " + stateClass + "\" />";
+                        };
                         // The id in the <li> tag here is important, popoverSpecificPairingOptions uses it
                         // to find the right link which to assign the click handler
-                        var markup = "<li id=\"" + otherPeep.name + "\"><a href=\"#\">" + otherPeep.name + "</a></li>";
-                        return [markup, { name: otherPeep.name, onclick: function () { return _this.assignIntentionalPair(peep, otherPeep); } }];
+                        var markup = "<li id=\"" + otherPeep.name + "\" style=\"list-style-type: none;\">" + stateIconFor(otherPeep) + "&nbsp;<a href=\"#\">" + otherPeep.name + "</a></li>";
+                        return [markup, {
+                                name: otherPeep.name,
+                                onclick: function () { return _this.intentionalPairs.assignIntentionalPair(peep, otherPeep); }
+                            }];
                     };
                 };
                 /**
@@ -134,45 +160,18 @@ System.register(['angular2/core', "../models/person"], function(exports_1, conte
                 Dev.prototype.intentionalPairingPopover = function (peep) {
                     return $(this.el.nativeElement).find("#" + "popover-anchor-" + peep.name);
                 };
-                /**
-                 * Put the given peeps together in an intentional pair, removing any other intentional pairs they were previously in
-                 */
-                Dev.prototype.assignIntentionalPair = function (peep, otherPeep) {
-                    this.removeIntentionalPairOf(peep);
-                    this.removeIntentionalPairOf(otherPeep);
-                    peep.state = person_1.State.IntentionalPairing;
-                    otherPeep.state = person_1.State.IntentionalPairing;
-                    this.intentionalPairs[peep.name] = otherPeep;
-                    this.intentionalPairs[otherPeep.name] = peep;
-                };
-                /**
-                 * Remove the given peep from whatever intentional pair she was in
-                 */
-                Dev.prototype.removeIntentionalPairOf = function (peep) {
-                    var otherPeep = this.intentionalPairs[peep.name];
-                    if (otherPeep) {
-                        otherPeep.state = person_1.State.RandomPairing;
-                        delete this.intentionalPairs[this.intentionalPairs[peep.name].name];
-                    }
-                    delete this.intentionalPairs[peep.name];
-                };
-                /**
-                 * Return the other peep that the given peep is intentionally pairing with, if any
-                 */
-                Dev.prototype.getIntentionalPairOf = function (peep) {
-                    return this.intentionalPairs[peep.name];
-                };
                 Dev = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'developer',
-                        template: "\n    <div class=\"input-group dev\" *ngFor=\"#peep of peeps\">\n        <span class=\"input-group-addon\" *ngIf=\"peep.shouldPair\">\n            <div class=\"cbx cbx-md cbx-active\" tabindex=\"1000\">\n                <span class=\"cbx-icon\">\n                    <div [ngSwitch]=\"peep.state\" id=\"popover-anchor-{{peep.name}}\">\n                        <template ngSwitchDefault><i class=\"glyphicon glyphicon-ok\" (click)=\"onToggleCheckbox(peep,1)\"></i></template>\n                        <template [ngSwitchWhen]=\"1\"><i class=\"glyphicon glyphicon-user\" (click)=\"onToggleCheckbox(peep,2)\"></i></template>\n                        <template [ngSwitchWhen]=\"2\"><i class=\"glyphicon glyphicon-stop\" (click)=\"onToggleCheckbox(peep,3)\"></i></template>\n                        <template [ngSwitchWhen]=\"3\"><i class=\"glyphicon glyphicon-remove\" (click)=\"onToggleCheckbox(peep,0)\"></i></template>\n                    </div>\n                </span>\n            </div>\n        </span>\n        <div type=\"text\" class=\"form-control\" aria-label=\"...\">{{displayPerson(peep)}}</div>\n        <span class=\"input-group-addon\">\n            <button class=\"btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal\" id=\"{{peep.name}}\" (^click)=\"onSelect(peep)\" role=\"button\"></button>\n        </span>\n    </div>\n    ",
-                        inputs: ['peeps', 'teamname']
+                        template: "\n    <div class=\"input-group dev\" *ngFor=\"#peep of peeps\">\n      <span class=\"input-group-addon\" *ngIf=\"peep.shouldPair\">\n        <div class=\"cbx cbx-md cbx-active\" tabindex=\"1000\">\n          <span class=\"cbx-icon\">\n            <div [ngSwitch]=\"peep.state\" id=\"popover-anchor-{{peep.name}}\">\n              <template ngSwitchDefault><i class=\"glyphicon glyphicon-ok\" (click)=\"onToggleCheckbox(peep,1)\"></i></template>\n              <template [ngSwitchWhen]=\"1\"><i class=\"glyphicon glyphicon-stop\" (click)=\"onToggleCheckbox(peep,2)\"></i></template>\n              <template [ngSwitchWhen]=\"2\"><i class=\"glyphicon glyphicon-user\" (click)=\"onToggleCheckbox(peep,3)\"></i></template>\n              <template [ngSwitchWhen]=\"3\"><i class=\"glyphicon glyphicon-remove\" (click)=\"onToggleCheckbox(peep,0)\"></i></template>\n            </div>\n          </span>\n        </div>\n      </span>\n      <div type=\"text\" class=\"form-control\" aria-label=\"...\">{{displayPerson(peep)}}</div>\n      <span class=\"input-group-addon\">\n        <button class=\"btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal\" id=\"{{peep.name}}\" (click)=\"emitTeamSwitch(peep)\" role=\"button\"></button>\n      </span>\n    </div>\n    ",
+                        inputs: ['peeps', 'teamname', 'intentionalPairs'],
+                        outputs: ['onSwitchTeam']
                     }), 
                     __metadata('design:paramtypes', [core_1.ElementRef])
                 ], Dev);
                 return Dev;
-            }());
+            })();
             exports_1("Dev", Dev);
         }
     }
