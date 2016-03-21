@@ -133,9 +133,27 @@ export class Dev {
    */
   private markupOnclickMapPair (peep: Person): (otherPeep: Person) => [string, { name: string, onclick: () => void }] {
     return (otherPeep: Person) => {
+      let stateIconFor = (peep: Person) => {
+        let stateClass = '';
+        switch (peep.state) {
+          case State.RandomPairing:
+            stateClass = 'glyphicon-ok';
+            break;
+          case State.Odd:
+            stateClass = 'glyphicon-stop';
+            break;
+          case State.IntentionalPairing:
+            stateClass = 'glyphicon-user';
+            break;
+          case State.Absent:
+            stateClass = 'glyphicon-remove';
+            break;
+        }
+        return `<i class="glyphicon ${stateClass}" />`;
+      };
       // The id in the <li> tag here is important, popoverSpecificPairingOptions uses it
       // to find the right link which to assign the click handler
-      let markup = `<li id="${otherPeep.name}"><a href="#">${otherPeep.name}</a></li>`;
+      let markup = `<li id="${otherPeep.name}" style="list-style-type: none;">${stateIconFor(otherPeep)}&nbsp;<a href="#">${otherPeep.name}</a></li>`;
       return [markup, {
         name: otherPeep.name,
         onclick: () => this.intentionalPairs.assignIntentionalPair(peep, otherPeep)

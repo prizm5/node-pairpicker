@@ -99,9 +99,27 @@ System.register(['angular2/core', '../models/person'], function(exports_1) {
                 Dev.prototype.markupOnclickMapPair = function (peep) {
                     var _this = this;
                     return function (otherPeep) {
+                        var stateIconFor = function (peep) {
+                            var stateClass = '';
+                            switch (peep.state) {
+                                case person_1.State.RandomPairing:
+                                    stateClass = 'glyphicon-ok';
+                                    break;
+                                case person_1.State.Odd:
+                                    stateClass = 'glyphicon-stop';
+                                    break;
+                                case person_1.State.IntentionalPairing:
+                                    stateClass = 'glyphicon-user';
+                                    break;
+                                case person_1.State.Absent:
+                                    stateClass = 'glyphicon-remove';
+                                    break;
+                            }
+                            return "<i class=\"glyphicon " + stateClass + "\" />";
+                        };
                         // The id in the <li> tag here is important, popoverSpecificPairingOptions uses it
                         // to find the right link which to assign the click handler
-                        var markup = "<li id=\"" + otherPeep.name + "\"><a href=\"#\">" + otherPeep.name + "</a></li>";
+                        var markup = "<li id=\"" + otherPeep.name + "\" style=\"list-style-type: none;\">" + stateIconFor(otherPeep) + "&nbsp;<a href=\"#\">" + otherPeep.name + "</a></li>";
                         return [markup, {
                                 name: otherPeep.name,
                                 onclick: function () { return _this.intentionalPairs.assignIntentionalPair(peep, otherPeep); }
