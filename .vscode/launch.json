@@ -5,10 +5,10 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "index.js",
+			"program": "${workspaceRoot}/index.js",
 			"stopOnEntry": false,
 			"args": [],
-			"cwd": ".",
+			"cwd": "${workspaceRoot}/",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 				"--nolazy"
@@ -17,14 +17,14 @@
 				"NODE_ENV": "development",
                 "slack_token":"test",
                 "port":"5000",
-                "dbport":"5985",
+                "dbport":"5984",
                 "dburl":"http://localhost"
 			},
 			"externalConsole": false,
 			"sourceMaps": false,
 			"outDir": null
 		},
-		{ 
+		{
 			"name": "Attach",
 			"type": "node",
 			"request": "attach",

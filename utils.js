@@ -12,20 +12,20 @@ var db_port = process.env.dbport || 5984;
 
 var fs = require('fs');
 
-var mapnames = function (pairs) {
-  return pairs.map(function (pair) {
+var mapnames = function(pairs) {
+  return pairs.map(function(pair) {
     return pair.replace(" :: ", ",");
   }).join(" | ");
 };
 
-var mapodd = function (pairs) {
+var mapodd = function(pairs) {
   if (pairs)
     return pairs.join(" | ");
   else
     return [];
 };
 
-utils.sendSlackText = function (parings) {
+utils.sendSlackText = function(parings) {
   console.log("utils send to slack " + parings);
   var randos = mapnames(parings.randomPairs);
   var intentional = mapnames(parings.intentionalPairs);
@@ -37,31 +37,40 @@ utils.sendSlackText = function (parings) {
       {
         "fallback": "Pair Assignement",
         "color": "#D00000",
-        "fields": [
-          {
-            "title": "Random",
-            "value": randos,
-            "short": false
-          },
-          {
-            "title": "Intentional",
-            "value": intentional,
-            "short": false
-          },
-          {
-            "title": "Odd",
-            "value": odders,
-            "short": false
-          }
-        ]
+        "fields": []
       }
     ]
   };
+
+
+  if (randos) {
+    msg.attachments[0].fields.push({
+      "title": "Random",
+      "value": randos,
+      "short": false
+    });
+  }
+
+  if (intentional) {
+    msg.attachments[0].fields.push({
+      "title": "Intentional",
+      "value": intentional,
+      "short": false
+    });
+  }
+  if (odders) {
+    msg.attachments[0].fields.push({
+      "title": "Odd",
+      "value": odders,
+      "short": false
+    });
+  }
+
   console.log(msg);
   slack.send(msg);
 };
 
-utils.checktoken = function (token, res, action) {
+utils.checktoken = function(token, res, action) {
   if (token === undefined || token !== slack_token) {
     console.log('Invalid token');
     res.status(401).end('Invalid token');
@@ -72,7 +81,7 @@ utils.checktoken = function (token, res, action) {
   }
 };
 
-var remove = function (name, array) {
+var remove = function(name, array) {
   var move = {};
   for (var i = array.length - 1; i >= 0; i--) {
     if (array[i].name === name) {
@@ -84,11 +93,11 @@ var remove = function (name, array) {
   console.log('removed ' + move);
 };
 
-var getDocs = function (calls) {
-  ['cloud', 'devs'].forEach(function (name) {
-    calls.push(function (callback) {
+var getDocs = function(calls) {
+  ['cloud', 'devs'].forEach(function(name) {
+    calls.push(function(callback) {
       var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
-      dbb.get(name, function (err, doc) { // remember error first ;)
+      dbb.get(name, function(err, doc) { // remember error first ;)
         if (err) {
           return callback(err);
         }
@@ -98,11 +107,11 @@ var getDocs = function (calls) {
   });
 };
 
-var saveDocs = function (calls, docs) {
-  docs.forEach(function (name) {
-    calls.push(function (callback) {
+var saveDocs = function(calls, docs) {
+  docs.forEach(function(name) {
+    calls.push(function(callback) {
       var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
-      dbb.save(name, function (err, doc) { // remember error first ;)
+      dbb.save(name, function(err, doc) { // remember error first ;)
         if (err) {
           return callback(err);
         }
@@ -112,21 +121,21 @@ var saveDocs = function (calls, docs) {
   });
 };
 
-utils.moveToCloud = function (name) {
+utils.moveToCloud = function(name) {
 
   var clouddoc, devsdoc = {};
   var calls = [];
   getDocs(calls);
 
-  async.parallel(calls, function (err, result) {
+  async.parallel(calls, function(err, result) {
     if (err)
       return console.log(err);
 
     clouddoc = result[0];
     devsdoc = result[1];
 
-    var newdevs = devsdoc.names.filter(n=> n.name === name).splice(0)[0];
-    devsdoc.names = devsdoc.names.filter(n=> n.name !== name).splice(0);
+    var newdevs = devsdoc.names.filter(n => n.name === name).splice(0)[0];
+    devsdoc.names = devsdoc.names.filter(n => n.name !== name).splice(0);
 
     clouddoc.names.push(newdevs);
 
@@ -138,7 +147,7 @@ utils.moveToCloud = function (name) {
     docs.push(clouddoc);
     saveDocs(saves, docs);
 
-    async.parallel(saves, function (err, result) {
+    async.parallel(saves, function(err, result) {
       if (err)
         return console.log(err);
       console.log('All Saved');
@@ -146,20 +155,20 @@ utils.moveToCloud = function (name) {
   });
 };
 
-utils.moveToDev = function (name) {
+utils.moveToDev = function(name) {
   var clouddoc, devsdoc = {};
   var calls = [];
   getDocs(calls);
 
-  async.parallel(calls, function (err, result) {
+  async.parallel(calls, function(err, result) {
     if (err)
       return console.log(err);
 
     clouddoc = result[0];
     devsdoc = result[1];
 
-    var newdevs = clouddoc.names.filter(n=> n.name === name).splice(0)[0];
-    clouddoc.names = clouddoc.names.filter(n=> n.name !== name).splice(0);
+    var newdevs = clouddoc.names.filter(n => n.name === name).splice(0)[0];
+    clouddoc.names = clouddoc.names.filter(n => n.name !== name).splice(0);
 
     devsdoc.names.push(newdevs);
 
@@ -171,7 +180,7 @@ utils.moveToDev = function (name) {
     docs.push(clouddoc);
     saveDocs(saves, docs);
 
-    async.parallel(saves, function (err, result) {
+    async.parallel(saves, function(err, result) {
       if (err)
         return console.log(err);
       console.log('All Saved');
