@@ -1,11 +1,12 @@
 export enum State {
-    Paring,
-    Odd,
-    Absent
+  RandomPairing,
+  Odd,
+  IntentionalPairing,
+  Absent
 }
 
 export interface Person {
-    name: string;
-    shouldPair: boolean;
-    state: State;
+  name: string;
+  shouldPair: boolean;
+  state: State;
 }

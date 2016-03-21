@@ -12,8 +12,4 @@ System.register([], function(exports_1) {
         }
     }
 });
-/*
-export class Team {
-  constructor(public name:string, public members:Person[]) { }
-}*/ 
 //# sourceMappingURL=team.js.map
