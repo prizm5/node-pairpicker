@@ -15,9 +15,9 @@ export class NameService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  getTeam (t: string) {
-    return this.http.get('api/data/' + t + this.searchtoken)
-      .map(res => <Person[]>res.json())
+  getTeam () {
+    return this.http.get('api/data/team' + this.searchtoken)
+      .map(res => res.json())
       .catch(this.logAndPassOn);
   }
 

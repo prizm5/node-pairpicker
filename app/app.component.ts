@@ -50,9 +50,9 @@ export class AppComponent implements OnInit {
   public oddcounts = {};
   public canSave = false;
 
-  constructor (private _nameService: NameService) { }
+  constructor(private _nameService: NameService) { }
 
-  switchTeamMember (t: { name: string; team: string; }): void {
+  switchTeamMember(t: { name: string; team: string; }): void {
     if (t.name) {
       var fromteam = this.allteams.filter(n => n.name === t.team)[0];
       var toteam = this.allteams.filter(n => n.name !== t.team)[0];
@@ -66,58 +66,62 @@ export class AppComponent implements OnInit {
     }
   }
 
-  moveTeam (name: string, team: string, retry = 0): void {
+  moveTeam(name: string, team: string, retry = 0): void {
     this._nameService.moveTeam(name, team)
       .subscribe(() => console.debug(`Moved ${name} from ${team}`),
-        error => {
-          retry++;
-          if (retry < 4) this.moveTeam(name, team, retry);
-          console.error(`error sending to slack: ${error}`);
-        });
+      error => {
+        retry++;
+        if (retry < 4) this.moveTeam(name, team, retry);
+        console.error(`error sending to slack: ${error}`);
+      });
   }
 
-  savePairingToDb (p: Pairing, retry = 0): void {
+  savePairingToDb(p: Pairing, retry = 0): void {
     this._nameService.savePair(p)
       .subscribe(
-        a => console.debug(`pairing saved : ${a}`),
-        error => {
-          retry++;
-          if (retry < 4) this.savePairingToDb(p, retry);
-          console.error(`error saving pairing: ${error}`)
-        });
+      a => console.debug(`pairing saved : ${a}`),
+      error => {
+        retry++;
+        if (retry < 4) this.savePairingToDb(p, retry);
+        console.error(`error saving pairing: ${error}`)
+      });
   }
 
-  savePairing (p: Pairing): void {
+  savePairing(p: Pairing): void {
     this.savePairingToDb(p);
 
     this._nameService.sendToSlack(p)
       .subscribe(
-        a => console.debug(`sent to slack : ${a}`),
-        error => console.error(`error sending to slack: ${error}`));
+      a => console.debug(`sent to slack : ${a}`),
+      error => console.error(`error sending to slack: ${error}`));
   }
 
-  updatePairing (p: Pairing): void {
+  updatePairing(p: Pairing): void {
     this.canSave = true;
     this.pairing = p;
   }
 
-  getNames (t: string, p: boolean, retry: number = 0): void {
-    this._nameService.getTeam(t).subscribe(
+  getNames(retry: number = 0): void {
+    this._nameService.getTeam().subscribe(
       n => {
-        n.forEach(a => {
-          a.shouldPair = p;
-          a.state = State.RandomPairing;
+
+        n.filter(f => f.key == 'V5' || f.key == 'Cloud').reverse().forEach(t => {
+          t.value.forEach(v => {
+            v.shouldPair = true;
+            v.state = State.RandomPairing;
+          });
+
+          this.allteams.push({ 'name': t.key, 'members': t.value });
         });
-        this.allteams.push({ 'name': t, 'members': n });
       },
       error => {
         retry++;
-        if (retry < 4) this.getNames(t, p, retry);
+        if (retry < 4) this.getNames(retry);
         console.error(error);
       });
   }
 
-  getPairCounts (retry: number = 0): void {
+  getPairCounts(retry: number = 0): void {
     this._nameService.getPairCounts().subscribe(
       n => {
         this.paircounts = n;
@@ -129,7 +133,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  getOddCounts (retry: number = 0): void {
+  getOddCounts(retry: number = 0): void {
     this._nameService.getOddCounts().subscribe(
       n => {
         this.oddcounts = n;
@@ -141,12 +145,11 @@ export class AppComponent implements OnInit {
       });
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.allteams = [];
     this.pairing = new Pairing();
     this.intentionalPairs = new IntentionalPairs();
-    this.getNames('V5', true);
-    this.getNames('cloud', false);
+    this.getNames();
     this.getPairCounts();
     this.getOddCounts();
   }

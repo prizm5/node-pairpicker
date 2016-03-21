@@ -97,19 +97,21 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.canSave = true;
                     this.pairing = p;
                 };
-                AppComponent.prototype.getNames = function (t, p, retry) {
+                AppComponent.prototype.getNames = function (retry) {
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
-                    this._nameService.getTeam(t).subscribe(function (n) {
-                        n.forEach(function (a) {
-                            a.shouldPair = p;
-                            a.state = person_1.State.RandomPairing;
+                    this._nameService.getTeam().subscribe(function (n) {
+                        n.filter(function (f) { return f.key == 'V5' || f.key == 'Cloud'; }).reverse().forEach(function (t) {
+                            t.value.forEach(function (v) {
+                                v.shouldPair = true;
+                                v.state = person_1.State.RandomPairing;
+                            });
+                            _this.allteams.push({ 'name': t.key, 'members': t.value });
                         });
-                        _this.allteams.push({ 'name': t, 'members': n });
                     }, function (error) {
                         retry++;
                         if (retry < 4)
-                            _this.getNames(t, p, retry);
+                            _this.getNames(retry);
                         console.error(error);
                     });
                 };
@@ -141,8 +143,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.allteams = [];
                     this.pairing = new pairing_1.Pairing();
                     this.intentionalPairs = new intentional_pairs_1.IntentionalPairs();
-                    this.getNames('V5', true);
-                    this.getNames('cloud', false);
+                    this.getNames();
                     this.getPairCounts();
                     this.getOddCounts();
                 };
