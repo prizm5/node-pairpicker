@@ -1,4 +1,6 @@
-System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component', './services/names.service', 'angular2/http', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1) {
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component', './services/names.service', 'angular2/http', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -90,8 +92,6 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.savePairingToDb(p);
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { return console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack: " + error); });
-                    this.getPairCounts();
-                    this.getOddCounts();
                 };
                 AppComponent.prototype.updatePairing = function (p) {
                     this.canSave = true;
@@ -157,7 +157,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], AppComponent);
                 return AppComponent;
-            })();
+            }());
             exports_1("AppComponent", AppComponent);
         }
     }

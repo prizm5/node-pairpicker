@@ -94,9 +94,6 @@ export class AppComponent implements OnInit {
       .subscribe(
         a => console.debug(`sent to slack : ${a}`),
         error => console.error(`error sending to slack: ${error}`));
-
-    this.getPairCounts();
-    this.getOddCounts();
   }
 
   updatePairing (p: Pairing): void {
