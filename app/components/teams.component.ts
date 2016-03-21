@@ -77,7 +77,8 @@ export class Teams {
 
 function groupBy <K, V> (coll: V[], keyFn: (t: V) => K): { [k: string /* K as string */ ]: V[] } {
   return coll.reduce((groups, c) => {
-    let key = (keyFn(c) || '').toString();
+    var k = keyFn(c);
+    let key = (k === null || k === undefined ? '' : k).toString();
     (key in groups) ? groups[key].push(c) : groups[key] = [c];
     return groups;
   }, <{ [k: string]: V[] }> {});

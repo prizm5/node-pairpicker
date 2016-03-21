@@ -12,7 +12,8 @@ System.register(['angular2/core', '../models/team', './dev.component', '../model
     var Teams;
     function groupBy(coll, keyFn) {
         return coll.reduce(function (groups, c) {
-            var key = (keyFn(c) || '').toString();
+            var k = keyFn(c);
+            var key = (k === null || k === undefined ? '' : k).toString();
             (key in groups) ? groups[key].push(c) : groups[key] = [c];
             return groups;
         }, {});
