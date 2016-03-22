@@ -22,20 +22,6 @@ api.router.post('/', function (req, res) {
   }));
 });
 
-api.router.get('/data/v5', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
-    var dbb = new config.db();
-    dbb.get('devs', function (err, doc) {
-      if (err) {
-        console.log(err);
-        res.status(500).end();
-      } else {
-        res.send(doc.names);
-      }
-    });
-  }));
-
-});
 
 api.router.get('/data/team', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
@@ -76,20 +62,6 @@ api.router.get('/data/oddcounts', function (req, res) {
         res.status(500).end();
       } else {
         res.send(data);
-      }
-    });
-  }));
-});
-
-api.router.get('/data/cloud', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
-    var dbb = new config.db();
-    dbb.get('cloud', function (err, doc) {
-      if (err) {
-        console.log(err);
-        res.status(500).end();
-      } else {
-        res.send(doc.names);
       }
     });
   }));
