@@ -3,16 +3,11 @@ var express = require('express');
 var utils = require('./utils');
 var cradle = require('cradle');
 var config = require('./config');
+var moment = require('moment');
+
 // ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
-api.router.get('/', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
-    var pairings = p.generatePairs(p.getNames(devs.devs), []);
-    utils.sendSlackText(pairings);
-    res.status(200).end();
-  }));
-});
 
 api.router.post('/', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
@@ -35,7 +30,6 @@ api.router.get('/data/team', function (req, res) {
       }
     });
   }));
-
 });
 
 api.router.get('/data/paircounts', function (req, res) {
@@ -50,7 +44,6 @@ api.router.get('/data/paircounts', function (req, res) {
       }
     });
   }));
-
 });
 
 api.router.get('/data/oddcounts', function (req, res) {
@@ -110,7 +103,6 @@ api.router.post('/moveToDev', function (req, res) {
     utils.moveToDev(req.body.name)
     res.status(200).end()
   }));
-
 });
 
 module.exports = api;
