@@ -4,12 +4,8 @@ var Slack = require('node-slack');
 var slack = new Slack(process.env.heroku_hook);
 var slack_token = process.env.slack_token;
 var async = require('async');
-
-var dbname = 'dev_data';
+var config = require('./config')
 var cradle = require('cradle');
-var db_url = process.env.dburl || 'http://localhost';
-var db_port = process.env.dbport || 5984;
-
 var fs = require('fs');
 
 var mapnames = function(pairs) {
@@ -96,7 +92,7 @@ var remove = function(name, array) {
 var getDocs = function(calls) {
   ['cloud', 'devs'].forEach(function(name) {
     calls.push(function(callback) {
-      var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+      var dbb = new config.db();
       dbb.get(name, function(err, doc) { // remember error first ;)
         if (err) {
           return callback(err);
@@ -110,7 +106,7 @@ var getDocs = function(calls) {
 var saveDocs = function(calls, docs) {
   docs.forEach(function(name) {
     calls.push(function(callback) {
-      var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+      var dbb = new config.db();
       dbb.save(name, function(err, doc) { // remember error first ;)
         if (err) {
           return callback(err);
