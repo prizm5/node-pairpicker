@@ -7,6 +7,7 @@ export enum State {
 
 export interface Person {
   name: string;
+  nickname: string;
   shouldPair: boolean;
   state: State;
 }

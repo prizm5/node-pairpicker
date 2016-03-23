@@ -30,7 +30,7 @@ interface KeyValuePair <T> {
     <section class="success" id="pairs">
       <div class="container">
         <div class="row">
-          <div class="col-sm-4 text-center">
+          <div class="col-sm-5 text-center">
             <h3>Random</h3>
             <hr class="star-light" />
             <table class="table">
@@ -43,7 +43,7 @@ interface KeyValuePair <T> {
               </tbody>
             </table>
           </div>
-          <div class="col-sm-4 text-center">
+          <div class="col-sm-5 text-center">
             <h3>Intentional</h3>
             <hr class="star-light" />
             <table class="table">
@@ -55,12 +55,11 @@ interface KeyValuePair <T> {
                 </tr>
               </tbody>
             </table>
-          </div>
-          <div class="col-sm-4 text-center">
+
             <h3>Odd</h3>
             <hr class="star-light" />
             <ul class="list-block">
-              <li *ngFor="#peep of pairing.odd">{{peep}} ({{getCount(oddcounts,peep)}})</li>
+              <li *ngFor="#peep of pairing.odd">{{peep}} ({{getCount(paircounts,peep)}})</li>
             </ul>
           </div>
         </div>
@@ -103,7 +102,6 @@ export class Pairs {
   public pairing: Pairing;
   public onSavePairing = new EventEmitter();
   public paircounts = {};
-  public oddcounts = {};
   public canSavePairs = false;
 
   constructor () { }

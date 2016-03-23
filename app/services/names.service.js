@@ -31,18 +31,13 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
-                NameService.prototype.getTeam = function (t) {
-                    return this.http.get('api/data/' + t + this.searchtoken)
+                NameService.prototype.getTeam = function () {
+                    return this.http.get('api/data/team' + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.getPairCounts = function () {
                     return this.http.get('api/data/paircounts' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.getOddCounts = function () {
-                    return this.http.get('api/data/oddcounts' + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
@@ -57,7 +52,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 NameService.prototype.moveTeam = function (p, teamname) {
                     var url = '';
                     switch (teamname) {
-                        case "cloud":
+                        case "Cloud":
                             url = 'api/moveToDev';
                             break;
                         case "V5":

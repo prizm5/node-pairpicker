@@ -15,20 +15,14 @@ export class NameService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-  getTeam (t: string) {
-    return this.http.get('api/data/' + t + this.searchtoken)
-      .map(res => <Person[]>res.json())
+  getTeam () {
+    return this.http.get('api/data/team' + this.searchtoken)
+      .map(res => res.json())
       .catch(this.logAndPassOn);
   }
 
   getPairCounts () {
     return this.http.get('api/data/paircounts' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
-  getOddCounts () {
-    return this.http.get('api/data/oddcounts' + this.searchtoken)
       .map(res => res.json())
       .catch(this.logAndPassOn);
   }
@@ -50,7 +44,7 @@ export class NameService {
   moveTeam (p: string, teamname: string) {
     var url = '';
     switch (teamname) {
-      case "cloud":
+      case "Cloud":
         url = 'api/moveToDev';
         break;
       case "V5":
