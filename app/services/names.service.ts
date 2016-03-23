@@ -27,12 +27,6 @@ export class NameService {
       .catch(this.logAndPassOn);
   }
 
-  getOddCounts () {
-    return this.http.get('api/data/oddcounts' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
   sendToSlack (p: Pairing) {
     return this.http.post('api' + this.searchtoken,
       JSON.stringify(p),
@@ -50,7 +44,7 @@ export class NameService {
   moveTeam (p: string, teamname: string) {
     var url = '';
     switch (teamname) {
-      case "cloud":
+      case "Cloud":
         url = 'api/moveToDev';
         break;
       case "V5":

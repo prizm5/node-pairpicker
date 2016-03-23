@@ -34,22 +34,8 @@ api.router.get('/data/team', function (req, res) {
 
 api.router.get('/data/paircounts', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
-    var dbb = new (cradle.Connection)(config.db_url, config.db_port).database(config.dbname);
-    dbb.view('stats/paircounts', {group: true, reduce: true}, function (err, data) {
-      if (err) {
-        console.log(err);
-        res.status(500).end();
-      } else {
-        res.send(data);
-      }
-    });
-  }));
-});
-
-api.router.get('/data/oddcounts', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
-    dbb.view('stats/oddcounts', {group: true, reduce: true}, function (err, data, keys) {
+    dbb.view('stats/paircounts', {group: true, reduce: true}, function (err, data) {
       if (err) {
         console.log(err);
         res.status(500).end();
@@ -85,7 +71,7 @@ api.router.post('/savePair', function (req, res) {
       docs.push({timestamp: formatted, data: p, doc_type: 'odd'});
     });
 
-    var dbb = new (cradle.Connection)(db_url, db_port).database(dbname);
+    var dbb = new config.db();
     dbb.save(docs, function (err, doc) {
       if (err) {
         console.log(err);

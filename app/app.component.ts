@@ -99,15 +99,24 @@ export class AppComponent implements OnInit {
   updatePairing(p: Pairing): void {
     this.canSave = true;
     this.pairing = p;
+    this.getPairCounts();
   }
 
   getNames(retry: number = 0): void {
     this._nameService.getTeam().subscribe(
       n => {
 
-        n.filter(f => f.key == 'V5' || f.key == 'Cloud').reverse().forEach(t => {
+        n.filter(f => f.key == 'V5' ).reverse().forEach(t => {
           t.value.forEach(v => {
             v.shouldPair = true;
+            v.state = State.RandomPairing;
+          });
+
+          this.allteams.push({ 'name': t.key, 'members': t.value });
+        });
+        n.filter(f => f.key == 'Cloud').reverse().forEach(t => {
+          t.value.forEach(v => {
+            v.shouldPair = false;
             v.state = State.RandomPairing;
           });
 
@@ -133,17 +142,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  getOddCounts(retry: number = 0): void {
-    this._nameService.getOddCounts().subscribe(
-      n => {
-        this.oddcounts = n;
-      },
-      error => {
-        retry++;
-        if (retry < 4) this.getOddCounts(retry);
-        console.error(error);
-      });
-  }
+
 
   ngOnInit(): void {
     this.allteams = [];
@@ -151,6 +150,5 @@ export class AppComponent implements OnInit {
     this.intentionalPairs = new IntentionalPairs();
     this.getNames();
     this.getPairCounts();
-    this.getOddCounts();
   }
 }

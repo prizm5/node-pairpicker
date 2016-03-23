@@ -76,7 +76,7 @@ System.register(['angular2/core', '../models/person'], function(exports_1, conte
                 Dev.prototype.displayPerson = function (peep) {
                     var otherPeep = this.intentionalPairs.getIntentionalPairOf(peep);
                     if (otherPeep) {
-                        return peep.name + " & " + otherPeep.name;
+                        return (peep.nickname || peep.name) + " & " + (otherPeep.nickname || otherPeep.name);
                     }
                     else {
                         return peep.name;

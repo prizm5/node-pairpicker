@@ -96,14 +96,22 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 AppComponent.prototype.updatePairing = function (p) {
                     this.canSave = true;
                     this.pairing = p;
+                    this.getPairCounts();
                 };
                 AppComponent.prototype.getNames = function (retry) {
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
                     this._nameService.getTeam().subscribe(function (n) {
-                        n.filter(function (f) { return f.key == 'V5' || f.key == 'Cloud'; }).reverse().forEach(function (t) {
+                        n.filter(function (f) { return f.key == 'V5'; }).reverse().forEach(function (t) {
                             t.value.forEach(function (v) {
                                 v.shouldPair = true;
+                                v.state = person_1.State.RandomPairing;
+                            });
+                            _this.allteams.push({ 'name': t.key, 'members': t.value });
+                        });
+                        n.filter(function (f) { return f.key == 'Cloud'; }).reverse().forEach(function (t) {
+                            t.value.forEach(function (v) {
+                                v.shouldPair = false;
                                 v.state = person_1.State.RandomPairing;
                             });
                             _this.allteams.push({ 'name': t.key, 'members': t.value });
@@ -127,25 +135,12 @@ System.register(['angular2/core', './components/nav.component', './components/te
                         console.error(error);
                     });
                 };
-                AppComponent.prototype.getOddCounts = function (retry) {
-                    var _this = this;
-                    if (retry === void 0) { retry = 0; }
-                    this._nameService.getOddCounts().subscribe(function (n) {
-                        _this.oddcounts = n;
-                    }, function (error) {
-                        retry++;
-                        if (retry < 4)
-                            _this.getOddCounts(retry);
-                        console.error(error);
-                    });
-                };
                 AppComponent.prototype.ngOnInit = function () {
                     this.allteams = [];
                     this.pairing = new pairing_1.Pairing();
                     this.intentionalPairs = new intentional_pairs_1.IntentionalPairs();
                     this.getNames();
                     this.getPairCounts();
-                    this.getOddCounts();
                 };
                 AppComponent = __decorate([
                     core_1.Component({

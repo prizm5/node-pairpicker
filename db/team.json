@@ -1,57 +1,76 @@
 {
-  "_id": "team",
-  "members": [
-    {
-      "name": "Lindsey",
-      "team": "QA"
-    },
-    {
-      "name": "Mark",
-      "team": "QA"
-    },
-    {
-      "name": "Aman",
-      "team": "QA"
-    },
-    {
-      "name": "Keith",
-      "team": "Cloud"
-    },
-    {
-      "name": "Boguste",
-      "team": "V5"
-    },
-    {
-      "name": "Dave",
-      "team": "V5"
-    },
-    {
-      "name": "Nilhouse",
-      "team": "V5"
-    },
-    {
-      "name": "Maximus",
-      "team": "V5"
-    },
-    {
-      "name": "Becky",
-      "team": "V5"
-    },
-    {
-      "name": "Arlington",
-      "team": "V5"
-    },
-    {
-      "name": "Steve",
-      "team": "V5"
-    },
-    {
-      "name": "Danny",
-      "team": "V5"
-    },
-    {
-      "name": "Patrick",
-      "team": "V5"
-    }
-  ]
+   "_id": "team",
+   "_rev": "17-0556c9d66dd44ef3a6f120956120f95e",
+   "members": [
+       {
+           "name": "Lindsey",
+           "team": "QA",
+           "foosball": "false"
+       },
+       {
+           "name": "Mark",
+           "team": "QA",
+           "foosball": "false"
+       },
+       {
+           "name": "Aman",
+           "team": "QA",
+           "foosball": "true"
+       },
+       {
+           "name": "Keith",
+           "team": "Cloud",
+           "foosball": "true"
+       },
+       {
+           "name": "Boguste",
+           "team": "V5",
+           "foosball": "true"
+       },
+       {
+           "name": "Dave",
+           "team": "V5",
+           "foosball": "false"
+       },
+       {
+           "name": "Nilhouse",
+           "team": "V5",
+           "foosball": "true"
+       },
+       {
+           "name": "Maximus",
+           "team": "V5",
+           "foosball": "true"
+       },
+       {
+           "name": "Becky",
+           "team": "V5",
+           "foosball": "false"
+       },
+       {
+           "name": "Arlington",
+           "team": "V5",
+           "foosball": "true"
+       },
+       {
+           "name": "Steve",
+           "team": "V5",
+           "foosball": "false"
+       },
+       {
+           "name": "Danny",
+           "team": "V5",
+           "foosball": "true"
+       },
+       {
+           "name": "Patrick",
+           "team": "Cloud",
+           "foosball": "false"
+       },
+       {
+           "name": "Faiz",
+           "team": "Reporting",
+           "foosball": "true"
+       }
+   ]
 }

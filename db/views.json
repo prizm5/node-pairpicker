@@ -1,6 +1,6 @@
 {
    "_id": "_design/stats",
-   "_rev": "22-2e2084d7c1896768fdc8233bc8fd9b98",
+   "_rev": "26-fe49153b9031e46ac361ff0e964c7623",
    "language": "javascript",
    "views": {
        "pairs": {
@@ -22,7 +22,10 @@
        },
        "teams": {
            "map": "function(doc) {\n  if(doc._id == \"team\"){\n     doc.members.forEach(function(m){\n       emit(m.team,m);\n     });\t\n  }\n}",
-           "reduce": "function(keys, values, rereduce){\n  return values.map(function(v){return {\"name\": v.name}}).sort();\n}"
+           "reduce": "function(keys, values, rereduce){\n  return values.map(function(v){return {\"name\": v.nickname || v.name}}).sort();\n}"
+       },
+       "foosball": {
+           "map": "function(doc) {\n\t\n\tif(doc._id == 'team' ){\n\t\tvar mem = doc.members;\n\t\tvar mem = doc.members.filter(\n\t\t\tfunction(m){\n\t\t\t\treturn m.foosball == 'true';\n\t\t\t}\n\t\t);\n  \t\temit('foosball', mem);\n\t}\n}"
        }
    }
 }

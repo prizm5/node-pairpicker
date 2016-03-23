@@ -33,7 +33,7 @@ export class Pairing {
     };
 
     let pairToString = (pair: Person[]): string => {
-      return pair.map(p => p.name).join(' :: ');
+      return pair.map(p => p.nickname || p.name).join(' :: ');
     };
 
     this.shuffle(team.members);

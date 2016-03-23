@@ -108,7 +108,7 @@ export class Dev {
     let otherPeep = this.intentionalPairs.getIntentionalPairOf(peep);
 
     if (otherPeep) {
-      return `${peep.name} & ${otherPeep.name}`;
+      return `${peep.nickname || peep.name} & ${otherPeep.nickname || otherPeep.name}`;
     } else {
       return peep.name;
     }

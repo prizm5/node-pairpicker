@@ -41,11 +41,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
-                NameService.prototype.getOddCounts = function () {
-                    return this.http.get('api/data/oddcounts' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
                 NameService.prototype.sendToSlack = function (p) {
                     return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
@@ -57,7 +52,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 NameService.prototype.moveTeam = function (p, teamname) {
                     var url = '';
                     switch (teamname) {
-                        case "cloud":
+                        case "Cloud":
                             url = 'api/moveToDev';
                             break;
                         case "V5":

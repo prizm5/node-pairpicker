@@ -117,71 +117,28 @@ var saveDocs = function(calls, docs) {
   });
 };
 
-utils.moveToCloud = function(name) {
-
-  var clouddoc, devsdoc = {};
-  var calls = [];
-  getDocs(calls);
-
-  async.parallel(calls, function(err, result) {
-    if (err)
+var changeTeam = function(name,team){
+  var dbb = new config.db();
+  dbb.get("team", function(err, doc) { // remember error first ;)
+    if (err) {
       return console.log(err);
-
-    clouddoc = result[0];
-    devsdoc = result[1];
-
-    var newdevs = devsdoc.names.filter(n => n.name === name).splice(0)[0];
-    devsdoc.names = devsdoc.names.filter(n => n.name !== name).splice(0);
-
-    clouddoc.names.push(newdevs);
-
-    console.log(clouddoc);
-
-    var saves = [];
-    var docs = [];
-    docs.push(devsdoc);
-    docs.push(clouddoc);
-    saveDocs(saves, docs);
-
-    async.parallel(saves, function(err, result) {
-      if (err)
-        return console.log(err);
-      console.log('All Saved');
+    }
+    doc.members.filter( f => f.name == name)[0].team = team;
+    dbb.save(doc, function(err, doc) {
+        if (err) {
+          return callback(err);
+        }
+        return doc;
     });
   });
 };
 
+utils.moveToCloud = function(name) {
+  return changeTeam(name,'Cloud');
+};
+
 utils.moveToDev = function(name) {
-  var clouddoc, devsdoc = {};
-  var calls = [];
-  getDocs(calls);
-
-  async.parallel(calls, function(err, result) {
-    if (err)
-      return console.log(err);
-
-    clouddoc = result[0];
-    devsdoc = result[1];
-
-    var newdevs = clouddoc.names.filter(n => n.name === name).splice(0)[0];
-    clouddoc.names = clouddoc.names.filter(n => n.name !== name).splice(0);
-
-    devsdoc.names.push(newdevs);
-
-    console.log(clouddoc);
-
-    var saves = [];
-    var docs = [];
-    docs.push(devsdoc);
-    docs.push(clouddoc);
-    saveDocs(saves, docs);
-
-    async.parallel(saves, function(err, result) {
-      if (err)
-        return console.log(err);
-      console.log('All Saved');
-    });
-  });
+  return changeTeam(name,'V5');
 };
 
 module.exports = utils;

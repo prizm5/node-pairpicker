@@ -33,7 +33,7 @@ System.register([], function(exports_1, context_1) {
                         return 0;
                     };
                     var pairToString = function (pair) {
-                        return pair.map(function (p) { return p.name; }).join(' :: ');
+                        return pair.map(function (p) { return p.nickname || p.name; }).join(' :: ');
                     };
                     this.shuffle(team.members);
                     var split = this.splitarray(team.members, 2);
