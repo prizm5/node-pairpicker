@@ -24,7 +24,7 @@ System.register(['angular2/platform/browser', 'angular2/http', './app.component'
                 core_1 = core_1_1;
             }],
         execute: function() {
-            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, names_service_1.NameService, router_1.ROUTER_PROVIDERS, core_1.provide(router_2.APP_BASE_HREF, { useValue: '/#/' })])
+            browser_1.bootstrap(app_component_1.AppComponent, [http_1.HTTP_PROVIDERS, names_service_1.NameService, router_1.ROUTER_PROVIDERS, core_1.provide(router_2.APP_BASE_HREF, { useValue: '/' })])
                 .catch(function (err) { return console.error(err); });
         }
     }
