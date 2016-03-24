@@ -3,10 +3,8 @@ import {Component, OnInit} from 'angular2/core';
 import {Nav} from './components/nav.component';
 import {Teams} from './components/teams.component';
 import {Pairs} from './components/pairs.component';
-import {Footer} from './components/footer.component';
 import {NameService} from './services/names.service';
 import {JSONP_PROVIDERS}  from 'angular2/http';
-import {RouterOutlet} from 'angular2/router';
 
 import {Team} from './models/team';
 import {State} from './models/person';
@@ -17,7 +15,6 @@ import 'rxjs/Rx';
 @Component({
   styles: [],
   template: `
-
     <teams-section
       [teams]="allteams"
       [intentionalPairs]="intentionalPairs"
@@ -34,10 +31,8 @@ import 'rxjs/Rx';
       (onSavePairing)="savePairing($event)">
       <h1>I nav loaded...</h1>
     </pairs-section>
-    <footer-section><h1>I footer loaded...</h1></footer-section>
   `,
-  directives: [Nav, Teams, Pairs, Footer],
-  providers: [NameService, JSONP_PROVIDERS]
+  directives: [Nav, Teams, Pairs],
 })
 
 export class Picker implements OnInit {

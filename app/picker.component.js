@@ -1,4 +1,4 @@
-System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './components/footer.component', './services/names.service', 'angular2/http', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1, context_1) {
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './services/names.service', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, nav_component_1, teams_component_1, pairs_component_1, footer_component_1, names_service_1, http_1, person_1, pairing_1, intentional_pairs_1;
+    var core_1, nav_component_1, teams_component_1, pairs_component_1, names_service_1, person_1, pairing_1, intentional_pairs_1;
     var Picker;
     return {
         setters:[
@@ -26,14 +26,8 @@ System.register(['angular2/core', './components/nav.component', './components/te
             function (pairs_component_1_1) {
                 pairs_component_1 = pairs_component_1_1;
             },
-            function (footer_component_1_1) {
-                footer_component_1 = footer_component_1_1;
-            },
             function (names_service_1_1) {
                 names_service_1 = names_service_1_1;
-            },
-            function (http_1_1) {
-                http_1 = http_1_1;
             },
             function (person_1_1) {
                 person_1 = person_1_1;
@@ -145,9 +139,8 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 Picker = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I nav loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I nav loaded...</h1>\n    </pairs-section>\n    <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
-                        directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs, footer_component_1.Footer],
-                        providers: [names_service_1.NameService, http_1.JSONP_PROVIDERS]
+                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I nav loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I nav loaded...</h1>\n    </pairs-section>\n  ",
+                        directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs],
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Picker);

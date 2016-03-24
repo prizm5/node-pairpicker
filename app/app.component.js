@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './picker.component', './foosball.component', './components/nav.component', './stats.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './picker.component', './foosball.component', './components/nav.component', './components/footer.component', './stats.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, picker_component_1, foosball_component_1, nav_component_1, stats_component_1;
+    var core_1, router_1, picker_component_1, foosball_component_1, nav_component_1, footer_component_1, stats_component_1;
     var AppComponent;
     return {
         setters:[
@@ -29,6 +29,9 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
             function (nav_component_1_1) {
                 nav_component_1 = nav_component_1_1;
             },
+            function (footer_component_1_1) {
+                footer_component_1 = footer_component_1_1;
+            },
             function (stats_component_1_1) {
                 stats_component_1 = stats_component_1_1;
             }],
@@ -40,8 +43,8 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  ",
-                        directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav],
+                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav, footer_component_1.Footer]
                     }),
                     router_1.RouteConfig([
                         { path: '/Picker', name: 'Picker', component: picker_component_1.Picker, useAsDefault: true },

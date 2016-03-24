@@ -1,14 +1,23 @@
-import {Component, OnInit} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component} from 'angular2/core';
 
 @Component({
   styles: [],
   template: `
-    Hellllllooooo foosball
-  `,
-  directives: [ROUTER_DIRECTIVES]
+    <!-- Portfolio Grid Section -->
+    <section id="foosball">
+      <div class="container">
+        <div class="row" >
+          <div class="col-lg-12 text-center">
+            <h2>Foosball</h2>
+            <hr class="star-primary">
+          </div>
+        </div>
+        <div class="row" >
+          Hellllllooooo Foosball
+        </div>
+      </div>
+    </section>
+  `
 })
 
-export class Foosball  {
-
-}
+export class Foosball { }

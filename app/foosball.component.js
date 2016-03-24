@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router'], function(exports_1, context_1) {
+System.register(['angular2/core'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,15 +10,12 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1;
+    var core_1;
     var Foosball;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
-            },
-            function (router_1_1) {
-                router_1 = router_1_1;
             }],
         execute: function() {
             Foosball = (function () {
@@ -27,8 +24,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                 Foosball = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    Hellllllooooo foosball\n  ",
-                        directives: [router_1.ROUTER_DIRECTIVES]
+                        template: "\n    <!-- Portfolio Grid Section -->\n    <section id=\"foosball\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Foosball</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\" >\n          Hellllllooooo Foosball\n        </div>\n      </div>\n    </section>\n  "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], Foosball);
