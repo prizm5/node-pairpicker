@@ -11,7 +11,7 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, router_1;
-    var Foosball;
+    var Stats;
     return {
         setters:[
             function (core_1_1) {
@@ -21,21 +21,21 @@ System.register(['angular2/core', 'angular2/router'], function(exports_1, contex
                 router_1 = router_1_1;
             }],
         execute: function() {
-            Foosball = (function () {
-                function Foosball() {
+            Stats = (function () {
+                function Stats() {
                 }
-                Foosball = __decorate([
+                Stats = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    Hellllllooooo foosball\n  ",
+                        template: "\n<!-- Portfolio Grid Section -->\n    <section id=\"stats\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Workflows</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\" >\n          Hellllllooooo Stats\n        </div>\n\n      </div>\n    </section>\n\n  ",
                         directives: [router_1.ROUTER_DIRECTIVES]
                     }), 
                     __metadata('design:paramtypes', [])
-                ], Foosball);
-                return Foosball;
+                ], Stats);
+                return Stats;
             }());
-            exports_1("Foosball", Foosball);
+            exports_1("Stats", Stats);
         }
     }
 });
-//# sourceMappingURL=foosball.component.js.map
+//# sourceMappingURL=stats.component.js.map

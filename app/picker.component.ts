@@ -17,7 +17,7 @@ import 'rxjs/Rx';
 @Component({
   styles: [],
   template: `
-    <nav-section><h1>I nav loaded...</h1></nav-section>
+
     <teams-section
       [teams]="allteams"
       [intentionalPairs]="intentionalPairs"

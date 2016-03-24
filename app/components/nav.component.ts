@@ -28,6 +28,9 @@ import {Foosball} from '../foosball.component'
                         <a [routerLink]="['Picker']">Pair Picker</a>
                     </li>
                     <li class="page-scroll">
+                        <a [routerLink]="['Stats']">Stats</a>
+                    </li>
+                    <li class="page-scroll">
                         <a [routerLink]="['Foosball']">Foosball</a>
                     </li>
 
