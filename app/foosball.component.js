@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './picker.component', './foosball.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './components/nav.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,8 +10,8 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, picker_component_1, foosball_component_1;
-    var AppComponent;
+    var core_1, router_1, nav_component_1;
+    var Foosball;
     return {
         setters:[
             function (core_1_1) {
@@ -20,33 +20,26 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
             function (router_1_1) {
                 router_1 = router_1_1;
             },
-            function (picker_component_1_1) {
-                picker_component_1 = picker_component_1_1;
-            },
-            function (foosball_component_1_1) {
-                foosball_component_1 = foosball_component_1_1;
+            function (nav_component_1_1) {
+                nav_component_1 = nav_component_1_1;
             }],
         execute: function() {
-            AppComponent = (function () {
-                function AppComponent() {
+            Foosball = (function () {
+                function Foosball() {
                 }
-                AppComponent = __decorate([
+                Foosball = __decorate([
                     core_1.Component({
                         styles: [],
-                        selector: 'pairpicker',
-                        template: "\n<router-outlet></router-outlet>\n  ",
-                        directives: [router_1.ROUTER_DIRECTIVES],
-                    }),
-                    router_1.RouteConfig([
-                        { path: '/Picker', name: 'Picker', component: picker_component_1.Picker, useAsDefault: true },
-                        { path: '/Foosball', name: 'Foosball', component: foosball_component_1.Foosball },
-                    ]), 
+                        selector: 'foosball',
+                        template: "\n     <nav-section><h1>I nav loaded...</h1></nav-section>\n    Hellllllooooo foosball\n  ",
+                        directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav]
+                    }), 
                     __metadata('design:paramtypes', [])
-                ], AppComponent);
-                return AppComponent;
+                ], Foosball);
+                return Foosball;
             }());
-            exports_1("AppComponent", AppComponent);
+            exports_1("Foosball", Foosball);
         }
     }
 });
-//# sourceMappingURL=app.component.js.map
+//# sourceMappingURL=foosball.component.js.map
