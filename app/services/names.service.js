@@ -27,7 +27,8 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             NameService = (function () {
                 function NameService(http) {
                     this.http = http;
-                    this.searchtoken = window.location.search;
+                    if (!this.searchtoken)
+                        this.searchtoken = window.location.search;
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
@@ -63,8 +64,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.logAndPassOn = function (error) {
-                    // in a real world app, we may send the server to some remote logging infrastructure
-                    // instead of just logging it to the console
                     console.error(error);
                     return Observable_1.Observable.throw(error);
                 };

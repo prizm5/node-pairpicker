@@ -1,4 +1,7 @@
 import {Component} from 'angular2/core';
+import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Picker} from '../picker.component'
+import {Foosball} from '../foosball.component'
 
 @Component({
   styles:[],
@@ -18,12 +21,30 @@ import {Component} from 'angular2/core';
           <img src="img/icon-pairing-trans.png" id="logo">
           <a class="navbar-brand" href="#page-top">Pair Picker</a>
         </div>
-      <!-- /.navbar-collapse -->
+         <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="page-scroll">
+                        <a [routerLink]="['Picker']">Pair Picker</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a [routerLink]="['Stats']">Stats</a>
+                    </li>
+                    <li class="page-scroll">
+                        <a [routerLink]="['Foosball']">Foosball</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+
       </div>
     <!-- /.container-fluid -->
     </nav>
-  `
+  `,
+  directives: [ROUTER_DIRECTIVES]
 })
+
 export class Nav {
   constructor () { }
 }
