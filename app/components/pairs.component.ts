@@ -1,12 +1,12 @@
-import {Component, EventEmitter} from 'angular2/core';
-import {Pairing} from '../models/pairing';
+import {Component, EventEmitter} from "angular2/core";
+import {Pairing} from "../models/pairing";
 
 interface CountAndDate {
   count?: number;
   last_ts?: string
 }
 
-type PairType = string; // TODO: change type value from [string] to ['random' | 'pairing'] when we go TS 1.8+
+type PairType = string; // TODO: change type value from [string] to ["random" | "pairing"] when we go TS 1.8+
 
 interface PairCountAndDate {
   pairing?: CountAndDate;
@@ -24,46 +24,49 @@ interface KeyValuePair <T> {
 
 @Component({
   styles: [],
-  selector: 'pairs-section',
+  selector: "pairs-section",
   template: `
     <!-- Pairs Section -->
     <section class="success" id="pairs">
       <div class="container">
         <div class="row">
-          <div class="col-sm-5 text-center">
+          <div class="col-sm-5 text-center" *ngIf="pairing.randomPairs.length > 0">
             <h3>Random</h3>
             <hr class="star-light" />
             <table class="table">
               <tbody>
                 <tr *ngFor="#peep of pairing.randomPairs" class="modal-body">
-                  <td>{{peep.split(' :: ')[0]}}</td>
-                  <td>{{peep.split(' :: ')[1]}}</td>
-                  <td>({{getPairCount(paircounts, 'random', peep)}})</td>
+                  <td>{{peep.split(" :: ")[0]}}</td>
+                  <td>{{peep.split(" :: ")[1]}}</td>
+                  <td>({{getPairCount(paircounts, "random", peep)}})</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="col-sm-5 text-center">
-            <h3>Intentional</h3>
-            <hr class="star-light" />
-            <table class="table">
-              <tbody>
-                <tr *ngFor="#peep of pairing.intentionalPairs" class="modal-body">
-                  <td>{{peep.split(' :: ')[0]}}</td>
-                  <td>{{peep.split(' :: ')[1]}}</td>
-                  <td>({{getPairCount(paircounts, 'intentional', peep)}})</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <h3>Odd</h3>
-            <hr class="star-light" />
-            <ul class="list-block">
-              <li *ngFor="#peep of pairing.odd">{{peep}} ({{getCount(paircounts,peep)}})</li>
-            </ul>
+            <div *ngIf="pairing.intentionalPairs.length > 0 ">
+              <h3>Intentional</h3>
+              <hr class="star-light" />
+              <table class="table">
+                <tbody>
+                  <tr *ngFor="#peep of pairing.intentionalPairs" class="modal-body">
+                    <td>{{peep.split(" :: ")[0]}}</td>
+                    <td>{{peep.split(" :: ")[1]}}</td>
+                    <td>({{getPairCount(paircounts, "intentional", peep)}})</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="pairing.odd.length > 0">
+              <h3>Odd</h3>
+              <hr class="star-light" />
+              <ul class="list-block">
+                <li *ngFor="#peep of pairing.odd">{{peep}} ({{getCount(paircounts,peep)}})</li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="canSavePairs">
           <hr />
           <div class="col-sm-1 portfolio-item">
             <a href="#myModal" class="portfolio-link" data-toggle="modal">
@@ -95,8 +98,8 @@ interface KeyValuePair <T> {
     </div>
   <!-- /.modal -->
   `,
-  inputs: ['pairing', 'paircounts', 'oddcounts', 'canSavePairs'],
-  outputs: ['onSavePairing'],
+  inputs: ["pairing", "paircounts", "oddcounts", "canSavePairs"],
+  outputs: ["onSavePairing"],
 })
 export class Pairs {
   public pairing: Pairing;
@@ -107,14 +110,14 @@ export class Pairs {
   constructor () { }
 
   getPairCount (data: KeyValuePair<PairCountAndDate>[], pairType: PairType, name: string): string {
-    return firstOrElse('0', data.filter(d => d.key == name).map(d => {
-      let [timesPaired, lastPairedDate] = Pairs.unapplyCountAndDate(d.value[pairType === 'random' ? 'pairing' : 'intentional']);
+    return firstOrElse("0", data.filter(d => d.key == name).map(d => {
+      let [timesPaired, lastPairedDate] = Pairs.unapplyCountAndDate(d.value[pairType === "random" ? "pairing" : "intentional"]);
       return `${timesPaired} : ${Pairs.stringifyDate(lastPairedDate)}`;
     }));
   }
 
   getCount (data: KeyValuePair<OddCountAndDate>[], name: string): string {
-    return firstOrElse('0', data.filter(d => d.key == name).map(d => {
+    return firstOrElse("0", data.filter(d => d.key == name).map(d => {
       let [timesOdd, oddDate] = Pairs.unapplyCountAndDate(d.value.odd);
       return `${timesOdd} : ${Pairs.stringifyDate(oddDate)}`;
     }));
@@ -128,7 +131,7 @@ export class Pairs {
   }
 
   private static neverBefore (): Date {
-    return new Date('1969-12-31 23:59:59');
+    return new Date("1969-12-31 23:59:59");
   }
 
   private static unapplyCountAndDate ({ count = 0, last_ts = Pairs.neverBefore().toString() }: CountAndDate = {}): [number, Date] {
@@ -136,7 +139,7 @@ export class Pairs {
   }
 
   private static stringifyDate (d: Date): string {
-    return d.toDateString() === Pairs.neverBefore().toDateString() ? 'N/A' : d.toLocaleDateString('en-US');
+    return d.toDateString() === Pairs.neverBefore().toDateString() ? "N/A" : d.toLocaleDateString("en-US");
   }
 }
 

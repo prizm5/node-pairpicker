@@ -4,7 +4,7 @@ var argv = require('yargs').argv;
  
 gulp.task("sendmessage", function () {
   return gulp.src("test.txt")
-      .pipe(notify({message: "Complete", title: 'Build Process'}));
+      .pipe(notify({message: "Complete: " + new Date().toTimeString(), title: 'Build Process'}));
 });
 
 
