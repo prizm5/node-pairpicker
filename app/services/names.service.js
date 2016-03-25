@@ -1,4 +1,6 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,22 +27,18 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
             NameService = (function () {
                 function NameService(http) {
                     this.http = http;
-                    this.searchtoken = window.location.search;
+                    if (!this.searchtoken)
+                        this.searchtoken = window.location.search;
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
-                NameService.prototype.getTeam = function (t) {
-                    return this.http.get('api/data/' + t + this.searchtoken)
+                NameService.prototype.getTeam = function () {
+                    return this.http.get('api/data/team' + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.getPairCounts = function () {
                     return this.http.get('api/data/paircounts' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.getOddCounts = function () {
-                    return this.http.get('api/data/oddcounts' + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
@@ -55,7 +53,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 NameService.prototype.moveTeam = function (p, teamname) {
                     var url = '';
                     switch (teamname) {
-                        case "cloud":
+                        case "Cloud":
                             url = 'api/moveToDev';
                             break;
                         case "V5":
@@ -66,8 +64,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.logAndPassOn = function (error) {
-                    // in a real world app, we may send the server to some remote logging infrastructure
-                    // instead of just logging it to the console
                     console.error(error);
                     return Observable_1.Observable.throw(error);
                 };
@@ -76,7 +72,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     __metadata('design:paramtypes', [http_1.Http])
                 ], NameService);
                 return NameService;
-            })();
+            }());
             exports_1("NameService", NameService);
         }
     }

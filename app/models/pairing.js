@@ -1,17 +1,19 @@
-System.register([], function(exports_1) {
+System.register([], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var Pairing;
     return {
         setters:[],
         execute: function() {
             Pairing = (function () {
                 function Pairing() {
-                    this.pairs = [];
+                    this.randomPairs = [];
+                    this.intentionalPairs = [];
                     this.odd = [];
                 }
                 Pairing.prototype.shuffle = function (o) {
                     for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x)
                         ;
-                    return o.map(function (p) { return p.name; });
                 };
                 Pairing.prototype.splitarray = function (input, spacing) {
                     var output = [];
@@ -20,23 +22,29 @@ System.register([], function(exports_1) {
                     }
                     return output;
                 };
-                Pairing.prototype.getPairs = function (team, odd) {
+                Pairing.prototype.generatePairs = function (team, intentionalPairs, odd) {
                     var _this = this;
+                    var comparePeople = function (p1, p2) {
+                        var nameA = p1.name.toLowerCase(), nameB = p2.name.toLowerCase();
+                        if (nameA < nameB)
+                            return -1;
+                        if (nameA > nameB)
+                            return 1;
+                        return 0;
+                    };
+                    var pairToString = function (pair) {
+                        return pair.map(function (p) { return p.nickname || p.name; }).join(' :: ');
+                    };
                     this.shuffle(team.members);
                     var split = this.splitarray(team.members, 2);
-                    this.pairs = [];
+                    this.randomPairs = [];
+                    intentionalPairs.forEach(function (p) { return p.sort(comparePeople); });
+                    this.intentionalPairs = intentionalPairs.map(pairToString);
                     this.odd = odd.map(function (a) { return a.name; });
-                    split.forEach(function (element, index, array) {
+                    split.forEach(function (element) {
                         if (element.length === 2) {
-                            element.sort(function (a, b) {
-                                var nameA = a.name.toLowerCase(), nameB = b.name.toLowerCase();
-                                if (nameA < nameB)
-                                    return -1;
-                                if (nameA > nameB)
-                                    return 1;
-                                return 0; //default return value (no sorting)
-                            });
-                            _this.pairs.push(element[0].name + " :: " + element[1].name);
+                            element.sort(comparePeople);
+                            _this.randomPairs.push(pairToString(element));
                         }
                         else {
                             _this.odd.push(element[0].name);
@@ -44,9 +52,9 @@ System.register([], function(exports_1) {
                     });
                 };
                 return Pairing;
-            })();
+            }());
             exports_1("Pairing", Pairing);
         }
     }
 });
-//# sourceMappingURL=pair.js.map
+//# sourceMappingURL=pairing.js.map
