@@ -42,6 +42,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.getFoosball = function () {
+                    return this.http.get('api/data/foosball' + this.searchtoken)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.sendToSlack = function (p) {
                     return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);

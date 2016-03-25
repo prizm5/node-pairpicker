@@ -17,11 +17,24 @@ api.router.post('/', function (req, res) {
   }));
 });
 
-
 api.router.get('/data/team', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
     dbb.view('stats/teams', {group: true, reduce: true}, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).end();
+      } else {
+        res.send(data);
+      }
+    });
+  }));
+});
+
+api.router.get('/data/foosball', function (req, res) {
+  utils.checktoken(req.query.token, res, (function () {
+    var dbb = new config.db();
+    dbb.view('stats/foosball', function (err, data) {
       if (err) {
         console.log(err);
         res.status(500).end();
