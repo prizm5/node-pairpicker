@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "Pair Picker endjoings in Node",
   "main": "index.js",
-  "scripts": {
+  "scripts": { 
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "start": "concurrent \"npm run tsc:w\" \"nodemon index.js\" "
+    "start": "concurrent \"npm run tsc:w\" \"nodemon --delay 2.5 index.js\" "
   },
   "dependencies": {
     "angular2": "^2.0.0-beta.2",
@@ -38,6 +38,8 @@
   "devDependencies": {
     "browserify": "^12.0.1",
     "concurrently": "^1.0.0",
-    "typescript": "^1.7.3"
+    "gulp-notify": "^2.2.0",
+    "typescript": "^1.7.3",
+    "yargs": "^4.3.2"
   }
 }

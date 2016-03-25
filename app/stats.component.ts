@@ -15,21 +15,21 @@ import {NameService}  from './services/names.service'
         </div>
         <div class="row">
           <div class="col-lg-12 text-center">
-            <table class="table table-striped table-bordered dataTable no-footer text-left" id="dataTables-example" role="grid">
+            <table class="table table-striped table-bordered table-hover no-footer dtr-inline text-left" id="dataTables-example" role="grid">
               <thead>
                   <tr role="row">
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" >Name</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" >Pairs</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" >Odd</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" >Last</th>
+                    <th class="sorting" tabindex="0" >Name</th>
+                    <th class="sorting" tabindex="0" >Pairs</th>
+                    <th class="sorting" tabindex="0" >Odd</th>
+                    <th class="sorting" tabindex="0" >Last</th>
                   </tr>
               </thead>
               <tbody>
-                <tr class="gradeA odd stat-row" role="row" *ngFor="#stat of paircounts">
-                  <td>{{stat.key}}</td>
-                  <td>{{stat.value.pairing ? stat.value.pairing.count : 0}}</td>
-                  <td>{{stat.value.odd ? stat.value.odd.count   : 0}}</td>
-                  <td>{{ 'N/A' }}</td>
+                <tr  class="odd stat-row" [class.odd]="i%2!==0" role="row" *ngFor="#stat of paircounts; #i = index">
+                  <td class="col-sm-2">{{stat.key}}</td>
+                  <td class="col-sm-2">{{addPairing(stat)}}</td>
+                  <td class="col-sm-2">{{stat.value.odd ? stat.value.odd.count   : 0}}</td>
+                  <td class="col-sm-2">{{ getLastDate(stat) }}</td>
                 </tr></tbody>
             </table>
           </div>
@@ -54,7 +54,23 @@ export class Stats {
         console.error(error);
       });
   }
-   ngOnInit(): void {
+
+  addPairing(stat: any){
+    var pairing = stat.value.pairing ? stat.value.pairing.count   : 0;
+    var intentional = stat.value.intentional ? stat.value.intentional.count   : 0;
+    return pairing + intentional;
+  }
+
+   getLastDate(stat: any){
+    var dte = [];
+    if(stat.value.pairing) dte.push(stat.value.pairing.last_ts);
+    if(stat.value.intentional) dte.push(stat.value.intentional.last_ts);
+    if(stat.value.odd) dte.push(stat.value.odd.last_ts);
+    return new Date(dte.sort().reverse()[0]).toLocaleDateString('en-US');
+  }
+
+
+  ngOnInit(): void {
     this.getPairCounts();
   }
  }

@@ -20,7 +20,7 @@ import 'rxjs/Rx';
       [intentionalPairs]="intentionalPairs"
       (onPairingGenerated)="updatePairing($event)"
       (onSwitchTeam)="switchTeamMember($event)">
-      <h1>I nav loaded...</h1>
+      <h1>I teams loaded...</h1>
     </teams-section>
     <pairs-section
       [pairing]="pairing"
@@ -29,7 +29,7 @@ import 'rxjs/Rx';
       [oddcounts]="oddcounts"
       [canSavePairs]='canSave'
       (onSavePairing)="savePairing($event)">
-      <h1>I nav loaded...</h1>
+      <h1>I pairs loaded...</h1>
     </pairs-section>
   `,
   directives: [Nav, Teams, Pairs],
@@ -52,9 +52,9 @@ export class Picker implements OnInit {
       var fromteam = this.allteams.filter(n => n.name === t.team)[0];
       var toteam = this.allteams.filter(n => n.name !== t.team)[0];
 
-      var move = fromteam.members.filter(m => m.name == t.name)[0];
+      var move = fromteam.members.filter(m => m.name === t.name)[0];
       fromteam.members = fromteam.members.filter(m => m.name !== t.name);
-      move.shouldPair = t.team != "V5";
+      move.shouldPair = t.team !== "V5";
 
       toteam.members.push(move);
       this.moveTeam(t.name, t.team);

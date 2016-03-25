@@ -1,6 +1,4 @@
-System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './services/names.service', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './services/names.service', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -53,9 +51,9 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     if (t.name) {
                         var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
                         var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0];
-                        var move = fromteam.members.filter(function (m) { return m.name == t.name; })[0];
+                        var move = fromteam.members.filter(function (m) { return m.name === t.name; })[0];
                         fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; });
-                        move.shouldPair = t.team != "V5";
+                        move.shouldPair = t.team !== "V5";
                         toteam.members.push(move);
                         this.moveTeam(t.name, t.team);
                     }
@@ -139,13 +137,13 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 Picker = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I nav loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I nav loaded...</h1>\n    </pairs-section>\n  ",
+                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I teams loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I pairs loaded...</h1>\n    </pairs-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs],
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Picker);
                 return Picker;
-            }());
+            })();
             exports_1("Picker", Picker);
         }
     }

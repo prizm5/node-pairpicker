@@ -19,6 +19,7 @@ p.small {
 table tbody tr td {
     font-size: 19px;
 }
+
 .stat-row td {
     font-size: 16px;
 }
@@ -232,6 +233,10 @@ section.success a.active {
     #logo{
         margin: 0px 15px 0px 0px;
         height: 50px;
+    }
+
+    .stat-row td {
+      font-size: 12px;
     }
 }
 

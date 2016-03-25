@@ -1,13 +1,13 @@
-import {Component, EventEmitter} from 'angular2/core';
-import {Team} from '../models/team';
-import {Dev} from './dev.component';
-import {Pairing} from '../models/pairing';
-import {State} from '../models/person';
-import {IntentionalPairs} from '../models/intentional-pairs';
+import {Component, EventEmitter} from "angular2/core";
+import {Team} from "../models/team";
+import {Dev} from "./dev.component";
+import {Pairing} from "../models/pairing";
+import {State} from "../models/person";
+import {IntentionalPairs} from "../models/intentional-pairs";
 
 @Component({
   styles: [],
-  selector: 'teams-section',
+  selector: "teams-section",
   template: `
     <!-- Portfolio Grid Section -->
     <section id="portfolio">
@@ -39,8 +39,8 @@ import {IntentionalPairs} from '../models/intentional-pairs';
       </div>
     </section>
   `,
-  inputs: ['teams', 'intentionalPairs'],
-  outputs: ['onPairingGenerated', 'onSwitchTeam'],
+  inputs: ["teams", "intentionalPairs"],
+  outputs: ["onPairingGenerated", "onSwitchTeam"],
   directives: [Dev]
 })
 export class Teams {
@@ -51,7 +51,7 @@ export class Teams {
   public onSwitchTeam = new EventEmitter();
   public onPairingGenerated = new EventEmitter();
 
-  constructor () { }
+  constructor () { } 
 
   relayTeamSwitch (event: Event): void {
     this.onSwitchTeam.emit(event);
@@ -61,13 +61,13 @@ export class Teams {
     this.pairing = new Pairing();
 
     let teamToShuffle: Team = new Team();
-    let v5 = this.teams.filter(f => f.name == 'V5')[0];
+    let v5 = this.teams.filter(f => f.name === "V5" || f.name === "Foosballerz")[0];
 
     let byState = groupBy(v5.members, (m) => m.state);
     let randos = byState[State.RandomPairing] || [];
     let odds = byState[State.Odd] || [];
 
-    teamToShuffle.name = 'V5';
+    teamToShuffle.name = "V5";
     teamToShuffle.members = randos;
 
     this.pairing.generatePairs(teamToShuffle, this.intentionalPairs.getAllIntentionalPairs(), odds);
@@ -78,7 +78,7 @@ export class Teams {
 function groupBy <K, V> (coll: V[], keyFn: (t: V) => K): { [k: string /* K as string */ ]: V[] } {
   return coll.reduce((groups, c) => {
     var k = keyFn(c);
-    let key = (k === null || k === undefined ? '' : k).toString();
+    let key = (k === null || k === undefined ? "" : k).toString();
     (key in groups) ? groups[key].push(c) : groups[key] = [c];
     return groups;
   }, <{ [k: string]: V[] }> {});

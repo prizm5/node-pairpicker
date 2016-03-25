@@ -26,6 +26,12 @@ export class NameService {
       .catch(this.logAndPassOn);
   }
 
+  getFoosball () {
+    return this.http.get('api/data/foosball' + this.searchtoken)
+      .map(res => res.json())
+      .catch(this.logAndPassOn);
+  }
+
   sendToSlack (p: Pairing) {
     return this.http.post('api' + this.searchtoken,
       JSON.stringify(p),

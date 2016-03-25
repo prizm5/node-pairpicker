@@ -1,3 +1,6 @@
 {
-  "ignore": ["public\\client-gen.js","*.ts"]
+  "ignore": ["public\\client-gen.js","*.ts","node_modules"],
+  "events": {
+    "restart": "gulp sendmessage"
+  }
 }
