@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
+ 
 app.get('/', function (request, response) {
   var schema = request.headers['x-forwarded-proto'];
   if (config.isProd && schema === 'http') {

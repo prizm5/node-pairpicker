@@ -60,5 +60,6 @@ export class Foosball {
 
   ngOnInit(): void {
     this.getFoosballerz();
+    this.allteams = [];
   }
 }

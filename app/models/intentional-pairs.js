@@ -1,6 +1,4 @@
-System.register(['../models/person'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['../models/person'], function(exports_1) {
     var person_1;
     var IntentionalPairs;
     return {
@@ -69,7 +67,7 @@ System.register(['../models/person'], function(exports_1, context_1) {
                     delete this.intentionalPairs[peep.name];
                 };
                 return IntentionalPairs;
-            }());
+            })();
             exports_1("IntentionalPairs", IntentionalPairs);
         }
     }

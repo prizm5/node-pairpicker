@@ -1,6 +1,4 @@
-System.register(['angular2/core', './services/names.service'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', './services/names.service'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65,7 +63,7 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Stats);
                 return Stats;
-            }());
+            })();
             exports_1("Stats", Stats);
         }
     }

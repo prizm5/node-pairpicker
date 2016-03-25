@@ -51,7 +51,7 @@ export class Teams {
   public onSwitchTeam = new EventEmitter();
   public onPairingGenerated = new EventEmitter();
 
-  constructor () { }
+  constructor () { } 
 
   relayTeamSwitch (event: Event): void {
     this.onSwitchTeam.emit(event);

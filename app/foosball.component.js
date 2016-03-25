@@ -1,6 +1,4 @@
-System.register(['angular2/core', './services/names.service', './models/person', './components/dev.component'], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
+System.register(['angular2/core', './services/names.service', './models/person', './components/dev.component'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -50,6 +48,7 @@ System.register(['angular2/core', './services/names.service', './models/person',
                 };
                 Foosball.prototype.ngOnInit = function () {
                     this.getFoosballerz();
+                    this.allteams = [];
                 };
                 Foosball = __decorate([
                     core_1.Component({
@@ -60,7 +59,7 @@ System.register(['angular2/core', './services/names.service', './models/person',
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Foosball);
                 return Foosball;
-            }());
+            })();
             exports_1("Foosball", Foosball);
         }
     }
