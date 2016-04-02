@@ -3,7 +3,6 @@ var app = express();
 
 var bodyParser = require('body-parser');
 var utils = require('./utils.js');
-var cookieParser = require('cookie-parser');
 var api = require('./api');
 var config = require('./config');
 
@@ -14,8 +13,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cookieParser());
- 
+
 app.get('/', function (request, response) {
   var schema = request.headers['x-forwarded-proto'];
   if (config.isProd && schema === 'http') {
