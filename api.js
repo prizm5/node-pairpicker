@@ -6,11 +6,10 @@ var config  = require('./config');
 var moment  = require('moment');
 var jwt     = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
-// ROUTES FOR OUR API
-
+// UNAUTHENTICATED ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
-
+var tokens = {}; 
 
 api.router.post('/authenticate', function(req, res) {
     var username = req.body.username || '';
@@ -40,7 +39,7 @@ api.router.post('/authenticate', function(req, res) {
         var token = jwt.sign(tokenuser, config.secret, {
           expiresInMinutes: 1440 // expires in 24 hours
         });
-
+        tokens[user.name] = token;
         // return the information including token as JSON
         res.json({
           success: true,
@@ -58,10 +57,14 @@ api.router.use(function(req, res, next) {
 
   // decode token
   if (token) {
-
+    
     // verifies secret and checks exp
     jwt.verify(token, config.secret, function(err, decoded) {
       if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });
+      } 
+      // check to see if we still have the token
+      else if (tokens[decoded.username] !== token) {
         return res.json({ success: false, message: 'Failed to authenticate token.' });
       } else {
         // if everything is good, save to request for use in other routes
@@ -78,9 +81,12 @@ api.router.use(function(req, res, next) {
         success: false,
         message: 'No token provided.'
     });
-
   }
 });
+
+// AUTHENTICATED ROUTES FOR OUR API
+// =============================================================================
+
 
 api.router.post('/', function (req, res) {
     console.log('post api send to slack: ' + req.body);
@@ -134,15 +140,15 @@ api.router.post('/savePair', function (req, res) {
     var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
     var docs = [];
 
-    req.body.randomPairs.forEach(p => {
+    req.body.randomPairs.forEach(function(p) {
       docs.push({timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'pairing'});
     });
 
-    req.body.intentionalPairs.forEach(p => {
+    req.body.intentionalPairs.forEach(function(p) {
       docs.push({timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'intentional'});
     });
 
-    req.body.odd.forEach(p => {
+    req.body.odd.forEach(function(p) {
       docs.push({timestamp: formatted, data: p, doc_type: 'odd'});
     });
 

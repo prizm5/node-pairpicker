@@ -6,7 +6,7 @@
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/index.js",
-			"stopOnEntry": false,
+			"stopOnEntry": true,
 			"args": [],
 			"cwd": "${workspaceRoot}/",
 			"runtimeExecutable": null,

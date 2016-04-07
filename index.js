@@ -5,18 +5,17 @@ var utils       = require('./utils.js');
 var api         = require('./api');
 var config      = require('./config');
 var morgan      = require('morgan');
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 app.set('port', config.PORT );
-app.set('supreSecret', config.secret);
 // app.use(express.static(__dirname + '/public'));
-// app.use(express.static(__dirname + '/'));
+app.use(express.static(__dirname + '/app'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.get('/', function(req, res) {
-    res.send('Hello! The API is at http://localhost:' + config.port + '/api');
+    res.sendfile('/home.html', {root: __dirname + "/app"});
+    //res.send('Hello! The API is at http://localhost:' + config.port + '/api');
 });
 /*
 app.get('/', function (request, response) {
