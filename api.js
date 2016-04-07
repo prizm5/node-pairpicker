@@ -16,7 +16,7 @@ api.router.post('/authenticate', function(req, res) {
     var password = req.body.password || '';
 
     if(username === '' || password === '') {
-        res.json({ success: false, message: 'Username and Password are required.' });
+        res.status(401).json({ success: false, message: 'Username and Password are required.' });
     }
 
     var dbb = new config.db();
@@ -25,14 +25,14 @@ api.router.post('/authenticate', function(req, res) {
         if (err) throw err;
       } else {
         if(data.length == 0) {
-            res.json({ success: false, message: 'Username and Password are not a match' });
+            res.status(401).json({ success: false, message: 'Username and Password are not a match' });
             return;
         }
         else {
            var user = data[0].value;
         }
         if(user.password !== password) {
-            res.json({ success: false, message: 'Username and Password are not a match' });
+            res.status(401).json({ success: false, message: 'Username and Password are not a match' });
             return;
         }
         var tokenuser = {username: user.name};
@@ -61,11 +61,11 @@ api.router.use(function(req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, config.secret, function(err, decoded) {
       if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });
       } 
       // check to see if we still have the token
       else if (tokens[decoded.username] !== token) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });
+        return res.status(401).json({ success: false, message: 'Failed to authenticate token.' });
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
