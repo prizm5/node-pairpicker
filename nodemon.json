@@ -1,6 +1,0 @@
-{
-  "ignore": [],
-  "events": {
-    "restart": "gulp sendmessage"
-  }
-}

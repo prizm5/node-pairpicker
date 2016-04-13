@@ -24,10 +24,8 @@
     "url": "https://github.com/prizm5/node-pairpicker.git"
   },
   "scripts": {
-    "start": "STATIC_ROOT=./static watchify -o js/bundle.js -v -d .",
-    "build": "STATIC_ROOT=./static NODE_ENV=production browserify . | uglifyjs -cm &gt; js/bundle.min.js",
-    "collect-static": "collect-static . ./static",
-    "test": "jest"
+    "start": "watchify -o static/bundle.js -v -d .",
+    "build": "browserify . | uglifyjs -cm > js/bundle.min.js"
   },
   "browserify": {
     "transform": [
@@ -46,6 +44,7 @@
     "jest-cli": "^0.10.0",
     "reactify": "^1.1.1",
     "statics": "^0.1.0",
+    "watchify": "^3.7.0",
     "yargs": "^4.3.2"
   }
 }

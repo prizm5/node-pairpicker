@@ -1,0 +1,7 @@
+{
+  "ignore": [],
+  "events": {
+    "restart": "npm build && gulp sendmessage "
+  }
+}
+ 
