@@ -1,0 +1,31 @@
+{
+   "_id": "_design/stats",
+   "_rev": "12-c43df0bbe2cd75a953edf25242cef05d",
+   "language": "javascript",
+   "views": {
+       "pairs": {
+           "map": "function(doc) {\n\tif((doc.doc_type == 'pairing' || doc.doc_type == 'intentional') && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
+       },
+       "odd": {
+           "map": "function(doc) {\n\tif(doc.doc_type == 'odd' && doc.data.length > 0 ){\n\t\t\n  \t\temit(doc._id, doc);\n\t}\n}"
+       },
+       "paircounts": {
+           "map": "function(doc) {\n\tif(doc.doc_type){\n\t\tvar names = \"\";\n\t\tif(doc.doc_type == 'pairing' || doc.doc_type == 'intentional'   ) {\n\t  \t\tnames = doc.data[0] + ' :: ' + doc.data[1];\n\t\t\n\t\t}\n\t\tif(doc.doc_type == 'odd' ) {\n\t\t\tnames = doc.data;\n\t\t}\n\t\n\t\n\t\temit(names,{\"type\": doc.doc_type, \"ts\":doc.timestamp});\n\t}\n}",
+           "reduce": "function(keys, values, rereduce) {\n\tvar hist = {};\n\t values.map( function (a) { \n\t\tif (a.type in hist){\n\t\t\tvar item = hist[a.type];\n\t\t\titem.count++ ;\n\t\t\tif(a.ts > item.last_ts) item.last_ts = a.ts\n\t\t}\n\t\telse hist[a.type] = {\"count\":1, \"last_ts\": a.ts}; } \n\t\t\n\t\t);\n\treturn hist;\n}"
+       },
+       "oddcounts": {
+           "map": "function(doc) {\n\tif(doc.doc_type == 'odd' ) {\n\t\temit(doc.data, doc.timestamp);\n\t}\n}",
+           "reduce": "function(keys, values, rereduce){\n\tvar ts = values.reduce(function(p,c,i) {\n\t\treturn c > p ? c: p;\n\t});\n\treturn {\"odd\":{\"count\": values.length,\"last_ts\": ts}};\n}"
+       },
+       "intentional": {
+           "map": "function(doc) {\n\tif((doc.doc_type == 'intentional') && doc.data.length > 0){\n  \t\temit(doc._id, doc);\n\t}\n}"
+       },
+       "teams": {
+           "map": "function(doc) {\n  if(doc._id == \"team\"){\n     doc.members.forEach(function(m){\n       emit(m.team,m);\n     });\t\n  }\n    if(doc._id == \"team\"){\n     doc.members\n\t.filter(function(m){return m.foosball == 'true'})\n\t.forEach(function(m){\n       emit('Foosballerz',m);\n     });\t\n  }\n}",
+           "reduce": "function(keys, values, rereduce){\n  return values.map(function(v){return {\"name\": v.nickname || v.name}}).sort();\n}"
+       },
+       "foosball": {
+           "map": "function(doc) {\n\t\n\tif(doc._id == 'team' ){\n\t\tvar mem = doc.members;\n\t\tvar mem = doc.members.filter(\n\t\t\tfunction(m){\n\t\t\t\treturn m.foosball == 'true';\n\t\t\t}\n\t\t);\n  \t\temit('foosball', mem);\n\t}\n}"
+       }
+   }
+}
