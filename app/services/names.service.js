@@ -49,6 +49,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.startGame = function (p) {
+                    return this.http.post('api/startGame' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.savePair = function (p) {
                     return this.http.post('api/savePair' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);

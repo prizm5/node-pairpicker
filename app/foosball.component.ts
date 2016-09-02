@@ -29,7 +29,7 @@ import "rxjs/Rx";
       [oddcounts]="oddcounts"
       [canSavePairs]="canSave"
       [foosball]="foosball"
-      (onStartGame)="startGame($event)"
+      (onStartGame)="startGame($event)">
       <h1>I pars loaded...</h1>
     </pairs-section>
   `,

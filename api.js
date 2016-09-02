@@ -82,12 +82,12 @@ api.router.post('/startGame', function (req, res) {
     });
 
     var doc = {
-      "yellow": doc[0],
-      "black": doc[1],
+      "yellow": docs[0],
+      "black": docs[1],
       "mode": 10
     };
     pusher.trigger('foosball', 'start_game', doc);
-  }
+  })
 });
 
 api.router.post('/savePair', function (req, res) {

@@ -46,6 +46,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.paircounts = {};
                     this.oddcounts = {};
                     this.canSave = false;
+                    this.foosball = false;
                 }
                 Picker.prototype.switchTeamMember = function (t) {
                     if (t.name) {
@@ -87,6 +88,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 };
                 Picker.prototype.updatePairing = function (p) {
                     this.canSave = true;
+                    this.foosball = false;
                     this.pairing = p;
                     this.getPairCounts();
                 };
@@ -137,7 +139,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 Picker = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I teams loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I pairs loaded...</h1>\n    </pairs-section>\n  ",
+                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I teams loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      [foosball]='foosball'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I pairs loaded...</h1>\n    </pairs-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs],
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
