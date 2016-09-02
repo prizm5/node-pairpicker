@@ -4,6 +4,7 @@ var utils = require('./utils');
 var cradle = require('cradle');
 var config = require('./config');
 var moment = require('moment');
+var Pusher = require('pusher');
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -20,7 +21,7 @@ api.router.post('/', function (req, res) {
 api.router.get('/data/team', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
-    dbb.view('stats/teams', {group: true, reduce: true}, function (err, data) {
+    dbb.view('stats/teams', { group: true, reduce: true }, function (err, data) {
       if (err) {
         console.log(err);
         res.status(500).end();
@@ -48,7 +49,7 @@ api.router.get('/data/foosball', function (req, res) {
 api.router.get('/data/paircounts', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
-    dbb.view('stats/paircounts', {group: true, reduce: true}, function (err, data) {
+    dbb.view('stats/paircounts', { group: true, reduce: true }, function (err, data) {
       if (err) {
         console.log(err);
         res.status(500).end();
@@ -66,6 +67,29 @@ api.router.post('/moveToCloud', function (req, res) {
   }));
 });
 
+api.router.post('/startGame', function (req, res) {
+  utils.checktoken(req.query.token, res, function () {
+    var pusher = new Pusher({
+      appId: config.pusherId,
+      key: config.pusherKey,
+      secret: config.pusherSec,
+    });
+    
+    var docs = [];
+    
+    req.body.randomPairs.forEach(p => {
+      docs.push(p.split(' :: ').sort())
+    });
+
+    var doc = {
+      "yellow": doc[0],
+      "black": doc[1],
+      "mode": 10
+    };
+    pusher.trigger('foosball', 'start_game', doc);
+  }
+});
+
 api.router.post('/savePair', function (req, res) {
   utils.checktoken(req.query.token, res, function () {
     var now = moment();
@@ -73,15 +97,15 @@ api.router.post('/savePair', function (req, res) {
     var docs = [];
 
     req.body.randomPairs.forEach(p => {
-      docs.push({timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'pairing'});
+      docs.push({ timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'pairing' });
     });
 
     req.body.intentionalPairs.forEach(p => {
-      docs.push({timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'intentional'});
+      docs.push({ timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'intentional' });
     });
 
     req.body.odd.forEach(p => {
-      docs.push({timestamp: formatted, data: p, doc_type: 'odd'});
+      docs.push({ timestamp: formatted, data: p, doc_type: 'odd' });
     });
 
     var dbb = new config.db();

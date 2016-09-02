@@ -39,6 +39,12 @@ export class NameService {
       .catch(this.logAndPassOn);
   }
 
+  startGame (p: Pairing) {
+    return this.http.post('api/startGame' + this.searchtoken,
+      JSON.stringify(p),
+      { headers: this.headers })
+      .catch(this.logAndPassOn);
+  }
   savePair (p: Pairing) {
     return this.http.post('api/savePair' + this.searchtoken,
       JSON.stringify(p),
