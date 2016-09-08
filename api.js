@@ -6,6 +6,22 @@ var config = require('./config');
 var moment = require('moment');
 var Pusher = require('pusher');
 
+
+var getTeam = function (callback, error) {
+  var dbb = new config.db();
+  dbb.view('stats/teams', { group: true, reduce: true }, function (err, data) {
+    if (err) {
+      console.log(err);
+      error(err);
+    } else {
+      callback(data);
+    }
+  });
+};
+
+
+
+
 // ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
@@ -74,9 +90,8 @@ api.router.post('/startGame', function (req, res) {
       key: config.pusherKey,
       secret: config.pusherSec,
     });
-    
+
     var docs = [];
-    
     req.body.randomPairs.forEach(p => {
       docs.push(p.split(' :: ').sort())
     });
@@ -86,7 +101,28 @@ api.router.post('/startGame', function (req, res) {
       "black": docs[1],
       "mode": 10
     };
-    pusher.trigger('foosball', 'start_game', doc);
+
+    getTeam(function (body, err) {
+      if (err) {
+        console.log("err", err);
+      }
+      else {
+        var peeps = body
+                    .filter(a => a.key == 'Foosballerz')[0].value
+                    .filter( d=> { 
+                              return docs[0].indexOf(d['name']) > -1 ||
+                                     docs[1].indexOf(d['name']) > -1 });
+        var peepsWithStations = peeps.filter(p => { return p['station'] !== '' });
+        var stations = [];
+        peepsWithStations.map(p => { 
+          stations.push({"name": p['name'], "station": p['station']});
+        });
+        doc['stations'] = stations;
+      }
+      pusher.trigger('foosball', 'start_game', doc);
+
+    });
+
   })
 });
 
@@ -100,7 +136,7 @@ api.router.post('/savePair', function (req, res) {
       docs.push({ timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'pairing' });
     });
 
-    req.body.intentionalPairs.forEach(p => {
+    req.body.c.forEach(p => {
       docs.push({ timestamp: formatted, data: p.split(' :: ').sort(), doc_type: 'intentional' });
     });
 
