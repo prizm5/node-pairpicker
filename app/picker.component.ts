@@ -85,6 +85,7 @@ export class Picker implements OnInit {
   }
 
   savePairing(p: Pairing): void {
+    this.canSave = false;
     this.savePairingToDb(p);
 
     this._nameService.sendToSlack(p)
@@ -94,10 +95,12 @@ export class Picker implements OnInit {
   }
 
   updatePairing(p: Pairing): void {
-    this.canSave = true;
+
     this.foosball = false;
     this.pairing = p;
     this.getPairCounts();
+    this.canSave = true;
+
   }
 
   getNames(retry: number = 0): void {

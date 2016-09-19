@@ -74,7 +74,7 @@ interface KeyValuePair<T> {
             </a>
           </div>
         </div>
-        <div class="row" *ngIf="canSavePairs">
+        <div class="row" [hidden]="!canSavePairs">
           <hr />
           <div class="col-sm-1 portfolio-item">
             <a href="#myModal" class="portfolio-link" data-toggle="modal">
@@ -157,7 +157,6 @@ export class Pairs {
       if (this.foosball) {
         this.onStartGame.emit(this.pairing);
       } else {
-        this.canSavePairs = false;
         this.onSavePairing.emit(this.pairing);
       }
     }

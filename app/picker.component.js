@@ -82,15 +82,16 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     });
                 };
                 Picker.prototype.savePairing = function (p) {
+                    this.canSave = false;
                     this.savePairingToDb(p);
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { return console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack: " + error); });
                 };
                 Picker.prototype.updatePairing = function (p) {
-                    this.canSave = true;
                     this.foosball = false;
                     this.pairing = p;
                     this.getPairCounts();
+                    this.canSave = true;
                 };
                 Picker.prototype.getNames = function (retry) {
                     var _this = this;
