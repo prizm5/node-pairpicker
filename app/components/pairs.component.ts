@@ -84,8 +84,8 @@ interface KeyValuePair<T> {
         </div>
       </div>
     </section>
+    
     <!-- Modal -->
-
     <div class="modal fade" id="foosballModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
       <div class="modal-dialog">
         <div class="modal-content">
