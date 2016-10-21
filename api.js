@@ -157,7 +157,7 @@ api.router.post('/savePair', function(req, res) {
       });
     });
 
-    req.body.c.forEach(p => {
+    req.body.intentionalPairs.forEach(p => {
       docs.push({
         timestamp: formatted,
         data: p.split(' :: ').sort(),
