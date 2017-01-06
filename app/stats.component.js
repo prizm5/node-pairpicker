@@ -9,7 +9,7 @@ System.register(['angular2/core', './services/names.service'], function(exports_
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1, names_service_1;
-    var Stats;
+    var HeatmapChartDirective, Stats;
     return {
         setters:[
             function (core_1_1) {
@@ -19,11 +19,36 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                 names_service_1 = names_service_1_1;
             }],
         execute: function() {
+            HeatmapChartDirective = (function () {
+                function HeatmapChartDirective(elementRef) {
+                    this.elementRef = elementRef;
+                }
+                Object.defineProperty(HeatmapChartDirective.prototype, "chartdata", {
+                    set: function (data) {
+                        this.datas = data;
+                        this.update();
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+                HeatmapChartDirective.prototype.update = function () {
+                    if (this.datas) {
+                        new Chart(this.elementRef.nativeElement.getContext('2d')).HeatMap(this.datas, { responsive: true });
+                    }
+                };
+                HeatmapChartDirective = __decorate([
+                    core_1.Directive({
+                        selector: '[charts-heatmap]',
+                        inputs: ['chartdata']
+                    }), 
+                    __metadata('design:paramtypes', [core_1.ElementRef])
+                ], HeatmapChartDirective);
+                return HeatmapChartDirective;
+            })();
             Stats = (function () {
                 function Stats(_nameService) {
                     this._nameService = _nameService;
                 }
-                ;
                 Stats.prototype.getPairCounts = function (retry) {
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
@@ -33,6 +58,25 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                         retry++;
                         if (retry < 4)
                             _this.getPairCounts(retry);
+                        console.error(error);
+                    });
+                };
+                Stats.prototype.getPairDetails = function (retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.getPairDetails().subscribe(function (n) {
+                        var datas = _this.parseData(n);
+                        var labels = _this.getlabels(datas);
+                        var parted_data = _this.partition(datas, labels);
+                        _this.pairdetails = {
+                            labels: labels,
+                            datasets: Object.keys(parted_data).map(function (key) {
+                                return { label: key, data: this.foldByP2(parted_data[key], labels) };
+                            }.bind(_this)) };
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.getPairDetails(retry);
                         console.error(error);
                     });
                 };
@@ -51,14 +95,61 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                         dte.push(stat.value.odd.last_ts);
                     return new Date(dte.sort().reverse()[0]).toLocaleDateString('en-US');
                 };
+                /* ----------- */
+                Stats.prototype.parseData = function (datas) {
+                    var cnt = 0;
+                    return Array.prototype.concat.apply([], datas.map(function (datum) { return datum['key']; }).map(function (datum) {
+                        if (datum.includes('::')) {
+                            var parts = datum.split(' :: ');
+                            return [{ p1: parts[0], p2: parts[1] }, { p1: parts[1], p2: parts[0] }];
+                        }
+                        else {
+                            return [{ p1: datum, p2: datum }];
+                        }
+                    }));
+                };
+                ;
+                Stats.prototype.getlabels = function (datas) {
+                    var all_names = Array.prototype.concat.apply([], datas.map(function (datum) { return [datum.p1, datum.p2]; }));
+                    var distinct = function (data) {
+                        var u = {}, a = [];
+                        for (var i = 0, l = data.length; i < l; ++i) {
+                            if (u.hasOwnProperty(data[i])) {
+                                continue;
+                            }
+                            a.push(data[i]);
+                            u[data[i]] = 1;
+                        }
+                        return a;
+                    };
+                    return distinct(all_names).sort();
+                };
+                ;
+                Stats.prototype.partition = function (datas, labels) {
+                    var res = {};
+                    labels.forEach(function (label) {
+                        res[label] = datas.filter(function (datum) { return datum.p1 === label; });
+                    });
+                    return res;
+                };
+                ;
+                Stats.prototype.foldByP2 = function (partitioned_data, labels) {
+                    var reduced = [];
+                    labels.forEach(function (label) { reduced.push(partitioned_data.filter(function (datum) { return datum.p2 === label; }).length); });
+                    return reduced;
+                };
+                ;
+                /* ------------- */
                 Stats.prototype.ngOnInit = function () {
                     this.getPairCounts();
+                    this.getPairDetails();
                 };
                 Stats = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n  <!-- Stats Grid Section -->\n    <section id=\"stats\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Statistics</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-lg-12 text-center\">\n            <table class=\"table table-striped table-bordered table-hover no-footer dtr-inline text-left\" id=\"dataTables-example\" role=\"grid\">\n              <thead>\n                  <tr role=\"row\">\n                    <th class=\"sorting\" tabindex=\"0\" >Name</th>\n                    <th class=\"sorting\" tabindex=\"0\" >Pairs</th>\n                    <th class=\"sorting\" tabindex=\"0\" >Odd</th>\n                    <th class=\"sorting\" tabindex=\"0\" >Last</th>\n                  </tr>\n              </thead>\n              <tbody>\n                <tr  class=\"odd stat-row\" [class.odd]=\"i%2!==0\" role=\"row\" *ngFor=\"#stat of paircounts; #i = index\">\n                  <td class=\"col-sm-2\">{{stat.key}}</td>\n                  <td class=\"col-sm-2\">{{addPairing(stat)}}</td>\n                  <td class=\"col-sm-2\">{{stat.value.odd ? stat.value.odd.count   : 0}}</td>\n                  <td class=\"col-sm-2\">{{ getLastDate(stat) }}</td>\n                </tr></tbody>\n            </table>\n          </div>\n        </div>\n      </div>\n    </section>\n  ",
+                        template: "\n  <!-- Stats Grid Section -->\n    <section id=\"stats\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Statistics</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-lg-12 text-center\" width=\"800\" height=\"800\">\n             <canvas id=\"heatmapz\" charts-heatmap [chartdata]=\"pairdetails\" ></canvas>\n          </div>\n        </div>\n      </div>\n    </section>\n  ",
                         inputs: ['paircounts'],
+                        directives: [HeatmapChartDirective]
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Stats);

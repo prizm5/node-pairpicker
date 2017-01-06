@@ -20,6 +20,11 @@ export class NameService {
       .catch(this.logAndPassOn);
   }
 
+  getPairDetails () {
+    return this.http.get('api/data/pairdetails' + this.searchtoken)
+      .map(res => res.json())
+      .catch(this.logAndPassOn);
+  }
   getPairCounts () {
     return this.http.get('api/data/paircounts' + this.searchtoken)
       .map(res => res.json())

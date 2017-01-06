@@ -45,6 +45,19 @@ api.router.get('/data/foosball', function (req, res) {
   }));
 });
 
+api.router.get('/data/pairdetails', function (req, res) {
+  utils.checktoken(req.query.token, res, (function () {
+    var dbb = new config.db();
+    dbb.view('stats/paircounts', {group: false, reduce: false}, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).end();
+      } else {
+        res.send(data);
+      }
+    });
+  }));
+});
 api.router.get('/data/paircounts', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();

@@ -35,6 +35,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.getPairDetails = function () {
+                    return this.http.get('api/data/pairdetails' + this.searchtoken)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.getPairCounts = function () {
                     return this.http.get('api/data/paircounts' + this.searchtoken)
                         .map(function (res) { return res.json(); })
