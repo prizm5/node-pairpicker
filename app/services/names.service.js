@@ -1,4 +1,6 @@
-System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1) {
+System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -54,6 +56,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
+                NameService.prototype.startGame = function (p) {
+                    return this.http.post('api/startGame' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.savePair = function (p) {
                     return this.http.post('api/savePair' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
@@ -80,7 +86,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     __metadata('design:paramtypes', [http_1.Http])
                 ], NameService);
                 return NameService;
-            })();
+            }());
             exports_1("NameService", NameService);
         }
     }

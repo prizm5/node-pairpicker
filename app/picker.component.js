@@ -1,4 +1,6 @@
-System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './services/names.service', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1) {
+System.register(['angular2/core', './components/nav.component', './components/teams.component', './components/pairs.component', './services/names.service', './models/person', './models/pairing', './models/intentional-pairs', 'rxjs/Rx'], function(exports_1, context_1) {
+    "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -46,6 +48,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     this.paircounts = {};
                     this.oddcounts = {};
                     this.canSave = false;
+                    this.foosball = false;
                 }
                 Picker.prototype.switchTeamMember = function (t) {
                     if (t.name) {
@@ -81,14 +84,16 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     });
                 };
                 Picker.prototype.savePairing = function (p) {
+                    this.canSave = false;
                     this.savePairingToDb(p);
                     this._nameService.sendToSlack(p)
                         .subscribe(function (a) { return console.debug("sent to slack : " + a); }, function (error) { return console.error("error sending to slack: " + error); });
                 };
                 Picker.prototype.updatePairing = function (p) {
-                    this.canSave = true;
+                    this.foosball = false;
                     this.pairing = p;
                     this.getPairCounts();
+                    this.canSave = true;
                 };
                 Picker.prototype.getNames = function (retry) {
                     var _this = this;
@@ -137,13 +142,13 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 Picker = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I teams loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I pairs loaded...</h1>\n    </pairs-section>\n  ",
+                        template: "\n    <teams-section\n      [teams]=\"allteams\"\n      [intentionalPairs]=\"intentionalPairs\"\n      (onPairingGenerated)=\"updatePairing($event)\"\n      (onSwitchTeam)=\"switchTeamMember($event)\">\n      <h1>I teams loaded...</h1>\n    </teams-section>\n    <pairs-section\n      [pairing]=\"pairing\"\n      [intentionalPairs]=\"intentionalPairs\"\n      [paircounts]=\"paircounts\"\n      [oddcounts]=\"oddcounts\"\n      [canSavePairs]='canSave'\n      [foosball]='foosball'\n      (onSavePairing)=\"savePairing($event)\">\n      <h1>I pairs loaded...</h1>\n    </pairs-section>\n  ",
                         directives: [nav_component_1.Nav, teams_component_1.Teams, pairs_component_1.Pairs],
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Picker);
                 return Picker;
-            })();
+            }());
             exports_1("Picker", Picker);
         }
     }

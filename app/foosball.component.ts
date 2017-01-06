@@ -28,7 +28,8 @@ import "rxjs/Rx";
       [paircounts]="paircounts"
       [oddcounts]="oddcounts"
       [canSavePairs]="canSave"
-      (onSavePairing)="savePairing($event)">
+      [foosball]="foosball"
+      (onStartGame)="startGame($event)">
       <h1>I pars loaded...</h1>
     </pairs-section>
   `,
@@ -44,6 +45,7 @@ export class Foosball {
   public paircounts = [];
   public oddcounts = [];
   public canSave = false;
+  public foosball = true;
 
   constructor(private _nameService: NameService) { }
   getFoosballerz(): void {
@@ -67,7 +69,15 @@ export class Foosball {
 
   updatePairing(p: Pairing): void {
     this.canSave = false;
+    this.foosball = true;
     this.pairing = p;
+  }
+
+  startGame(p: Pairing): void {
+    this._nameService.startGame(p)
+      .subscribe(
+      a => console.debug(`sent to slack : ${a}`),
+      error => console.error(`error sending to slack: ${error}`));
   }
 
   ngOnInit(): void {

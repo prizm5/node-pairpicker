@@ -28,6 +28,7 @@ import 'rxjs/Rx';
       [paircounts]="paircounts"
       [oddcounts]="oddcounts"
       [canSavePairs]='canSave'
+      [foosball]='foosball'
       (onSavePairing)="savePairing($event)">
       <h1>I pairs loaded...</h1>
     </pairs-section>
@@ -44,6 +45,7 @@ export class Picker implements OnInit {
   public paircounts = {};
   public oddcounts = {};
   public canSave = false;
+  public foosball = false;
 
   constructor(private _nameService: NameService) { }
 
@@ -83,6 +85,7 @@ export class Picker implements OnInit {
   }
 
   savePairing(p: Pairing): void {
+    this.canSave = false;
     this.savePairingToDb(p);
 
     this._nameService.sendToSlack(p)
@@ -92,9 +95,12 @@ export class Picker implements OnInit {
   }
 
   updatePairing(p: Pairing): void {
-    this.canSave = true;
+
+    this.foosball = false;
     this.pairing = p;
     this.getPairCounts();
+    this.canSave = true;
+
   }
 
   getNames(retry: number = 0): void {
