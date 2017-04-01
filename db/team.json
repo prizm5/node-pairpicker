@@ -1,6 +1,5 @@
 {
    "_id": "team",
-   "_rev": "17-0556c9d66dd44ef3a6f120956120f95e",
    "members": [
        {
            "name": "Lindsey",
@@ -13,24 +12,9 @@
            "foosball": "false"
        },
        {
-           "name": "Aman",
-           "team": "QA",
-           "foosball": "true"
-       },
-       {
            "name": "Keith",
            "team": "Cloud",
            "foosball": "true"
-       },
-       {
-           "name": "Boguste",
-           "team": "V5",
-           "foosball": "true"
-       },
-       {
-           "name": "Dave",
-           "team": "V5",
-           "foosball": "false"
        },
        {
            "name": "Nilhouse",
@@ -41,11 +25,6 @@
            "name": "Maximus",
            "team": "V5",
            "foosball": "true"
-       },
-       {
-           "name": "Becky",
-           "team": "V5",
-           "foosball": "false"
        },
        {
            "name": "Arlington",
@@ -66,11 +45,6 @@
            "name": "Patrick",
            "team": "Cloud",
            "foosball": "false"
-       },
-       {
-           "name": "Faiz",
-           "team": "Reporting",
-           "foosball": "true"
        }
    ]
 }
