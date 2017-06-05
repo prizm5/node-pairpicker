@@ -36,7 +36,7 @@ import "rxjs/Rx";
   directives: [Teams, Pairs]
 })
 
-export class Foosball {
+export class Members {
   public title = "Foosball Picker";
   public isNavCollapsed = true;
   public allteams: Team[];
@@ -52,7 +52,7 @@ export class Foosball {
     this._nameService.getTeam().subscribe(
       n => {
 
-        n.filter(f => f.key === "Foosballerz" ).reverse().forEach(t => {
+        n.reverse().forEach(t => {
           t.value.forEach(v => {
             v.shouldPair = true;
             v.state = State.RandomPairing;
