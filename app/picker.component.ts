@@ -58,6 +58,9 @@ export class Picker implements OnInit {
       fromteam.members = fromteam.members.filter(m => m.name !== t.name);
       move.shouldPair = t.team !== "V5";
 
+      if (!toteam.members) {
+        toteam.members = [];
+      }
       toteam.members.push(move);
       this.moveTeam(t.name, t.team);
     }
