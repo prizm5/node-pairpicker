@@ -57,6 +57,9 @@ System.register(['angular2/core', './components/nav.component', './components/te
                         var move = fromteam.members.filter(function (m) { return m.name === t.name; })[0];
                         fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; });
                         move.shouldPair = t.team !== "V5";
+                        if (!toteam.members) {
+                            toteam.members = [];
+                        }
                         toteam.members.push(move);
                         this.moveTeam(t.name, t.team);
                     }
