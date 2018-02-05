@@ -52,15 +52,15 @@ export class Picker implements OnInit {
   switchTeamMember(t: { name: string; team: string; }): void {
     if (t.name) {
       var fromteam = this.allteams.filter(n => n.name === t.team)[0];
-      var toteam = this.allteams.filter(n => n.name !== t.team)[0];
+      var toteam = this.allteams.filter(n => n.name !== t.team)[0] || {members:[]} ;
 
       var move = fromteam.members.filter(m => m.name === t.name)[0];
       fromteam.members = fromteam.members.filter(m => m.name !== t.name);
       move.shouldPair = t.team !== "V5";
 
-      if (!toteam.members) {
-        toteam.members = [];
-      }
+      //if (!toteam.members) {
+      //  toteam.members = [];
+      //}
       toteam.members.push(move);
       this.moveTeam(t.name, t.team);
     }

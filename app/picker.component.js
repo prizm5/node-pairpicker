@@ -53,13 +53,13 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 Picker.prototype.switchTeamMember = function (t) {
                     if (t.name) {
                         var fromteam = this.allteams.filter(function (n) { return n.name === t.team; })[0];
-                        var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0];
+                        var toteam = this.allteams.filter(function (n) { return n.name !== t.team; })[0] || { members: [] };
                         var move = fromteam.members.filter(function (m) { return m.name === t.name; })[0];
                         fromteam.members = fromteam.members.filter(function (m) { return m.name !== t.name; });
                         move.shouldPair = t.team !== "V5";
-                        if (!toteam.members) {
-                            toteam.members = [];
-                        }
+                        //if (!toteam.members) {
+                        //  toteam.members = [];
+                        //}
                         toteam.members.push(move);
                         this.moveTeam(t.name, t.team);
                     }
