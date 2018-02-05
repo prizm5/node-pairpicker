@@ -10,7 +10,7 @@ import {Component} from 'angular2/core';
         <div class="container">
           <div class="row">
             <div class="col-lg-12">
-              Copyright &copy; Creque Corp 2016
+              Copyright &copy; Creque Corp 2018
             </div>
           </div>
         </div>

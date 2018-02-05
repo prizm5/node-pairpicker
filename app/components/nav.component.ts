@@ -30,10 +30,6 @@ import {Foosball} from '../foosball.component'
                     <li class="page-scroll">
                         <a [routerLink]="['Stats']">Stats</a>
                     </li>
-                    <li class="page-scroll">
-                        <a [routerLink]="['Foosball']">Foosball</a>
-                    </li>
-
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './picker.component', './foosball.component', './components/nav.component', './components/footer.component', './stats.component'], function(exports_1, context_1) {
+System.register(['angular2/core', 'angular2/router', './picker.component', './components/nav.component', './components/footer.component', './stats.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, picker_component_1, foosball_component_1, nav_component_1, footer_component_1, stats_component_1;
+    var core_1, router_1, picker_component_1, nav_component_1, footer_component_1, stats_component_1;
     var AppComponent;
     return {
         setters:[
@@ -22,9 +22,6 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
             },
             function (picker_component_1_1) {
                 picker_component_1 = picker_component_1_1;
-            },
-            function (foosball_component_1_1) {
-                foosball_component_1 = foosball_component_1_1;
             },
             function (nav_component_1_1) {
                 nav_component_1 = nav_component_1_1;
@@ -48,7 +45,6 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './fo
                     }),
                     router_1.RouteConfig([
                         { path: '/Picker', name: 'Picker', component: picker_component_1.Picker, useAsDefault: true },
-                        { path: '/Foosball', name: 'Foosball', component: foosball_component_1.Foosball },
                         { path: '/Stats', name: 'Stats', component: stats_component_1.Stats },
                     ]), 
                     __metadata('design:paramtypes', [])
