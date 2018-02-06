@@ -22,9 +22,6 @@ var getTeam = function(callback, error) {
   });
 };
 
-
-
-
 // ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
@@ -54,10 +51,10 @@ api.router.get('/data/team', function (req, res) {
   }));
 });
 
-api.router.get('/data/foosball', function (req, res) {
+api.router.get('/data/last-paired', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
-    dbb.view('stats/foosball', function (err, data) {
+    dbb.get('last-paired', {group: false, reduce: false}, function (err, data) {
       if (err) {
         console.log(err);
         res.status(500).end();
@@ -105,64 +102,21 @@ api.router.post('/moveToCloud', function (req, res) {
   }));
 });
 
-api.router.post('/startGame', function(req, res) {
-  utils.checktoken(req.query.token, res, function() {
-    var pusher = new Pusher({
-      appId: config.pusherId,
-      key: config.pusherKey,
-      secret: config.pusherSec,
-    });
-
-    var docs = [];
-    req.body.randomPairs.forEach(p => {
-      docs.push(p.split(' :: ').sort())
-    });
-    var foosteams = [docs[0], docs[1]];
-
-
-    getTeam(function(body, err) {
-      if (err) {
-        console.log("err", err);
-      } else {
-        var foosers = body
-          .filter(a => a.key == 'Foosballerz')[0].value;
-        var fooser_map = foosers.reduce(function(map, obj) {
-          if (obj.station) {
-            map[obj.name] = obj.station;
-          }
-          return map;
-        }, {});
-
-        var foosteams_wstations =
-          foosteams.map(t =>
-            t.map(person => fooser_map[person] ?
-              { name: person, station: fooser_map[person] } :
-              { name: person }));
-        var peeps = body
-          .filter(a => a.key == 'Foosballerz')[0].value
-          .filter(d => {
-            return docs[0].indexOf(d['name']) > -1 ||
-              docs[1].indexOf(d['name']) > -1
-          });
-        var doc = {
-          "yellow": foosteams_wstations[0],
-          "black": foosteams_wstations[1],
-          "mode": 10
-        };
-        pusher.trigger('foosball', 'start_game', doc);
-      }
-    });
-
-  })
-});
-
 api.router.post('/savePair', function (req, res) {
   utils.checktoken(req.query.token, res, function () {
     var now = moment();
     var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
     var docs = [];
+    var randomPairs = req.body.randomPairs;
+    var intentionalPairs = req.body.intentionalPairs;
+    var odds = req.body.odd;
 
-    req.body.randomPairs.forEach(p => {
+    var lastPaired = {
+        _id: 'last-paired',
+        pairs: randomPairs.concat(intentionalPairs).concat(odds)
+    }
+
+    randomPairs.forEach(p => {
       docs.push({
         timestamp: formatted,
         data: p.split(' :: ').sort(),
@@ -170,7 +124,7 @@ api.router.post('/savePair', function (req, res) {
       });
     });
 
-    req.body.intentionalPairs.forEach(p => {
+    intentionalPairs.forEach(p => {
       docs.push({
         timestamp: formatted,
         data: p.split(' :: ').sort(),
@@ -178,7 +132,7 @@ api.router.post('/savePair', function (req, res) {
       });
     });
 
-    req.body.odd.forEach(p => {
+    odds.forEach(p => {
       docs.push({
         timestamp: formatted,
         data: p,
@@ -187,6 +141,12 @@ api.router.post('/savePair', function (req, res) {
     });
 
     var dbb = new config.db();
+    dbb.save(lastPaired, function (err, doc){
+      if (err) {
+        console.log(err);
+      } 
+        });
+
     dbb.save(docs, function (err, doc) {
       if (err) {
         console.log(err);
