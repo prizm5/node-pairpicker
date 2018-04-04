@@ -1,8 +1,6 @@
 var utils = {};
 
-var Slack = require('node-slack');
-var slack = new Slack(process.env.heroku_hook);
-var slack_token = process.env.slack_token;
+var token = process.env.slack_token;
 var async = require('async');
 var config = require('./config')
 var cradle = require('cradle');
@@ -21,53 +19,8 @@ var mapodd = function(pairs) {
     return [];
 };
 
-utils.sendSlackText = function(parings) {
-  console.log("utils send to slack " + parings);
-  var randos = mapnames(parings.randomPairs);
-  var intentional = mapnames(parings.intentionalPairs);
-  var odders = mapodd(parings.odd);
-
-  var msg = {
-    "text": "Pair Assignement",
-    "attachments": [
-      {
-        "fallback": "Pair Assignement",
-        "color": "#D00000",
-        "fields": []
-      }
-    ]
-  };
-
-
-  if (randos) {
-    msg.attachments[0].fields.push({
-      "title": "Random",
-      "value": randos,
-      "short": false
-    });
-  }
-
-  if (intentional) {
-    msg.attachments[0].fields.push({
-      "title": "Intentional",
-      "value": intentional,
-      "short": false
-    });
-  }
-  if (odders) {
-    msg.attachments[0].fields.push({
-      "title": "Odd",
-      "value": odders,
-      "short": false
-    });
-  }
-
-  console.log(msg);
-  slack.send(msg);
-};
-
 utils.checktoken = function(token, res, action) {
-  if (token === undefined || token !== slack_token) {
+  if (token === undefined || token !== token) {
     console.log('Invalid token');
     res.status(401).end('Invalid token');
   }

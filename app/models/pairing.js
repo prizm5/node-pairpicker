@@ -1,10 +1,27 @@
 System.register([], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var Pairing;
+    var Pair, ParingSession, Pairing;
     return {
         setters:[],
         execute: function() {
+            Pair = (function () {
+                function Pair(m1, m2) {
+                    this.member1 = m1;
+                    this.member2 = m2;
+                }
+                return Pair;
+            }());
+            exports_1("Pair", Pair);
+            ParingSession = (function () {
+                function ParingSession(t, p, o) {
+                    this.timestamp = t;
+                    this.pairs = p;
+                    this.odds = o;
+                }
+                return ParingSession;
+            }());
+            exports_1("ParingSession", ParingSession);
             Pairing = (function () {
                 function Pairing() {
                     this.randomPairs = [];

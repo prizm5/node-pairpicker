@@ -22,9 +22,6 @@
        "teams": {
            "map": "function(doc) {\n  if(doc._id == \"team\"){\n     doc.members.forEach(function(m){\n       emit(m.team,m);\n     });\t\n  }\n    if(doc._id == \"team\"){\n     doc.members\n\t.filter(function(m){return m.foosball == 'true'})\n\t.forEach(function(m){\n       emit('Foosballerz',m);\n     });\t\n  }\n}",
            "reduce": "function(keys, values, rereduce){\n  return values.map(function(v){\n\treturn { \"name\": v.nickname || v.name, \n\t\t \"station\": v.station,\n\t\t \"original\":v.original}}).sort();\n}"
-       },
-       "foosball": {
-           "map": "function(doc) {\n\t\n\tif(doc._id == 'team' ){\n\t\tvar mem = doc.members;\n\t\tvar mem = doc.members.filter(\n\t\t\tfunction(m){\n\t\t\t\treturn m.foosball == 'true';\n\t\t\t}\n\t\t);\n  \t\temit('foosball', mem);\n\t}\n}"
        }
    }
 }

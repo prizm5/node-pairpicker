@@ -14,6 +14,12 @@ export class NameService {
     this.headers.append('Content-Type', 'application/json');
   }
 
+  getLastParing () {
+    return this.http.get('api/data/last-paired' + this.searchtoken)
+      .map(res => res.json())
+      .catch(this.logAndPassOn);
+  }
+
   getTeam () {
     return this.http.get('api/data/team' + this.searchtoken)
       .map(res => res.json())
@@ -28,19 +34,6 @@ export class NameService {
   getPairCounts () {
     return this.http.get('api/data/paircounts' + this.searchtoken)
       .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
-  getFoosball () {
-    return this.http.get('api/data/foosball' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
-  sendToSlack (p: Pairing) {
-    return this.http.post('api' + this.searchtoken,
-      JSON.stringify(p),
-      { headers: this.headers })
       .catch(this.logAndPassOn);
   }
 

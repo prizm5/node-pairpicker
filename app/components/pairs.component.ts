@@ -66,14 +66,6 @@ interface KeyValuePair<T> {
             </div>
           </div>
         </div>
-        <div class="row" *ngIf="foosball">
-          <hr />
-          <div class="col-sm-1 portfolio-item">
-            <a href="#foosballModal" class="portfolio-link" data-toggle="modal">
-              <button type="submit" class="btn btn-primary btn-lg" (click)="savePair()">Start Game</button>
-            </a>
-          </div>
-        </div>
         <div class="row" [hidden]="!canSavePairs">
           <hr />
           <div class="col-sm-1 portfolio-item">
@@ -85,25 +77,6 @@ interface KeyValuePair<T> {
       </div>
     </section>
     
-    <!-- Modal -->
-    <div class="modal fade" id="foosballModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" >&times;</button>
-            <h4 class="modal-title" id="myModalLabel">Foosballerz</h4>
-          </div>
-          <div class="modal-body">
-            <p class="medium">Game Started</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
-          </div>
-        </div>
-      <!-- /.modal-content -->
-      </div>
-    <!-- /.modal-dialog -->
-    </div>
   <!-- /.modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
       <div class="modal-dialog">
@@ -125,7 +98,7 @@ interface KeyValuePair<T> {
     </div>
   <!-- /.modal -->
   `,
-  inputs: ["pairing", "paircounts", "oddcounts", "canSavePairs", "foosball"],
+  inputs: ["pairing", "paircounts", "oddcounts", "canSavePairs"],
   outputs: ["onSavePairing", "onStartGame"],
 })
 export class Pairs {
@@ -134,7 +107,6 @@ export class Pairs {
   public onStartGame = new EventEmitter();
   public paircounts = {};
   public canSavePairs = false;
-  public foosball = false;
 
   constructor() { }
 
@@ -154,11 +126,7 @@ export class Pairs {
 
   savePair(): void {
     if (this.pairing.randomPairs.length > 0 || this.pairing.intentionalPairs.length > 0 || this.pairing.odd.length > 0) {
-      if (this.foosball) {
-        this.onStartGame.emit(this.pairing);
-      } else {
-        this.onSavePairing.emit(this.pairing);
-      }
+      this.onSavePairing.emit(this.pairing);
     }
   }
 

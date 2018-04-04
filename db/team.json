@@ -4,47 +4,38 @@
        {
            "name": "Lindsey",
            "team": "QA",
-           "foosball": "false"
        },
        {
            "name": "Mark",
            "team": "QA",
-           "foosball": "false"
        },
        {
            "name": "Keith",
            "team": "Cloud",
-           "foosball": "true"
        },
        {
            "name": "Nilhouse",
            "team": "V5",
-           "foosball": "true"
        },
        {
            "name": "Maximus",
            "team": "V5",
-           "foosball": "true"
        },
        {
            "name": "Arlington",
            "team": "V5",
-           "foosball": "true"
        },
        {
            "name": "Steve",
            "team": "V5",
-           "foosball": "false"
        },
        {
            "name": "Danny",
            "team": "V5",
-           "foosball": "true"
        },
        {
            "name": "Patrick",
            "team": "Cloud",
-           "foosball": "false"
        }
    ]
 }

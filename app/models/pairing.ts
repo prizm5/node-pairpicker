@@ -1,6 +1,27 @@
 import {Team} from '../models/team';
 import {Person} from '../models/person';
 
+export class Pair {
+  member1: string;
+  member2: string;
+  constructor (m1, m2){
+    this.member1 = m1;
+    this.member2 = m2;
+  }
+}
+
+export class ParingSession {
+  timestamp: Date;
+  pairs: Pair[]
+  odds: string[]
+
+  constructor(t : Date, p : Pair[], o : string[]) {
+    this.timestamp = t;
+    this.pairs = p;
+    this.odds = o;
+  }
+}
+
 export class Pairing {
   randomPairs: string[];
   intentionalPairs: string[];

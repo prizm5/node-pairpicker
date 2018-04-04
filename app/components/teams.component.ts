@@ -1,7 +1,7 @@
 import {Component, EventEmitter} from "angular2/core";
 import {Team} from "../models/team";
 import {Dev} from "./dev.component";
-import {Pairing} from "../models/pairing";
+import {Pairing, Pair, ParingSession} from "../models/pairing";
 import {State} from "../models/person";
 import {IntentionalPairs} from "../models/intentional-pairs";
 
@@ -15,6 +15,15 @@ import {IntentionalPairs} from "../models/intentional-pairs";
         <div class="row" >
           <div class="col-lg-12 text-center">
             <h2>Workflows</h2>
+            <div class="col-lg-12 text-left">
+              Last Pairs:
+              <span *ngFor="#pair of lastPairingSession.pairs">
+                <span class="label label-info">{{pair.member1}} : {{pair.member2}}</span>
+              </span>
+              <span *ngFor="#odd of lastPairingSession.odds">
+                <span class="label label-info">{{odd}}</span>
+              </span>
+            </div>
             <hr class="star-primary">
           </div>
         </div>
@@ -39,7 +48,7 @@ import {IntentionalPairs} from "../models/intentional-pairs";
       </div>
     </section>
   `,
-  inputs: ["teams", "intentionalPairs"],
+  inputs: ["teams", "lastPairingSession", "intentionalPairs"],
   outputs: ["onPairingGenerated", "onSwitchTeam"],
   directives: [Dev]
 })
@@ -47,6 +56,7 @@ export class Teams {
   public teams: Team[];
   public pairing: Pairing;
   public intentionalPairs: IntentionalPairs;
+  public lastPairingSession  : ParingSession;
 
   public onSwitchTeam = new EventEmitter();
   public onPairingGenerated = new EventEmitter();
@@ -61,7 +71,7 @@ export class Teams {
     this.pairing = new Pairing();
 
     let teamToShuffle: Team = new Team();
-    let v5 = this.teams.filter(f => f.name === "V5" || f.name === "Foosballerz")[0];
+    let v5 = this.teams.filter(f => f.name === "V5")[0];
 
     let byState = groupBy(v5.members, (m) => m.state);
     let randos = byState[State.RandomPairing] || [];

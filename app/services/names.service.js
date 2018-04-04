@@ -32,6 +32,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
+                NameService.prototype.getLastParing = function () {
+                    return this.http.get('api/data/last-paired' + this.searchtoken)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.logAndPassOn);
+                };
                 NameService.prototype.getTeam = function () {
                     return this.http.get('api/data/team' + this.searchtoken)
                         .map(function (res) { return res.json(); })
@@ -45,15 +50,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 NameService.prototype.getPairCounts = function () {
                     return this.http.get('api/data/paircounts' + this.searchtoken)
                         .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.getFoosball = function () {
-                    return this.http.get('api/data/foosball' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.sendToSlack = function (p) {
-                    return this.http.post('api' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);
                 };
                 NameService.prototype.startGame = function (p) {

@@ -4,7 +4,6 @@ var utils = require('./utils');
 var cradle = require('cradle');
 var config = require('./config');
 var moment = require('moment');
-var Pusher = require('pusher');
 
 
 var getTeam = function(callback, error) {
@@ -25,14 +24,6 @@ var getTeam = function(callback, error) {
 // ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
-
-api.router.post('/', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
-    console.log('post api send to slack: ' + req.body);
-    utils.sendSlackText(req.body);
-    res.status(200).end();
-  }));
-});
 
 api.router.get('/data/team', function (req, res) {
   utils.checktoken(req.query.token, res, (function () {

@@ -1,7 +1,6 @@
 import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Picker} from '../picker.component'
-import {Foosball} from '../foosball.component'
 
 @Component({
   styles:[],

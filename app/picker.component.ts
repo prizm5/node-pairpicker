@@ -8,7 +8,7 @@ import {JSONP_PROVIDERS}  from 'angular2/http';
 
 import {Team} from './models/team';
 import {State} from './models/person';
-import {Pairing} from './models/pairing';
+import {Pairing, Pair, ParingSession} from './models/pairing';
 import {IntentionalPairs} from './models/intentional-pairs';
 import 'rxjs/Rx';
 
@@ -17,6 +17,7 @@ import 'rxjs/Rx';
   template: `
     <teams-section
       [teams]="allteams"
+      [lastPairingSession]="lastPairingSession"
       [intentionalPairs]="intentionalPairs"
       (onPairingGenerated)="updatePairing($event)"
       (onSwitchTeam)="switchTeamMember($event)">
@@ -28,13 +29,12 @@ import 'rxjs/Rx';
       [paircounts]="paircounts"
       [oddcounts]="oddcounts"
       [canSavePairs]='canSave'
-      [foosball]='foosball'
       (onSavePairing)="savePairing($event)">
       <h1>I pairs loaded...</h1>
     </pairs-section>
   `,
   directives: [Nav, Teams, Pairs],
-})
+}) 
 
 export class Picker implements OnInit {
   public title = 'Pair Picker';
@@ -45,7 +45,7 @@ export class Picker implements OnInit {
   public paircounts = {};
   public oddcounts = {};
   public canSave = false;
-  public foosball = false;
+  public lastPairingSession : ParingSession;
 
   constructor(private _nameService: NameService) { }
 
@@ -72,7 +72,7 @@ export class Picker implements OnInit {
       error => {
         retry++;
         if (retry < 4) this.moveTeam(name, team, retry);
-        console.error(`error sending to slack: ${error}`);
+        console.error(`error moving team: ${error}`);
       });
   }
 
@@ -89,23 +89,34 @@ export class Picker implements OnInit {
 
   savePairing(p: Pairing): void {
     this.canSave = false;
+    this.lastPairingSession = new ParingSession(null,[],[]);
     this.savePairingToDb(p);
-
-    this._nameService.sendToSlack(p)
-      .subscribe(
-      a => console.debug(`sent to slack : ${a}`),
-      error => console.error(`error sending to slack: ${error}`));
+    this.getLastPairSesion();
   }
 
   updatePairing(p: Pairing): void {
-
-    this.foosball = false;
     this.pairing = p;
     this.getPairCounts();
     this.canSave = true;
-
+    this.getLastPairSesion();
   }
 
+  getLastPairSesion(retry: number = 0) : void {
+    this._nameService.getLastParing().subscribe(
+      n => {
+        var x = n.pairs.map( p => p.split(' :: '));
+        var timestamp = n.timestamp;
+        var pairs = x.filter(f => f.length !== 1).map(p => {return new Pair(p[0], p[1])});
+        var odds = x.filter(f => f.length === 1).map(p =>  {return p[0]});
+        var pairsession = new ParingSession(timestamp, pairs, odds);
+        this.lastPairingSession = pairsession;
+      },
+      error => {
+        retry++;
+        if (retry < 4) this.getNames(retry);
+        console.error(error);
+      });
+  }
   getNames(retry: number = 0): void {
     this._nameService.getTeam().subscribe(
       n => {
@@ -151,7 +162,9 @@ export class Picker implements OnInit {
   ngOnInit(): void {
     this.allteams = [];
     this.pairing = new Pairing();
+    this.getLastPairSesion();
     this.intentionalPairs = new IntentionalPairs();
+    this.lastPairingSession = new ParingSession(null,[],[]);
     this.getNames();
     this.getPairCounts();
   }
