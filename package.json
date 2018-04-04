@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Pair Picker endjoings in Node",
   "main": "index.js",
-  "scripts": { 
+  "scripts": {
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "start": "node index.js",

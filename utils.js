@@ -1,6 +1,5 @@
 var utils = {};
 
-var token = process.env.slack_token;
 var async = require('async');
 var config = require('./config')
 var cradle = require('cradle');
@@ -17,17 +16,6 @@ var mapodd = function(pairs) {
     return pairs.join(" | ");
   else
     return [];
-};
-
-utils.checktoken = function(token, res, action) {
-  if (token === undefined || token !== token) {
-    console.log('Invalid token');
-    res.status(401).end('Invalid token');
-  }
-  else {
-    //console.log('Valid token');
-    action();
-  }
 };
 
 var remove = function(name, array) {

@@ -14,6 +14,11 @@ export class NameService {
     this.headers.append('Content-Type', 'application/json');
   }
 
+  getSecureRoute (url) {
+    return this.http.get(url + this.searchtoken)
+      .map(res => res.json())
+      .catch(this.logAndPassOn);
+  }
   getLastParing () {
     return this.http.get('api/data/last-paired' + this.searchtoken)
       .map(res => res.json())

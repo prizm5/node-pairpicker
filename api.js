@@ -5,28 +5,11 @@ var cradle = require('cradle');
 var config = require('./config');
 var moment = require('moment');
 
-
-var getTeam = function(callback, error) {
-  var dbb = new config.db();
-  dbb.view('stats/teams', {
-    group: true,
-    reduce: true
-  }, function(err, data) {
-    if (err) {
-      console.log(err);
-      error(err);
-    } else {
-      callback(data);
-    }
-  });
-};
-
 // ROUTES FOR OUR API
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
 
 api.router.get('/data/team', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
     dbb.view('stats/teams', {
       group: true,
@@ -39,11 +22,9 @@ api.router.get('/data/team', function (req, res) {
         res.send(data);
       }
     });
-  }));
 });
 
 api.router.get('/data/last-paired', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
     dbb.get('last-paired', {group: false, reduce: false}, function (err, data) {
       if (err) {
@@ -53,11 +34,9 @@ api.router.get('/data/last-paired', function (req, res) {
         res.send(data);
       }
     });
-  }));
 });
 
 api.router.get('/data/pairdetails', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
     dbb.view('stats/paircounts', {group: false, reduce: false}, function (err, data) {
       if (err) {
@@ -67,10 +46,8 @@ api.router.get('/data/pairdetails', function (req, res) {
         res.send(data);
       }
     });
-  }));
 });
 api.router.get('/data/paircounts', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     var dbb = new config.db();
     dbb.view('stats/paircounts', {
       group: true,
@@ -83,18 +60,14 @@ api.router.get('/data/paircounts', function (req, res) {
         res.send(data);
       }
     });
-  }));
 });
 
 api.router.post('/moveToCloud', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     utils.moveToCloud(req.body.name);
     res.status(200).end();
-  }));
 });
 
 api.router.post('/savePair', function (req, res) {
-  utils.checktoken(req.query.token, res, function () {
     var now = moment();
     var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
     var docs = [];
@@ -147,14 +120,11 @@ api.router.post('/savePair', function (req, res) {
       }
     });
 
-  });
 });
 
 api.router.post('/moveToDev', function (req, res) {
-  utils.checktoken(req.query.token, res, (function () {
     utils.moveToDev(req.body.name)
     res.status(200).end()
-  }));
 });
 
 module.exports = api;
