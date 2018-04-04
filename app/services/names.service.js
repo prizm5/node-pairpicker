@@ -32,30 +32,15 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     this.headers = new http_1.Headers();
                     this.headers.append('Content-Type', 'application/json');
                 }
-                NameService.prototype.getLastParing = function () {
-                    return this.http.get('api/data/last-paired' + this.searchtoken)
+                NameService.prototype.getSecureRoute = function (url) {
+                    return this.http.get(url + this.searchtoken)
                         .map(function (res) { return res.json(); })
                         .catch(this.logAndPassOn);
                 };
-                NameService.prototype.getTeam = function () {
-                    return this.http.get('api/data/team' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.getPairDetails = function () {
-                    return this.http.get('api/data/pairdetails' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.getPairCounts = function () {
-                    return this.http.get('api/data/paircounts' + this.searchtoken)
-                        .map(function (res) { return res.json(); })
-                        .catch(this.logAndPassOn);
-                };
-                NameService.prototype.startGame = function (p) {
-                    return this.http.post('api/startGame' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
-                        .catch(this.logAndPassOn);
-                };
+                NameService.prototype.getLastParing = function () { return this.getSecureRoute('api/data/last-paired'); };
+                NameService.prototype.getTeam = function () { return this.getSecureRoute('api/data/team'); };
+                NameService.prototype.getPairDetails = function () { return this.getSecureRoute('api/data/pairdetails'); };
+                NameService.prototype.getPairCounts = function () { return this.getSecureRoute('api/data/paircounts'); };
                 NameService.prototype.savePair = function (p) {
                     return this.http.post('api/savePair' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);

@@ -79,7 +79,9 @@ export class Picker implements OnInit {
   savePairingToDb(p: Pairing, retry = 0): void {
     this._nameService.savePair(p)
       .subscribe(
-      a => console.debug(`pairing saved : ${a}`),
+      a => {
+        console.debug(`pairing saved : ${a}`)
+        this.getLastPairSesion()},
       error => {
         retry++;
         if (retry < 4) this.savePairingToDb(p, retry);
@@ -89,16 +91,13 @@ export class Picker implements OnInit {
 
   savePairing(p: Pairing): void {
     this.canSave = false;
-    this.lastPairingSession = new ParingSession(null,[],[]);
     this.savePairingToDb(p);
-    this.getLastPairSesion();
   }
 
   updatePairing(p: Pairing): void {
     this.pairing = p;
     this.getPairCounts();
     this.canSave = true;
-    this.getLastPairSesion();
   }
 
   getLastPairSesion(retry: number = 0) : void {

@@ -19,35 +19,11 @@ export class NameService {
       .map(res => res.json())
       .catch(this.logAndPassOn);
   }
-  getLastParing () {
-    return this.http.get('api/data/last-paired' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
+  getLastParing () { return this.getSecureRoute('api/data/last-paired'); }
+  getTeam () { return this.getSecureRoute('api/data/team') } 
+  getPairDetails () { return this.getSecureRoute('api/data/pairdetails') }
+  getPairCounts () { return this.getSecureRoute('api/data/paircounts') }
 
-  getTeam () {
-    return this.http.get('api/data/team' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
-  getPairDetails () {
-    return this.http.get('api/data/pairdetails' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-  getPairCounts () {
-    return this.http.get('api/data/paircounts' + this.searchtoken)
-      .map(res => res.json())
-      .catch(this.logAndPassOn);
-  }
-
-  startGame (p: Pairing) {
-    return this.http.post('api/startGame' + this.searchtoken,
-      JSON.stringify(p),
-      { headers: this.headers })
-      .catch(this.logAndPassOn);
-  }
   savePair (p: Pairing) {
     return this.http.post('api/savePair' + this.searchtoken,
       JSON.stringify(p),

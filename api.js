@@ -123,7 +123,7 @@ api.router.post('/savePair', function (req, res) {
 });
 
 api.router.post('/moveToDev', function (req, res) {
-    utils.moveToDev(req.body.name)
+    utils.moveToDev(req.body.name);
     res.status(200).end()
 });
 

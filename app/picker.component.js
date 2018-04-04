@@ -78,7 +78,10 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
                     this._nameService.savePair(p)
-                        .subscribe(function (a) { return console.debug("pairing saved : " + a); }, function (error) {
+                        .subscribe(function (a) {
+                        console.debug("pairing saved : " + a);
+                        _this.getLastPairSesion();
+                    }, function (error) {
                         retry++;
                         if (retry < 4)
                             _this.savePairingToDb(p, retry);
@@ -87,15 +90,12 @@ System.register(['angular2/core', './components/nav.component', './components/te
                 };
                 Picker.prototype.savePairing = function (p) {
                     this.canSave = false;
-                    this.lastPairingSession = new pairing_1.ParingSession(null, [], []);
                     this.savePairingToDb(p);
-                    this.getLastPairSesion();
                 };
                 Picker.prototype.updatePairing = function (p) {
                     this.pairing = p;
                     this.getPairCounts();
                     this.canSave = true;
-                    this.getLastPairSesion();
                 };
                 Picker.prototype.getLastPairSesion = function (retry) {
                     var _this = this;
