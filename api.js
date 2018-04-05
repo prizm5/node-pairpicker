@@ -9,6 +9,17 @@ var moment = require('moment');
 // =============================================================================
 api.router = express.Router();          // get an instance of the express api.router
 
+api.router.get('/data/fullteam', function (req, res) {
+    var dbb = new config.db();
+    dbb.get('team', {group: false, reduce: false}, function (err, data) {
+      if (err) {
+        console.log(err);
+        res.status(500).end();
+      } else {
+        res.send(data);
+      }
+    });
+});
 api.router.get('/data/team', function (req, res) {
     var dbb = new config.db();
     dbb.view('stats/teams', {

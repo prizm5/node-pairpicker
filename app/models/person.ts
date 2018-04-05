@@ -4,6 +4,12 @@ export enum State {
   IntentionalPairing,
   Absent
 }
+export enum Team {
+  V5,
+  Cloud,
+  QA,
+  Reporting
+}
 
 export interface Person {
   name: string;

@@ -29,6 +29,9 @@ import {Picker} from '../picker.component'
                     <li class="page-scroll">
                         <a [routerLink]="['Stats']">Stats</a>
                     </li>
+                    <li class="page-scroll">
+                        <a [routerLink]="['Members']">Members</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
