@@ -31,17 +31,18 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
                     this._nameService.getFullTeam().subscribe(function (n) {
-                        _this.team = n.members.map(function (m) {
+                        _this.team = n.map(function (m) {
                             return {
-                                "name": m.name,
-                                "team": m.team,
-                                "status": m.status
+                                "_id": m.value._id,
+                                "name": m.value.name,
+                                "team": m.value.team,
+                                "status": m.value.status
                             };
                         });
                     }, function (error) {
                         retry++;
                         if (retry < 4)
-                            _this.getNames(retry);
+                            _this.getTeam(retry);
                         console.error(error);
                     });
                 };
@@ -53,7 +54,7 @@ System.register(['angular2/core', './services/names.service'], function(exports_
                 Members = __decorate([
                     core_1.Component({
                         styles: [],
-                        template: "\n    <section id=\"portfolio\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Workflows</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\" >\n          <div class=\"col-sm-12 portfolio-item\" *ngFor=\"#member of team\">\n            {{member.name}} {{member.status}} {{member.team}}\n          </div>\n        </div>\n        <div class=\"row\" >\n          <div class=\"col-sm-2 portfolio-item page-scroll\">\n            <a href=\"#pairs\">\n              <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"saveTeam()\">Save</button>\n            </a>\n          </div>\n        </div>\n      </div>\n    </section>\n  ",
+                        template: "\n    <section id=\"portfolio\">\n      <div class=\"container\">\n        <div class=\"row\" >\n          <div class=\"col-lg-12 text-center\">\n            <h2>Workflows</h2>\n            <hr class=\"star-primary\">\n          </div>\n        </div>\n        <div class=\"row\" >\n        <table class=\"table\">\n          <tr>\n            <th>Name</th> \n            <th>Team</th>\n            <th>Status</th> \n          </tr>\n          <tr *ngFor=\"#member of team\" id=\"{{member._id}}\" class=\"member\">\n            <td>{{member.name}}</td> \n            <td>{{member.team}}</td>\n            <td>{{member.status}}</td> \n          </tr>\n        </table>\n        </div>\n        <div class=\"row\" >\n          <div class=\"col-sm-2 portfolio-item page-scroll\">\n            <a href=\"#pairs\">\n              <button type=\"submit\" class=\"btn btn-success btn-lg\" (click)=\"saveTeam()\">Save</button>\n            </a>\n          </div>\n        </div>\n      </div>\n    </section>\n  "
                     }), 
                     __metadata('design:paramtypes', [names_service_1.NameService])
                 ], Members);

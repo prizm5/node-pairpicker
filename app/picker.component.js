@@ -118,20 +118,18 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
                     this._nameService.getTeam().subscribe(function (n) {
-                        n.filter(function (f) { return f.key == 'V5'; }).reverse().forEach(function (t) {
-                            t.value.forEach(function (v) {
-                                v.shouldPair = true;
-                                v.state = person_1.State.RandomPairing;
-                            });
-                            _this.allteams.push({ 'name': t.key, 'members': t.value });
+                        var v5 = n.filter(function (f) { return f.key == 'V5'; });
+                        v5.forEach(function (t) {
+                            t.value.shouldPair = true;
+                            t.value.state = person_1.State.RandomPairing;
                         });
-                        n.filter(function (f) { return f.key == 'Cloud'; }).reverse().forEach(function (t) {
-                            t.value.forEach(function (v) {
-                                v.shouldPair = false;
-                                v.state = person_1.State.RandomPairing;
-                            });
-                            _this.allteams.push({ 'name': t.key, 'members': t.value });
+                        _this.allteams.push({ 'name': 'V5', 'members': v5.map(function (t) { return t.value; }) });
+                        var cloud = n.filter(function (f) { return f.key == 'Cloud'; });
+                        cloud.forEach(function (t) {
+                            t.value.shouldPair = false;
+                            t.value.state = person_1.State.RandomPairing;
                         });
+                        _this.allteams.push({ 'name': 'cloud', 'members': cloud.map(function (t) { return t.value; }) });
                     }, function (error) {
                         retry++;
                         if (retry < 4)

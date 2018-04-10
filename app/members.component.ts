@@ -16,9 +16,18 @@ declare var Chart: any;
           </div>
         </div>
         <div class="row" >
-          <div class="col-sm-12 portfolio-item" *ngFor="#member of team">
-            {{member.name}} {{member.status}} {{member.team}}
-          </div>
+        <table class="table">
+          <tr>
+            <th>Name</th> 
+            <th>Team</th>
+            <th>Status</th> 
+          </tr>
+          <tr *ngFor="#member of team" id="{{member._id}}" class="member">
+            <td>{{member.name}}</td> 
+            <td>{{member.team}}</td>
+            <td>{{member.status}}</td> 
+          </tr>
+        </table>
         </div>
         <div class="row" >
           <div class="col-sm-2 portfolio-item page-scroll">
@@ -29,7 +38,7 @@ declare var Chart: any;
         </div>
       </div>
     </section>
-  `,
+  `
 })
 
 export class Members {
@@ -41,16 +50,17 @@ export class Members {
   getTeam(retry: number = 0): void {
     this._nameService.getFullTeam().subscribe(
       n => {
-        this.team = n.members.map(m => {
+        this.team = n.map(m => {
           return {
-            "name": m.name,
-            "team": m.team,
-            "status": m.status
+            "_id": m.value._id,
+            "name": m.value.name,
+            "team": m.value.team,
+            "status": m.value.status
           }});
       },
       error => {
         retry++;
-        if (retry < 4) this.getNames(retry);
+        if (retry < 4) this.getTeam(retry);
         console.error(error);
       });
   }
