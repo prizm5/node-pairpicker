@@ -26,7 +26,7 @@ System.register(['../models/person'], function(exports_1, context_1) {
                             var pair = [first, other];
                             return [
                                 pairs.concat([pair]),
-                                Object.assign(seen, (_b = {},
+                                Object.apply(seen, (_b = {},
                                     _b[first.name] = first.name,
                                     _b[other.name] = other.name,
                                     _b

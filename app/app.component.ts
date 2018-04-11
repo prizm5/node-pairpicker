@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Picker} from './picker.component'
+import {Members} from './members.component'
 import {Nav} from './components/nav.component'
 import {Footer} from './components/footer.component'
 import {Stats} from './stats.component'
@@ -18,6 +19,8 @@ import {Stats} from './stats.component'
 })
 @RouteConfig([
   {path: '/Picker',   name: 'Picker',     component: Picker, useAsDefault: true},
+  {path: '/Members', name: 'Members', component: Members},
   {path: '/Stats', name: 'Stats', component: Stats},
 ])
 export class AppComponent { }
+
