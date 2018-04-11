@@ -2,7 +2,6 @@ import {Component} from 'angular2/core';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Picker} from '../picker.component'
 
-
 @Component({
   styles:[],
   selector: 'nav-section',
@@ -29,9 +28,6 @@ import {Picker} from '../picker.component'
                     </li>
                     <li class="page-scroll">
                         <a [routerLink]="['Stats']">Stats</a>
-                    </li>
-                    <li class="page-scroll">
-                        <a [routerLink]="['Members']">Members</a>
                     </li>
                 </ul>
             </div>

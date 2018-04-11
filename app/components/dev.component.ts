@@ -74,9 +74,6 @@ interface PopoverComponent /* extends JqueryWrapperObject */ {
       <span class="input-group-addon">
         <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-resize-horizontal" id="{{peep.name}}" (click)="emitTeamSwitch(peep)" role="button"></button>
       </span>
-      <span class="input-group-addon">
-        <button class="btn btn-default btn-sm dev-btn-switch glyphicon glyphicon-info-sign" id="{{peep.name}}" (click)="emitTeamSwitch(peep)" role="button"></button>
-      </span>
     </div>
     `,
   inputs: ['peeps', 'teamname', 'intentionalPairs'],

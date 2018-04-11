@@ -20,7 +20,7 @@ export class IntentionalPairs {
 
         return [
           pairs.concat([pair]),
-          Object.apply(seen, {
+          Object.assign(seen, {
             [first.name]: first.name,
             [other.name]: other.name
           })
