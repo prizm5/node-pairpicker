@@ -30,7 +30,7 @@ app.use(function (req, res, next) {
   }
   else {
     if(cookie === undefined){
-      res.cookie('safetoken',config.token, { maxAge: 900000, httpOnly: true });
+      res.cookie('safetoken',config.token, { expires: new Date(Date.now() + (100000*900000))});
     }
     next();
   }

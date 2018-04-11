@@ -58,7 +58,7 @@ interface PopoverComponent /* extends JqueryWrapperObject */ {
   selector: 'developer',
   template: `
     <div class="input-group dev" *ngFor="#peep of peeps">
-      <span class="input-group-addon" *ngIf="peep.shouldPair">
+      <span class="input-group-addon">
         <div class="cbx cbx-md cbx-active" tabindex="1000">
           <span class="cbx-icon">
             <div [ngSwitch]="peep.state" id="popover-anchor-{{peep.name}}">

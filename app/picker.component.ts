@@ -120,22 +120,18 @@ export class Picker implements OnInit {
     this._nameService.getTeam().subscribe(
       n => {
 
-        n.filter(f => f.key == 'V5' ).reverse().forEach(t => {
-          t.value.forEach(v => {
-            v.shouldPair = true;
-            v.state = State.RandomPairing;
-          });
-
-          this.allteams.push({ 'name': t.key, 'members': t.value });
+        var v5 = n.filter(f => f.key == 'V5' );
+        v5.forEach(t => {
+            t.value.shouldPair = true;
+            t.value.state = State.RandomPairing;
         });
-        n.filter(f => f.key == 'Cloud').reverse().forEach(t => {
-          t.value.forEach(v => {
-            v.shouldPair = false;
-            v.state = State.RandomPairing;
-          });
-
-          this.allteams.push({ 'name': t.key, 'members': t.value });
+        this.allteams.push({ 'name': 'V5', 'members': v5.map(t => t.value) });
+        var cloud = n.filter(f => f.key == 'Cloud');
+        cloud.forEach(t => {
+            t.value.shouldPair = false;
+            t.value.state = State.RandomPairing;
         });
+        this.allteams.push({ 'name': 'cloud', 'members': cloud.map( t => t.value) });
       },
       error => {
         retry++;

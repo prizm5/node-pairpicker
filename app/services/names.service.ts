@@ -21,6 +21,7 @@ export class NameService {
   }
   getLastParing () { return this.getSecureRoute('api/data/last-paired'); }
   getTeam () { return this.getSecureRoute('api/data/team') } 
+  getFullTeam () { return this.getSecureRoute('api/data/fullteam') } 
   getPairDetails () { return this.getSecureRoute('api/data/pairdetails') }
   getPairCounts () { return this.getSecureRoute('api/data/paircounts') }
 

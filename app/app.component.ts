@@ -5,6 +5,7 @@ import {Picker} from './picker.component'
 import {Nav} from './components/nav.component'
 import {Footer} from './components/footer.component'
 import {Stats} from './stats.component'
+import {Members} from './members.component'
 
 @Component({
   styles: [],
@@ -19,5 +20,6 @@ import {Stats} from './stats.component'
 @RouteConfig([
   {path: '/Picker',   name: 'Picker',     component: Picker, useAsDefault: true},
   {path: '/Stats', name: 'Stats', component: Stats},
+  {path: '/Members', name: 'Members', component: Members}
 ])
 export class AppComponent { }
