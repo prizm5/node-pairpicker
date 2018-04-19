@@ -71,11 +71,6 @@ api.router.get('/data/paircounts', function (req, res) {
     });
 });
 
-api.router.post('/moveToCloud', function (req, res) {
-    utils.moveToCloud(req.body.name);
-    res.status(200).end();
-});
-
 api.router.post('/savePair', function (req, res) {
     var now = moment();
     var formatted = now.format('YYYY-MM-DD HH:mm:ss Z');
@@ -136,7 +131,14 @@ api.router.post('/savePair', function (req, res) {
 
 });
 
+api.router.post('/moveToCloud', function (req, res) {
+    console.log("api/moveToCloud",req);
+    utils.moveToCloud(req.body.name);
+    res.status(200).end();
+});
+
 api.router.post('/moveToDev', function (req, res) {
+    console.log("api/moveToDev",req);
     utils.moveToDev(req.body.name);
     res.status(200).end()
 });

@@ -41,13 +41,13 @@ var changeTeam = function(name,team){
         console.log("found member", member)
         dbb.get(member[0].id, function(err, doc) { 
           if (err) {
-            return console.log(err);
+            console.log(err);
           }
           console.log("found member doc", doc)
           doc.team = team;
           dbb.save(doc, function(err, doc) {
               if (err) {
-                return console.log(err);
+                console.log(err);
               }
           });
         });
@@ -57,11 +57,11 @@ var changeTeam = function(name,team){
 };
 
 utils.moveToCloud = function(name) {
-  return changeTeam(name,'Cloud');
+  changeTeam(name,'Cloud');
 };
 
 utils.moveToDev = function(name) {
-  return changeTeam(name,'V5');
+  changeTeam(name,'V5');
 };
 
 module.exports = utils;
