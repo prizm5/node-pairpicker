@@ -28,8 +28,6 @@ api.router.get('/data/team', function (req, res) {
         console.log(err);
         res.status(500).end();
       } else {
-
-
         res.send(data.filter( v => v.value.status ==='active'));
       }
     });

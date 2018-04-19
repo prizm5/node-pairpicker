@@ -30,47 +30,27 @@ var remove = function(name, array) {
   console.log('removed ' + move);
 };
 
-var getDocs = function(calls) {
-  ['cloud', 'devs'].forEach(function(name) {
-    calls.push(function(callback) {
-      var dbb = new config.db();
-      dbb.get(name, function(err, doc) { // remember error first ;)
-        if (err) {
-          return callback(err);
-        }
-        callback(null, doc);
-      });
-    })
-  });
-};
-
-var saveDocs = function(calls, docs) {
-  docs.forEach(function(name) {
-    calls.push(function(callback) {
-      var dbb = new config.db();
-      dbb.save(name, function(err, doc) { // remember error first ;)
-        if (err) {
-          return callback(err);
-        }
-        callback(null, doc);
-      });
-    })
-  });
-};
-
 var changeTeam = function(name,team){
   var dbb = new config.db();
-  dbb.get("team", function(err, doc) { // remember error first ;)
+  dbb.view('stats/teams', {}, function(err, data) {
     if (err) {
-      return console.log(err);
+      console.log(err);
+    } else {
+      let member = data.filter(v => v.value.name === name);
+      if(member.length > 0) {
+        dbb.get(member._id, function(err, doc) { 
+          if (err) {
+            return console.log(err);
+          }
+          doc.team = team;
+          dbb.save(doc, function(err, doc) {
+              if (err) {
+                return console.log(err);
+              }
+          });
+        });
+      }
     }
-    doc.members.filter( f => f.name == name)[0].team = team;
-    dbb.save(doc, function(err, doc) {
-        if (err) {
-          return callback(err);
-        }
-        return doc;
-    });
   });
 };
 
