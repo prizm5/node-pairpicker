@@ -34,11 +34,11 @@ export class NameService {
 
   moveTeam (p: string, teamname: string) {
     var url = '';
-    switch (teamname) {
-      case "Cloud":
+    switch (teamname.toLowerCase()) {
+      case "cloud":
         url = 'api/moveToDev';
         break;
-      case "V5":
+      case "v5":
         url = 'api/moveToCloud';
         break;
     }
