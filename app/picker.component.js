@@ -101,7 +101,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
                     this._nameService.getLastParing().subscribe(function (n) {
-                        var x = n.pairs.map(function (p) { return p.split(' :: '); });
+                        var x = n.pairs.map(function (p) { return p.pair.split(' :: '); });
                         var timestamp = n.timestamp;
                         var pairs = x.filter(function (f) { return f.length !== 1; }).map(function (p) { return new pairing_1.Pair(p[0], p[1]); });
                         var odds = x.filter(function (f) { return f.length === 1; }).map(function (p) { return p[0]; });

@@ -103,7 +103,7 @@ export class Picker implements OnInit {
   getLastPairSesion(retry: number = 0) : void {
     this._nameService.getLastParing().subscribe(
       n => {
-        var x = n.pairs.map( p => p.split(' :: '));
+        var x = n.pairs.map( p => p.pair.split(' :: '));
         var timestamp = n.timestamp;
         var pairs = x.filter(f => f.length !== 1).map(p => {return new Pair(p[0], p[1])});
         var odds = x.filter(f => f.length === 1).map(p =>  {return p[0]});
