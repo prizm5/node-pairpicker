@@ -34,7 +34,7 @@ export class NameService {
 
   moveTeam (p: string, teamname: string) {
     var url = '';
-    switch (teamname.toLowerCase()) {
+    switch (teamname) {
       case "cloud":
         url = 'api/moveToDev';
         break;

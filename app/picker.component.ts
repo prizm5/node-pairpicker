@@ -131,7 +131,7 @@ export class Picker implements OnInit {
             t.value.shouldPair = false;
             t.value.state = State.RandomPairing;
         });
-        this.allteams.push({ 'name': 'cloud', 'members': cloud.map( t => t.value) });
+        this.allteams.push({ 'name': 'Cloud', 'members': cloud.map( t => t.value) });
       },
       error => {
         retry++;
