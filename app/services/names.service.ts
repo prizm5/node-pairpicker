@@ -34,15 +34,11 @@ export class NameService {
 
   moveTeam (p: string, teamname: string) {
     var url = '';
-    switch (teamname) {
-      case "Cloud":
-      case "cloud":
+    if (teamname.toLowerCase() === "cloud"){
         url = 'api/moveToDev';
-        break;
-      case "V5":
-      case "v5":
+    }
+    if (teamname.toLowerCase() === "v5"){
         url = 'api/moveToCloud';
-        break;
     }
     return this.http.post(url + this.searchtoken, JSON.stringify({ name: p }),
       { headers: this.headers })
