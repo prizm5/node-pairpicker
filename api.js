@@ -85,29 +85,36 @@ api.router.post('/savePair', function (req, res) {
     var randomPairs = req.body.randomPairs;
     var intentionalPairs = req.body.intentionalPairs;
     var odds = req.body.odd;
-
     var lastPaired = {
         _id: 'last-paired',
-        pairs: randomPairs.concat(intentionalPairs).concat(odds)
+        pairs: []
     }
 
     randomPairs.forEach(p => {
+      let data = p.split(" :: ").sort();
+      var pairing = {"pair" : p}
+      lastPaired.pairs.push(pairing)
       docs.push({
         timestamp: formatted,
-        data: p.split(' :: ').sort(),
+        data: data,
         doc_type: 'pairing'
       });
     });
 
     intentionalPairs.forEach(p => {
+      let data = p.split(" :: ").sort();
+      var pairing = {"pair" : p}
+      lastPaired.pairs.push(pairing)
       docs.push({
         timestamp: formatted,
-        data: p.split(' :: ').sort(),
+        data: data,
         doc_type: 'intentional'
       });
     });
 
     odds.forEach(p => {
+      var pairing = {"pair" : p}
+      lastPaired.pairs.push(pairing)
       docs.push({
         timestamp: formatted,
         data: p,
@@ -116,17 +123,15 @@ api.router.post('/savePair', function (req, res) {
     });
 
     var dbb = new config.db();
-    dbb.save(lastPaired, function (err, doc){
-      if (err) {
-        console.log(err);
-      } 
-        });
-
     dbb.save(docs, function (err, doc) {
       if (err) {
         console.log(err);
         res.send(500);
       } else {
+        dbb.save(lastPaired, function (err, doc){
+          if (err) { console.log(err); }
+        });
+
         res.send(req.body);
       }
     });
