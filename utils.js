@@ -38,10 +38,12 @@ var changeTeam = function(name,team){
     } else {
       let member = data.filter(v => v.value.name === name);
       if(member.length > 0) {
+        console.log("found member", member)
         dbb.get(member[0].id, function(err, doc) { 
           if (err) {
             return console.log(err);
           }
+          console.log("found member doc", doc)
           doc.team = team;
           dbb.save(doc, function(err, doc) {
               if (err) {
