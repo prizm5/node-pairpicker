@@ -129,7 +129,7 @@ System.register(['angular2/core', './components/nav.component', './components/te
                             t.value.shouldPair = false;
                             t.value.state = person_1.State.RandomPairing;
                         });
-                        _this.allteams.push({ 'name': 'cloud', 'members': cloud.map(function (t) { return t.value; }) });
+                        _this.allteams.push({ 'name': 'Cloud', 'members': cloud.map(function (t) { return t.value; }) });
                     }, function (error) {
                         retry++;
                         if (retry < 4)

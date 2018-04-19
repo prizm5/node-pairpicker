@@ -48,13 +48,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 };
                 NameService.prototype.moveTeam = function (p, teamname) {
                     var url = '';
-                    switch (teamname) {
-                        case "Cloud":
-                            url = 'api/moveToDev';
-                            break;
-                        case "V5":
-                            url = 'api/moveToCloud';
-                            break;
+                    if (teamname.toLowerCase() === "cloud") {
+                        url = 'api/moveToDev';
+                    }
+                    if (teamname.toLowerCase() === "v5") {
+                        url = 'api/moveToCloud';
                     }
                     return this.http.post(url + this.searchtoken, JSON.stringify({ name: p }), { headers: this.headers })
                         .catch(this.logAndPassOn);

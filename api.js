@@ -132,13 +132,11 @@ api.router.post('/savePair', function (req, res) {
 });
 
 api.router.post('/moveToCloud', function (req, res) {
-    console.log("api/moveToCloud",req);
     utils.moveToCloud(req.body.name);
     res.status(200).end();
 });
 
 api.router.post('/moveToDev', function (req, res) {
-    console.log("api/moveToDev",req);
     utils.moveToDev(req.body.name);
     res.status(200).end()
 });
