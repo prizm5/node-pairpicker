@@ -49,5 +49,19 @@ export class NameService {
     console.error(error);
     return Observable.throw(error);
   }
+
+  startCloud9 () {
+    return this.http.post('api/startCloud9' + this.searchtoken,
+      '',
+      { headers: this.headers })
+      .catch(this.logAndPassOn);
+  }
+
+  stopCloud9 () {
+    return this.http.post('api/stopCloud9' + this.searchtoken,
+      '',
+      { headers: this.headers })
+      .catch(this.logAndPassOn);
+  }
 }
 

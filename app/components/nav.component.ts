@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, EventEmitter} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Picker} from '../picker.component'
 
@@ -32,6 +32,12 @@ import {Picker} from '../picker.component'
                     <li class="page-scroll">
                         <a [routerLink]="['Members']">Members</a>
                     </li>
+
+                    <li class="page-scroll">
+                      <a href="#myModal" data-toggle="modal">
+                        Cloud9
+                      </a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -39,10 +45,42 @@ import {Picker} from '../picker.component'
       </div>
     <!-- /.container-fluid -->
     </nav>
+  <!-- /.modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" >&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Cloud9 Controller</h4>
+          </div>
+          <div class="modal-body">
+            <button type="button" class="btn btn-default" (click)="startCloud9()">Start Cloud9</button>
+            <button type="button" class="btn btn-default" (click)="stopCloud9()">Stop Cloud9</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      <!-- /.modal-content -->
+      </div>
+    <!-- /.modal-dialog -->
+    </div>
+  <!-- /.modal -->
   `,
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES],
+
+  outputs: ["onStartCloud9", "onStopCloud9"],
 })
 
 export class Nav {
+
+  public onStartCloud9 = new EventEmitter();
+  public onStopCloud9 = new EventEmitter();
   constructor () { }
+  stopCloud9(): void {
+    this.onStopCloud9.emit('');
+  }
+  startCloud9(): void {
+    this.onStartCloud9.emit('');
+  }
 }

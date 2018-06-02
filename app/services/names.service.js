@@ -61,6 +61,14 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                     console.error(error);
                     return Observable_1.Observable.throw(error);
                 };
+                NameService.prototype.startCloud9 = function () {
+                    return this.http.post('api/startCloud9' + this.searchtoken, '', { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
+                NameService.prototype.stopCloud9 = function () {
+                    return this.http.post('api/stopCloud9' + this.searchtoken, '', { headers: this.headers })
+                        .catch(this.logAndPassOn);
+                };
                 NameService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

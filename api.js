@@ -4,6 +4,7 @@ var utils = require('./utils');
 var cradle = require('cradle');
 var config = require('./config');
 var moment = require('moment');
+var exec = require('child_process').exec;
 
 // ROUTES FOR OUR API
 // =============================================================================
@@ -139,6 +140,33 @@ api.router.post('/moveToCloud', function (req, res) {
 api.router.post('/moveToDev', function (req, res) {
     utils.moveToDev(req.body.name);
     res.status(200).end()
+});
+
+// c9_host=redaypair.com pm2 start server.js -- --listen 0.0.0.0 -a : -w /home/bitnami/stack/apps/c9-workspace
+
+api.router.post('/startCloud9', function (req, res) {
+  var cmd = 'pm2 start cloud9';
+  exec(cmd, function(error, stdout, stderr) {
+    if(error) {
+      console.log("Error starting ", error);
+    }
+    else{
+      console.log("Cloud9 Started");
+    }
+    res.status(200).end()
+  });
+});
+api.router.post('/stopCloud9', function (req, res) {
+  var cmd = 'pm2 stop cloud9';
+  exec(cmd, function(error, stdout, stderr) {
+    if(error) {
+      console.log("Error Stopping ", error);
+    }
+    else{
+      console.log("Cloud9 Stopped");
+    }
+    res.status(200).end()
+  });
 });
 
 module.exports = api;

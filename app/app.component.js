@@ -1,4 +1,4 @@
-System.register(['angular2/core', 'angular2/router', './picker.component', './components/nav.component', './components/footer.component', './stats.component', './members.component'], function(exports_1, context_1) {
+System.register(['angular2/core', './services/names.service', 'angular2/router', './picker.component', './components/nav.component', './components/footer.component', './stats.component', './members.component'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,12 +10,15 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './co
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, router_1, picker_component_1, nav_component_1, footer_component_1, stats_component_1, members_component_1;
+    var core_1, names_service_1, router_1, picker_component_1, nav_component_1, footer_component_1, stats_component_1, members_component_1;
     var AppComponent;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
+            },
+            function (names_service_1_1) {
+                names_service_1 = names_service_1_1;
             },
             function (router_1_1) {
                 router_1 = router_1_1;
@@ -37,13 +40,40 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './co
             }],
         execute: function() {
             AppComponent = (function () {
-                function AppComponent() {
+                function AppComponent(_nameService) {
+                    this._nameService = _nameService;
                 }
+                AppComponent.prototype.stopCloud9Process = function (e, retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.stopCloud9()
+                        .subscribe(function (a) {
+                        console.debug("Cloud9 Stopped");
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.stopCloud9Process(e, retry);
+                        console.error("error stoping Cloud9");
+                    });
+                };
+                AppComponent.prototype.startCloud9Process = function (e, retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.startCloud9()
+                        .subscribe(function (a) {
+                        console.debug("Cloud9 Started");
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.startCloud9Process(e, retry);
+                        console.error("error starting Cloud9");
+                    });
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section><h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section\n      (onStartCloud9)=\"startCloud9Process($event)\"\n      (onStopCloud9)=\"stopCloud9Process($event)\">\n  <h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav, footer_component_1.Footer]
                     }),
                     router_1.RouteConfig([
@@ -51,7 +81,7 @@ System.register(['angular2/core', 'angular2/router', './picker.component', './co
                         { path: '/Stats', name: 'Stats', component: stats_component_1.Stats },
                         { path: '/Members', name: 'Members', component: members_component_1.Members }
                     ]), 
-                    __metadata('design:paramtypes', [])
+                    __metadata('design:paramtypes', [names_service_1.NameService])
                 ], AppComponent);
                 return AppComponent;
             }());
