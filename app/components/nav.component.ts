@@ -56,6 +56,10 @@ import {Picker} from '../picker.component'
           <div class="modal-body">
             <button type="button" class="btn btn-default" (click)="startCloud9()">Start Cloud9</button>
             <button type="button" class="btn btn-default" (click)="stopCloud9()">Stop Cloud9</button>
+            <a href="http://readypair.com:8181/ide.html" target="_blank" > 
+              <button type="button" class="btn btn-default">Open Cloud9</button>
+             </a>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
