@@ -142,7 +142,7 @@ api.router.post('/moveToDev', function (req, res) {
     res.status(200).end()
 });
 
-// c9_host=redaypair.com pm2 start server.js -- --listen 0.0.0.0 -a : -w /home/bitnami/stack/apps/c9-workspace
+// c9_host=redaypair.com pm2 start server.js --name cloud9 -- --listen 0.0.0.0 -a : -w /home/bitnami/stack/apps/c9-workspace --collab --packed
 
 api.router.post('/startCloud9', function (req, res) {
   var cmd = 'pm2 start cloud9';
@@ -167,6 +167,18 @@ api.router.post('/stopCloud9', function (req, res) {
     }
     res.status(200).end()
   });
+});
+
+var exec = require('child_process').exec;
+api.router.get('/data/cloud9status', function (req, res) {
+  var status = {status: "Offline"};
+  exec('pm2 l | grep server', function (error, stdOut, stdErr) {
+    var temp = temp.includes("online")
+    if (temp){
+      status = {status: "Online"}; 
+    }
+  });
+  res.send(data);
 });
 
 module.exports = api;
