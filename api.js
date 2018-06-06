@@ -172,7 +172,7 @@ api.router.post('/stopCloud9', function (req, res) {
 var exec = require('child_process').exec;
 api.router.get('/data/cloud9status', function (req, res) {
   var status = {status: "Offline"};
-  exec('pm2 l | grep server', function (error, stdOut, stdErr) {
+  exec('pm2 l | grep cloud9', function (error, stdOut, stdErr) {
     if(stdErr){
       console.log(stdErr);
     }
