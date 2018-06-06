@@ -179,8 +179,8 @@ api.router.get('/data/cloud9status', function (req, res) {
     if (stdOut.includes("online")) {
       status = {status: "Online"}; 
     }
+    res.send(status);
   });
-  res.send(status);
 });
 
 module.exports = api;
