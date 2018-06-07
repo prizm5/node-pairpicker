@@ -13,7 +13,7 @@ import { c9status } from './models/c9status';
   selector: 'pairpicker',
   template: `
   <nav-section
-      [cloud9Status]="Cloud9Ststus"
+      [cloud9status]="Cloud9Status"
       (onStartCloud9)="startCloud9Process($event)"
       (onStopCloud9)="stopCloud9Process($event)">
   <h1>I nav loaded...</h1></nav-section>

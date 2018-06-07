@@ -90,7 +90,7 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section\n      [cloud9Status]=\"Cloud9Ststus\"\n      (onStartCloud9)=\"startCloud9Process($event)\"\n      (onStopCloud9)=\"stopCloud9Process($event)\">\n  <h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section\n      [cloud9status]=\"Cloud9Status\"\n      (onStartCloud9)=\"startCloud9Process($event)\"\n      (onStopCloud9)=\"stopCloud9Process($event)\">\n  <h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav, footer_component_1.Footer]
                     }),
                     router_1.RouteConfig([
