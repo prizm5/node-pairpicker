@@ -55,8 +55,8 @@ import { c9status } from "../models/c9status";
             <h4 class="modal-title" id="myModalLabel">Cloud9 Controller</h4>
           </div>
           <div class="modal-body">
-            <button *ngIf="cloud9.status == 'Offline'" type="button" class="btn btn-default" (click)="startCloud9()">Start Cloud9</button>
-            <button *ngIf="cloud9.status == 'Online'" type="button" class="btn btn-default" (click)="stopCloud9()">Stop Cloud9</button>
+            <button *ngIf="cloud9status.status == 'Offline'" type="button" class="btn btn-default" (click)="startCloud9()">Start Cloud9</button>
+            <button *ngIf="cloud9status.status == 'Online'" type="button" class="btn btn-default" (click)="stopCloud9()">Stop Cloud9</button>
             <a href="http://readypair.com:8181/ide.html" target="_blank" > 
               <button type="button" class="btn btn-default">Open Cloud9</button>
              </a>
