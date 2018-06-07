@@ -23,6 +23,7 @@ System.register(["angular2/core", 'angular2/router'], function(exports_1, contex
         execute: function() {
             Nav = (function () {
                 function Nav() {
+                    this.cloud9status = { "status": 'Offline"' };
                     this.onStartCloud9 = new core_1.EventEmitter();
                     this.onStopCloud9 = new core_1.EventEmitter();
                 }
