@@ -78,10 +78,12 @@ import { c9status } from "../models/c9status";
 })
 
 export class Nav {
-  public cloud9status: c9status = {"status" : 'Offline"'};
+  public cloud9status: c9status;
   public onStartCloud9 = new EventEmitter();
   public onStopCloud9 = new EventEmitter();
-  constructor () { }
+  constructor () {
+    this.cloud9status  = {"status" : 'Offline'}; 
+   }
   stopCloud9(): void {
     this.onStopCloud9.emit('');
   }
