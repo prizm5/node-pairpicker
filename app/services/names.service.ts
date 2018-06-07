@@ -24,6 +24,7 @@ export class NameService {
   getFullTeam () { return this.getSecureRoute('api/data/fullteam') } 
   getPairDetails () { return this.getSecureRoute('api/data/pairdetails') }
   getPairCounts () { return this.getSecureRoute('api/data/paircounts') }
+  getCloud9Status () { return this.getSecureRoute('api/data/cloud9status') }
 
   savePair (p: Pairing) {
     return this.http.post('api/savePair' + this.searchtoken,

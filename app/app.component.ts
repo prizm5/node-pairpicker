@@ -12,6 +12,7 @@ import {Members} from './members.component'
   selector: 'pairpicker',
   template: `
   <nav-section
+      [cloud9Status]="Cloud9Ststus"
       (onStartCloud9)="startCloud9Process($event)"
       (onStopCloud9)="stopCloud9Process($event)">
   <h1>I nav loaded...</h1></nav-section>
@@ -26,7 +27,22 @@ import {Members} from './members.component'
   {path: '/Members', name: 'Members', component: Members}
 ])
 export class AppComponent { 
+
+  public Cloud9Status = { "status" : "Offline" };
+
   constructor(private _nameService: NameService) { }
+  
+  getCloud9Status(retry: number = 0) {
+    this._nameService.getCloud9Status().subscribe(
+      n => {
+        this.Cloud9Status = n;
+      },
+      error => {
+        retry++;
+        if (retry < 4) this.getCloud9Status(retry);
+        console.error(error);
+      });
+  };
 
   stopCloud9Process(e, retry = 0): void {
     this._nameService.stopCloud9()
@@ -39,6 +55,7 @@ export class AppComponent {
         if (retry < 4) this.stopCloud9Process(e, retry);
         console.error(`error stoping Cloud9`)
       });
+      this.getCloud9Status();
   }
 
   startCloud9Process(e, retry = 0): void {
@@ -52,6 +69,7 @@ export class AppComponent {
         if (retry < 4) this.startCloud9Process(e, retry);
         console.error(`error starting Cloud9`)
       });
+      this.getCloud9Status();
   }
 
 

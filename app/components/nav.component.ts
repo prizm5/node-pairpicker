@@ -1,6 +1,7 @@
 import {Component, EventEmitter} from "angular2/core";
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Picker} from '../picker.component'
+import { c9status } from "../models/c9status";
 
 @Component({
   styles:[],
@@ -59,7 +60,7 @@ import {Picker} from '../picker.component'
             <a href="http://readypair.com:8181/ide.html" target="_blank" > 
               <button type="button" class="btn btn-default">Open Cloud9</button>
              </a>
-
+            {{cloud9status.status}}
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -72,12 +73,12 @@ import {Picker} from '../picker.component'
   <!-- /.modal -->
   `,
   directives: [ROUTER_DIRECTIVES],
-
+  inputs: ["cloud9status"],
   outputs: ["onStartCloud9", "onStopCloud9"],
 })
 
 export class Nav {
-
+  public cloud9status: c9status;
   public onStartCloud9 = new EventEmitter();
   public onStopCloud9 = new EventEmitter();
   constructor () { }

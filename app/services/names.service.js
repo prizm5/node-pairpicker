@@ -42,6 +42,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Observable'], function(
                 NameService.prototype.getFullTeam = function () { return this.getSecureRoute('api/data/fullteam'); };
                 NameService.prototype.getPairDetails = function () { return this.getSecureRoute('api/data/pairdetails'); };
                 NameService.prototype.getPairCounts = function () { return this.getSecureRoute('api/data/paircounts'); };
+                NameService.prototype.getCloud9Status = function () { return this.getSecureRoute('api/data/cloud9status'); };
                 NameService.prototype.savePair = function (p) {
                     return this.http.post('api/savePair' + this.searchtoken, JSON.stringify(p), { headers: this.headers })
                         .catch(this.logAndPassOn);

@@ -42,7 +42,21 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
             AppComponent = (function () {
                 function AppComponent(_nameService) {
                     this._nameService = _nameService;
+                    this.Cloud9Status = { "status": "Offline" };
                 }
+                AppComponent.prototype.getCloud9Status = function (retry) {
+                    var _this = this;
+                    if (retry === void 0) { retry = 0; }
+                    this._nameService.getCloud9Status().subscribe(function (n) {
+                        _this.Cloud9Status = n;
+                    }, function (error) {
+                        retry++;
+                        if (retry < 4)
+                            _this.getCloud9Status(retry);
+                        console.error(error);
+                    });
+                };
+                ;
                 AppComponent.prototype.stopCloud9Process = function (e, retry) {
                     var _this = this;
                     if (retry === void 0) { retry = 0; }
@@ -55,6 +69,7 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                             _this.stopCloud9Process(e, retry);
                         console.error("error stoping Cloud9");
                     });
+                    this.getCloud9Status();
                 };
                 AppComponent.prototype.startCloud9Process = function (e, retry) {
                     var _this = this;
@@ -68,12 +83,13 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                             _this.startCloud9Process(e, retry);
                         console.error("error starting Cloud9");
                     });
+                    this.getCloud9Status();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
                         styles: [],
                         selector: 'pairpicker',
-                        template: "\n  <nav-section\n      (onStartCloud9)=\"startCloud9Process($event)\"\n      (onStopCloud9)=\"stopCloud9Process($event)\">\n  <h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
+                        template: "\n  <nav-section\n      [cloud9Status]=\"Cloud9Ststus\"\n      (onStartCloud9)=\"startCloud9Process($event)\"\n      (onStopCloud9)=\"stopCloud9Process($event)\">\n  <h1>I nav loaded...</h1></nav-section>\n  <router-outlet></router-outlet>\n  <footer-section><h1>I footer loaded...</h1></footer-section>\n  ",
                         directives: [router_1.ROUTER_DIRECTIVES, nav_component_1.Nav, footer_component_1.Footer]
                     }),
                     router_1.RouteConfig([
