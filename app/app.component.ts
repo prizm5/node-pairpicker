@@ -52,13 +52,13 @@ export class AppComponent {
       .subscribe(
       a => {
         console.debug(`Cloud9 Stopped`)
+        this.getCloud9Status();
       },
       error => {
         retry++;
         if (retry < 4) this.stopCloud9Process(e, retry);
         console.error(`error stoping Cloud9`)
       });
-      this.getCloud9Status();
   }
 
   startCloud9Process(e, retry = 0): void {
@@ -66,13 +66,13 @@ export class AppComponent {
       .subscribe(
       a => {
         console.debug(`Cloud9 Started`)
+        this.getCloud9Status();
       },
       error => {
         retry++;
         if (retry < 4) this.startCloud9Process(e, retry);
         console.error(`error starting Cloud9`)
       });
-      this.getCloud9Status();
   }
 
 

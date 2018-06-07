@@ -64,13 +64,13 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                     this._nameService.stopCloud9()
                         .subscribe(function (a) {
                         console.debug("Cloud9 Stopped");
+                        _this.getCloud9Status();
                     }, function (error) {
                         retry++;
                         if (retry < 4)
                             _this.stopCloud9Process(e, retry);
                         console.error("error stoping Cloud9");
                     });
-                    this.getCloud9Status();
                 };
                 AppComponent.prototype.startCloud9Process = function (e, retry) {
                     var _this = this;
@@ -78,13 +78,13 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                     this._nameService.startCloud9()
                         .subscribe(function (a) {
                         console.debug("Cloud9 Started");
+                        _this.getCloud9Status();
                     }, function (error) {
                         retry++;
                         if (retry < 4)
                             _this.startCloud9Process(e, retry);
                         console.error("error starting Cloud9");
                     });
-                    this.getCloud9Status();
                 };
                 AppComponent = __decorate([
                     core_1.Component({
