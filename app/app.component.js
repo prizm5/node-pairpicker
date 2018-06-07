@@ -43,6 +43,7 @@ System.register(['angular2/core', './services/names.service', 'angular2/router',
                 function AppComponent(_nameService) {
                     this._nameService = _nameService;
                     this.Cloud9Status = { "status": "Offline" };
+                    this.getCloud9Status();
                 }
                 AppComponent.prototype.getCloud9Status = function (retry) {
                     var _this = this;

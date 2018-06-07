@@ -6,6 +6,7 @@ import {Nav} from './components/nav.component'
 import {Footer} from './components/footer.component'
 import {Stats} from './stats.component'
 import {Members} from './members.component'
+import { c9status } from './models/c9status';
 
 @Component({
   styles: [],
@@ -28,9 +29,11 @@ import {Members} from './members.component'
 ])
 export class AppComponent { 
 
-  public Cloud9Status = { "status" : "Offline" };
+  public Cloud9Status: c9status = { "status" : "Offline" };
 
-  constructor(private _nameService: NameService) { }
+  constructor(private _nameService: NameService) {
+    this.getCloud9Status();
+   }
   
   getCloud9Status(retry: number = 0) {
     this._nameService.getCloud9Status().subscribe(
