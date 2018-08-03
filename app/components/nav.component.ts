@@ -35,7 +35,7 @@ import { c9status } from "../models/c9status";
                     </li>
 
                     <li class="page-scroll">
-                      <a href="#myModal" data-toggle="modal">
+                      <a href="#myModalc9" data-toggle="modal">
                         Cloud9
                       </a>
                     </li>
@@ -47,7 +47,7 @@ import { c9status } from "../models/c9status";
     <!-- /.container-fluid -->
     </nav>
   <!-- /.modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+    <div class="modal fade" id="myModalc9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -57,7 +57,7 @@ import { c9status } from "../models/c9status";
           <div class="modal-body">
             <button *ngIf="cloud9status.status == 'Offline'" type="button" class="btn btn-default" (click)="startCloud9()">Start Cloud9</button>
             <button *ngIf="cloud9status.status == 'Online'" type="button" class="btn btn-default" (click)="stopCloud9()">Stop Cloud9</button>
-            <a href="http://readypair.com:8181/ide.html" target="_blank" > 
+            <a href="https://c9.readypair.com/ide.html" target="_blank" > 
               <button type="button" class="btn btn-default">Open Cloud9</button>
              </a>
           </div>
