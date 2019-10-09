@@ -7,7 +7,7 @@ config.cradle = require('cradle');
 config.db_url = process.env.dburl || 'http://localhost';
 config.db_port = process.env.dbport || 5984;
 config.isProd = process.env.isProd || true;
-config.token = process.env.slack_token || 'test';
+config.token = process.env.token || 'test';
 config.process_port  = function(app)  { return process.env.port || app.get('port') || 3000;};
 
 config.db = function() {

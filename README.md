@@ -17,7 +17,7 @@ config.dbname = 'dev_data';
 
 Make sure you have all the needed dependencies by running ``` npm install ```.
 
-You can then run ``` slack_token=test npm start ``` to start TS compiling and nodemon watching.
+You can then run ``` token=test npm start ``` to start TS compiling and nodemon watching.
 
 Then navigate to: [http://localhost:5000/?token=test](http://localhost:5000/?token=test)
 
